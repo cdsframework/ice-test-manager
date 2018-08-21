@@ -16,9 +16,6 @@
 [submodule "cat-support-core"]
 	path = cat-support-core
 	url = https://github.com/cdsframework/cat-support-core.git
-[submodule "mts-rs-core-support"]
-	path = mts-rs-core-support
-	url = https://github.com/cdsframework/mts-rs-core-support.git
 [submodule "cat-core-primefaces"]
 	path = cat-core-primefaces
 	url = https://github.com/cdsframework/cat-core-primefaces.git
