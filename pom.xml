@@ -8,4 +8,50 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <modules>
+        <module>cdsframework-common</module>
+        <module>mts-support-core</module>
+        <module>aspectj-tools</module>
+        <module>mts-ejb-core</module>
+        <module>cat-support-xml</module>
+        <module>cat-support-core</module>
+        <module>mts-rs-core-support</module>
+        <module>cat-core-primefaces</module>
+        <module>mts-rs-core</module>
+        <module>vsac-support-xml</module>
+        <module>cdsframework-support-xml</module>
+        <module>opencds-client-support</module>
+        <module>cdsframework-support-client</module>
+        <module>opencds-artifact-deployment</module>
+        <module>mts-support-cds</module>
+        <module>mts-ejb-cds</module>
+        <module>mts-rs-cds</module>
+        <module>cat-support-cds</module>
+        <module>cat-cds-primefaces</module>
+        <module>eicr-to-vmr-converter</module>
+        <module>rules-generation-rckms</module>
+        <module>mts-support-rckms</module>
+        <module>rckms-support-xml</module>
+        <module>rules-generation-service</module>
+        <module>mts-ejb-rckms</module>
+        <module>fhir-to-vmr-converter</module>
+        <module>vmr-converter-service</module>
+        <module>mts-ear-rckms</module>
+        <module>mts-rs-rckms</module>
+        <module>cat-rckms-primefaces</module>
+    </modules>
+
+    <repositories>
+        <repository>
+            <id>support.hln.com-release</id>
+            <name>support.hln.com-release</name>
+            <url>https://support.hln.com/artifactory/libs-release-local/</url>
+        </repository>
+        <repository>
+            <id>support.hln.com-snapshot</id>
+            <name>support.hln.com-snapshot</name>
+            <url>https://support.hln.com/artifactory/libs-snapshot-local/</url>
+        </repository>
+    </repositories>
 </project>
