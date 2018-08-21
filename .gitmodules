@@ -64,3 +64,6 @@
 [submodule "mts-ear-ice"]
 	path = mts-ear-ice
 	url = https://github.com/cdsframework/mts-ear-ice.git
+[submodule "cat-ice-primefaces"]
+	path = cat-ice-primefaces
+	url = https://github.com/cdsframework/cat-ice-primefaces.git
