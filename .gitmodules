@@ -25,9 +25,6 @@
 [submodule "mts-rs-core"]
 	path = mts-rs-core
 	url = https://github.com/cdsframework/mts-rs-core.git
-[submodule "vsac-support-xml"]
-	path = vsac-support-xml
-	url = https://github.com/cdsframework/vsac-support-xml.git
 [submodule "cdsframework-support-xml"]
 	path = cdsframework-support-xml
 	url = https://github.com/cdsframework/cdsframework-support-xml.git
