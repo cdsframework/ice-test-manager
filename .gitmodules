@@ -64,3 +64,6 @@
 [submodule "cat-ice-primefaces"]
 	path = cat-ice-primefaces
 	url = https://github.com/cdsframework/cat-ice-primefaces.git
+[submodule "vsac-support-xml"]
+	path = vsac-support-xml
+	url = https://github.com/cdsframework/vsac-support-xml.git

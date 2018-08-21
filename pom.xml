@@ -19,7 +19,6 @@
         <module>mts-rs-core-support</module>
         <module>cat-core-primefaces</module>
         <module>mts-rs-core</module>
-        <module>vsac-support-xml</module>
         <module>cdsframework-support-xml</module>
         <module>opencds-client-support</module>
         <module>cdsframework-support-client</module>
@@ -29,17 +28,11 @@
         <module>mts-rs-cds</module>
         <module>cat-support-cds</module>
         <module>cat-cds-primefaces</module>
-        <module>eicr-to-vmr-converter</module>
-        <module>rules-generation-rckms</module>
-        <module>mts-support-rckms</module>
-        <module>rckms-support-xml</module>
-        <module>rules-generation-service</module>
-        <module>mts-ejb-rckms</module>
-        <module>fhir-to-vmr-converter</module>
-        <module>vmr-converter-service</module>
-        <module>mts-ear-rckms</module>
-        <module>mts-rs-rckms</module>
-        <module>cat-rckms-primefaces</module>
+        <module>mts-support-ice</module>
+        <module>mts-ejb-ice</module>
+        <module>mts-ear-ice</module>
+        <module>cat-ice-primefaces</module>
+        <module>vsac-support-xml</module>
     </modules>
 
     <repositories>
