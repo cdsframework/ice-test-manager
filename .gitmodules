@@ -37,9 +37,6 @@
 [submodule "mts-ejb-cds"]
 	path = mts-ejb-cds
 	url = https://github.com/cdsframework/mts-ejb-cds.git
-[submodule "mts-rs-cds"]
-	path = mts-rs-cds
-	url = https://github.com/cdsframework/mts-rs-cds.git
 [submodule "cat-support-cds"]
 	path = cat-support-cds
 	url = https://github.com/cdsframework/cat-support-cds.git
