@@ -16,16 +16,13 @@
         <module>mts-ejb-core</module>
         <module>cat-support-xml</module>
         <module>cat-support-core</module>
-        <module>mts-rs-core-support</module>
         <module>cat-core-primefaces</module>
-        <module>mts-rs-core</module>
         <module>cdsframework-support-xml</module>
         <module>opencds-client-support</module>
         <module>cdsframework-support-client</module>
         <module>opencds-artifact-deployment</module>
         <module>mts-support-cds</module>
         <module>mts-ejb-cds</module>
-        <module>mts-rs-cds</module>
         <module>cat-support-cds</module>
         <module>cat-cds-primefaces</module>
         <module>mts-support-ice</module>
@@ -33,6 +30,9 @@
         <module>mts-ear-ice</module>
         <module>cat-ice-primefaces</module>
         <module>vsac-support-xml</module>
+        <module>cdsframework-support-ice</module>
+        <module>mts-rs-core-support</module>
+        <module>cdsframework-support-ice-testcase</module>
     </modules>
 
     <repositories>

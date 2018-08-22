@@ -58,3 +58,12 @@
 [submodule "vsac-support-xml"]
 	path = vsac-support-xml
 	url = https://github.com/cdsframework/vsac-support-xml.git
+[submodule "cdsframework-support-ice"]
+	path = cdsframework-support-ice
+	url = https://github.com/cdsframework/cdsframework-support-ice.git
+[submodule "mts-rs-core-support"]
+	path = mts-rs-core-support
+	url = https://github.com/cdsframework/mts-rs-core-support.git
+[submodule "cdsframework-support-ice-testcase"]
+	path = cdsframework-support-ice-testcase
+	url = https://github.com/cdsframework/cdsframework-support-ice-testcase.git
