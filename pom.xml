@@ -33,6 +33,8 @@
         <module>cdsframework-support-ice</module>
         <module>mts-rs-core-support</module>
         <module>cdsframework-support-ice-testcase</module>
+        <module>cdsframework-support-testcase-importers</module>
+        <module>cdsframework-support-testcase-importers-excel</module>
     </modules>
 
     <repositories>

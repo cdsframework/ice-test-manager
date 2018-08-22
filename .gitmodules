@@ -67,3 +67,9 @@
 [submodule "cdsframework-support-ice-testcase"]
 	path = cdsframework-support-ice-testcase
 	url = https://github.com/cdsframework/cdsframework-support-ice-testcase.git
+[submodule "cdsframework-support-testcase-importers-excel"]
+	path = cdsframework-support-testcase-importers-excel
+	url = https://github.com/cdsframework/cdsframework-support-testcase-importers-excel.git
+[submodule "cdsframework-support-testcase-importers"]
+	path = cdsframework-support-testcase-importers
+	url = https://github.com/cdsframework/cdsframework-support-testcase-importers.git
