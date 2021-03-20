@@ -19,6 +19,17 @@ steps:
         path: /root/.m2/
 
   - name: "maven:3-jdk-8-slim"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        ./init-artifacts.sh
+    dir: ".gcp.config"
+    volumes:
+      - name: "m2"
+        path: /root/.m2
+
+  - name: "maven:3-jdk-8-slim"
     entrypoint: "mvn"
     args: ["-DskipTests", "clean", "install"]
     dir: "."

@@ -61,15 +61,11 @@
             <groupId>org.primefaces.themes</groupId>
             <artifactId>sunny</artifactId>
             <version>1.0.9</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/sunny-1.0.9.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>redmond</artifactId>
             <version>1.0.10</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/redmond-1.0.10.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
