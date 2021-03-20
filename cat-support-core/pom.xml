@@ -61,11 +61,15 @@
             <groupId>org.primefaces.themes</groupId>
             <artifactId>sunny</artifactId>
             <version>1.0.9</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/sunny-1.0.9.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>redmond</artifactId>
             <version>1.0.10</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/redmond-1.0.10.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -91,25 +95,6 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>prime-repo</id>
-            <name>PrimeFaces Maven Repository</name>
-            <url>http://repository.primefaces.org</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>support.hln.com-release</id>
-            <name>support.hln.com-release</name>
-            <url>https://support.hln.com/artifactory/libs-release-local/</url>
-        </repository>
-        <repository>
-            <id>support.hln.com-snapshot</id>
-            <name>support.hln.com-snapshot</name>
-            <url>https://support.hln.com/artifactory/libs-snapshot-local/</url>
-        </repository>
-    </repositories>
 
     <build>
         <finalName>${project.artifactId}</finalName>
