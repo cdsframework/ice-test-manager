@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:cc="http://java.sun.com/jsf/composite"
+              xmlns:p="http://primefaces.org/ui"
+              xmlns:f="http://java.sun.com/jsf/core"
+              xmlns:h="http://java.sun.com/jsf/html"
+              xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+              xmlns:b="http://java.sun.com/jsf/composite/components/base"
+              xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="extraButtonIncludeFile" />
+        <cc:attribute name="dynamic" type="java.lang.Boolean" default="true" />
+        <!-- <cc:attribute name="id" type="java.lang.String" required="true"/> -->
+        <cc:attribute name="width" type="java.lang.String" default="750" />
+        <cc:attribute name="height" type="java.lang.Integer" default="0"/>
+        <cc:attribute name="manager" type="org.cdsframework.base.BaseModule" required="true"/>
+        <cc:attribute name="header" type="java.lang.String" default="#{cc.attrs.manager.baseHeader} Editor"/>
+        <cc:attribute name="modal" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="resizable" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showCancel" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showOk" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="showRequired" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="showSave" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showNew" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="showNavigation" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showTabViewNavigator" type="java.lang.Boolean" default="true"/>
+        <cc:attribute name="showAudit" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="enctype" type="java.lang.String" default="application/x-www-form-urlencoded" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <cc:attribute name="showApply" type="java.lang.Boolean" default="#{cc.attrs.showSave}" />
+        <style>
+            #{not cc.attrs.showTabViewNavigator ? utilityMGR.concat('.', cc.attrs.manager.name, '-style-class > .ui-tabs > .ui-tabs-nav {display:none;}') : ''}
+        </style>
+
+        <p:dialog id="#{cc.attrs.manager.editDialogId}"
+                  widgetVar="#{cc.attrs.manager.editDialogWidgetVar}"
+                  header="#{cc.attrs.header}"
+                  modal="#{cc.attrs.modal}"
+                  draggable="true"
+                  closable="#{catApplication.dev}"
+                  resizable="#{cc.attrs.resizable}"
+                  width="#{cc.attrs.width}"
+                  height="#{cc.attrs.height}"
+                  styleClass="cat-scroll-editor"
+                  dynamic="#{cc.attrs.dynamic}">
+            <p:ajax event="close"
+                    listener="#{cc.attrs.manager.closeMain}" />
+            <h:form id="#{cc.attrs.manager.formEditId}"
+                    enctype="#{cc.attrs.enctype}">
+                <div class="height100"
+                     id="#{cc.attrs.manager.name}Contents">
+                    <div class="fixed-height-scroll #{cc.attrs.manager.name}-style-class">
+                        <cc:insertChildren />
+                    </div>
+                    <h:panelGroup layout="block"
+                                  style="position:absolute;bottom:0;width:100%">
+                        <h:panelGroup layout="block"
+                                      style="width:100%;position:absolute;">
+                            <h:panelGroup layout="block"
+                                          style="margin:0 auto;display:table;">
+
+                                <p:commandButton id="first"
+                                                 title="First"
+                                                 disabled="#{facesContext.validationFailed or cc.attrs.manager.parentDTO.new or not cc.attrs.manager.gotoPreviousRecordEnabled}"
+                                                 update="@form"
+                                                 process="@none"
+                                                 immediate="true"
+                                                 tabindex="990"
+                                                 style="margin-bottom:6px;"
+                                                 oncomplete="onGotoRecord('#{cc.attrs.id}', PF('#{cc.attrs.manager.discardChangesDialogWidgetVar}'), 'first', #{cc.attrs.manager.name}GotoRecordRemote);"
+                                                 rendered="#{cc.attrs.showNavigation}"
+                                                 icon="ui-icon-seek-first" />
+
+                                <p:commandButton id="prev"
+                                                 title="Previous"
+                                                 disabled="#{facesContext.validationFailed or cc.attrs.manager.parentDTO.new or not cc.attrs.manager.gotoPreviousRecordEnabled}"
+                                                 update="@form"
+                                                 process="@none"
+                                                 immediate="true"
+                                                 tabindex="991"
+                                                 style="margin-bottom:6px;margin-left:5px;"
+                                                 oncomplete="onGotoRecord('#{cc.attrs.id}', PF('#{cc.attrs.manager.discardChangesDialogWidgetVar}'), 'previous', #{cc.attrs.manager.name}GotoRecordRemote);"
+                                                 rendered="#{cc.attrs.showNavigation}"
+                                                 icon="ui-icon-seek-prev" />
+
+                                <p:commandButton id="next"
+                                                 title="Next"
+                                                 disabled="#{facesContext.validationFailed or cc.attrs.manager.parentDTO.new or not cc.attrs.manager.gotoNextRecordEnabled}"
+                                                 update="@form"
+                                                 process="@none"
+                                                 immediate="true"
+                                                 tabindex="992"
+                                                 style="margin-bottom:6px;margin-left:5px;"
+                                                 oncomplete="onGotoRecord('#{cc.attrs.id}', PF('#{cc.attrs.manager.discardChangesDialogWidgetVar}'), 'next', #{cc.attrs.manager.name}GotoRecordRemote);"
+                                                 rendered="#{cc.attrs.showNavigation}"
+                                                 icon="ui-icon-seek-next" />
+
+                                <p:commandButton id="last"
+                                                 title="Last"
+                                                 disabled="#{facesContext.validationFailed or cc.attrs.manager.parentDTO.new or not cc.attrs.manager.gotoNextRecordEnabled}"
+                                                 update="@form"
+                                                 process="@none"
+                                                 immediate="true"
+                                                 tabindex="993"
+                                                 style="margin-bottom:6px;margin-left:5px;"
+                                                 oncomplete="onGotoRecord('#{cc.attrs.id}', PF('#{cc.attrs.manager.discardChangesDialogWidgetVar}'), 'last', #{cc.attrs.manager.name}GotoRecordRemote);"
+                                                 rendered="#{cc.attrs.showNavigation}"
+                                                 icon="ui-icon-seek-end" />
+
+                                <p:remoteCommand name="#{cc.attrs.manager.name}GotoRecordRemote"
+                                                 immediate="true"
+                                                 actionListener="#{cc.attrs.manager.onGotoRecordMain}" process="@this" >
+                                    <input id="recordPosition" name="recordPosition" type="hidden"/>
+                                </p:remoteCommand>
+
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block"
+                                      style="float:left;margin-bottom:10px;margin-left:15px;">
+                            <ui:include src="#{cc.attrs.extraButtonIncludeFile}" />
+                            <p:commandButton id="auditHistory"
+                                             actionListener="#{auditTransactionMGR.displayAudit(cc.attrs.manager)}"
+                                             disabled="#{cc.attrs.manager.parentDTO.new}"
+                                             rendered="#{cc.attrs.showAudit}"
+                                             styleClass="cat-editor-button"
+                                             value="Audit History"
+                                             title="Audit History"
+                                             tabindex="890"
+                                             icon="ui-icon-search"/>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block"
+                                      style="float:right;margin-bottom:10px;margin-right:15px;">
+
+                            <!-- Dont change the id of these button as it may be used in code -->
+                            <w:dialogButton id="ok"
+                                            oncomplete="onOk('#{cc.attrs.id}', args.saved, PF('#{cc.attrs.manager.editDialogWidgetVar}'));"
+                                            icon="ui-icon-check"
+                                            tabindex="1001"
+                                            rendered="#{cc.attrs.showOk}"
+                                            actionListener="#{cc.attrs.manager.saveMain}"
+                                            update="@form #{cc.attrs.manager.getDataTableUpdateId(true)}"
+                                            value="Ok" />
+
+                            <w:dialogButton id="new"
+                                            disabled="#{cc.attrs.manager.parentDTO.new}"
+                                            oncomplete="onNew('#{cc.attrs.id}', PF('#{cc.attrs.manager.discardChangesDialogWidgetVar}'), #{cc.attrs.manager.name}addMainRemote);"
+                                            icon="ui-icon-document"
+                                            tabindex="#{cc.attrs.showOk ? '1002' : '1008'}"
+                                            rendered="#{cc.attrs.showNew}"
+                                            update="@form"
+                                            process="@none"
+                                            value="New" />
+
+                            <p:remoteCommand name="#{cc.attrs.manager.name}addMainRemote"
+                                             immediate="true"
+                                             actionListener="#{cc.attrs.manager.addMain}" process="@this" >
+                            </p:remoteCommand>                           
+
+                            <w:dialogButton id="save"
+                                            oncomplete="onSave('#{cc.attrs.id}', args.saved, PF('#{cc.attrs.manager.editDialogWidgetVar}'));"
+                                            icon="ui-icon-disk"
+                                            tabindex="1009"
+                                            rendered="#{cc.attrs.showSave}"
+                                            actionListener="#{cc.attrs.manager.saveMain}"
+                                            update="@form #{cc.attrs.manager.getDataTableUpdateId(true)}"
+                                            value="Save" />
+
+                            <w:dialogButton id="apply"
+                                            oncomplete="onApply('#{cc.attrs.id}', args.saved);"
+                                            icon="ui-icon-check"
+                                            tabindex="1010"
+                                            rendered="#{cc.attrs.showApply}"
+                                            actionListener="#{cc.attrs.manager.saveMain}"
+                                            update="@form #{cc.attrs.manager.getDataTableUpdateId(true)}"
+                                            value="Apply" />
+
+                            <w:dialogButton id="cancel"
+                                            oncomplete="onClose('#{cc.attrs.id}', PF('#{cc.attrs.manager.discardChangesDialogWidgetVar}'), PF('#{cc.attrs.manager.editDialogWidgetVar}'));"
+                                            icon="ui-icon-close"
+                                            tabindex="#{cc.attrs.showOk ? '1003' : '1011'}"
+                                            rendered="#{cc.attrs.showCancel}"
+                                            process="@this"
+                                            onerror="PF('#{cc.attrs.manager.editDialogWidgetVar}').hide();"
+                                            immediate="true"
+                                            value="Cancel" />
+
+                        </h:panelGroup>
+                        <h:panelGroup layout="block"
+                                      rendered="#{cc.attrs.showRequired}"
+                                      style="float:left;margin-top:5px;margin-left:15px;">
+                            <h:outputText value="* = Required" />
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </div>
+                <p:remoteCommand name="displayMessage"
+                                 autoRun="#{cc.attrs.manager.autoRun}"
+                                 actionListener="#{cc.attrs.manager.displayMessage}"
+                                 process="@this"/>
+            </h:form>
+        </p:dialog>
+        <h:form>
+            <p:confirmDialog message="Are you sure you want to discard your changes?"
+                             header="Discard Changes"
+                             binding="#{cc.attrs.manager.discardChangesDialog}"> 
+                <h:panelGroup layout="block"
+                              style="float:right;margin-top:10px;">
+                    <p:commandButton value="No"
+                                     onclick="onClickNo('#{cc.attrs.id}', PF('#{cc.attrs.manager.discardChangesDialogWidgetVar}'));"
+                                     type="button" />
+                    <p:commandButton value="Yes"
+                                     oncomplete="onCompleteYes('#{cc.attrs.id}', PF('#{cc.attrs.manager.discardChangesDialogWidgetVar}'), PF('#{cc.attrs.manager.editDialogWidgetVar}'));" />
+                </h:panelGroup>
+            </p:confirmDialog>
+        </h:form>
+
+        <!--
+        <b:deleteConfirm manager="#{cc.attrs.manager}"/>
+        -->
+        <h:form>
+            <p:confirmDialog message="Please save your changes before continuing."
+                             header="Save Changes"
+                             binding="#{cc.attrs.manager.saveChangesDialog}">
+                <p:commandButton value="Ok"
+                                 onclick="PF('#{cc.attrs.manager.saveChangesDialogWidgetVar}').hide();"
+                                 type="button" />
+            </p:confirmDialog>
+        </h:form>
+
+    </cc:implementation>
+</ui:component>

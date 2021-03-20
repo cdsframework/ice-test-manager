@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<ns1:catMenus
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns:ns1='http://menu.cdsframework.org'
+    xsi:schemaLocation='http://menu.cdsframework.org ../../../../cat-support-xml/src/main/resources/catMenu.xsd'>
+    <ns1:pluginName>core</ns1:pluginName>
+    <menu>
+        <ns1:menuName>CAT Manager</ns1:menuName>
+        <menuItem>
+            <ns1:menuItemName>About</ns1:menuItemName>
+            <ns1:viewName>systemInfo.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>SELECT</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.SessionDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Misc</ns1:menuItemName>
+            <ns1:menuItemType>SEPARATOR</ns1:menuItemType>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>App Editor</ns1:menuItemName>
+            <ns1:viewName>appMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.AppDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Property Editor</ns1:menuItemName>
+            <ns1:viewName>propertyMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.SystemPropertyDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Security Editor</ns1:menuItemName>
+            <ns1:viewName>schemeMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.SecuritySchemeDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Session Administration</ns1:menuItemName>
+            <ns1:viewName>sessionMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.SessionDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>User Editor</ns1:menuItemName>
+            <ns1:viewName>userMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.UserDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Audit Administration</ns1:menuItemName>
+            <ns1:viewName>auditLogMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.AuditTransactionDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>App Log Administration</ns1:menuItemName>
+            <ns1:viewName>appLogMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.AppLogDTO</ns1:permissionClass>
+        </menuItem>
+    </menu>
+</ns1:catMenus>

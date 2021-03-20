@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://java.sun.com/jsf/composite/components/base">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!-- <cc:attribute name="id" /> -->
+        <cc:attribute name="header" type="java.lang.String" default="#{cc.attrs.manager.baseHeader} Search Results" />
+        <cc:attribute name="manager" type="org.cdsframework.base.BaseModule" required="true" />
+        <cc:attribute name="rows" type="java.lang.Integer" default="5"/>
+        <cc:attribute name="styleClass" type="java.lang.String"/>
+        <cc:attribute name="onRowSelectManager" type="org.cdsframework.base.BaseModule" required="true" />
+        <cc:attribute name="onRowSelectComplete" type="java.lang.String" required="false" />
+        <cc:attribute name="onRowSelectUpdate" type="java.lang.String" />
+        <cc:attribute name="widgetVar" type="java.lang.String" />
+        <cc:attribute name="showFindAll" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="dynamicSearch" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="onRowSelectListener" method-signature="java.lang.Void selectEvent(org.primefaces.event.SelectEvent)" default="#{cc.attrs.onRowSelectManager.onRowSelectMain}" />
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form>
+            <b:dtoPopupDataTable manager="#{cc.attrs.manager}"
+                                 header="#{cc.attrs.header}"
+                                 rows="#{cc.attrs.rows}"
+                                 styleClass="#{cc.attrs.styleClass}"
+                                 onRowSelectListener="#{cc.attrs.onRowSelectListener}"
+                                 onRowSelectManager="#{cc.attrs.onRowSelectManager}"
+                                 onRowSelectComplete="#{cc.attrs.onRowSelectComplete}; setFormChanged('#{cc.attrs.onRowSelectManager.formEditUpdateId}',true);"
+                                 onRowSelectUpdate="#{cc.attrs.onRowSelectUpdate}"
+                                 dynamicSearch="#{cc.attrs.dynamicSearch}"                                 
+                                 showFindAll="#{cc.attrs.showFindAll}" >
+                <cc:insertChildren />
+            </b:dtoPopupDataTable>
+        </h:form>
+    </cc:implementation>
+</html>

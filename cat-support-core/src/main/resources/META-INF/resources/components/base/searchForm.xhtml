@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="defaultButtonId" type="java.lang.String" />
+        <cc:attribute name="header" type="java.lang.String" default="#{cc.attrs.manager.baseHeader} Search" />
+        <!-- <cc:attribute name="id" type="java.lang.String" required="true" /> -->
+        <cc:attribute name="manager" type="org.cdsframework.base.BaseModule" required="true" />
+        <!--
+        <cc:attribute name="popup" type="java.lang.Boolean" default="false" />
+        -->
+        <cc:attribute name="queryClass" type="java.lang.String" required="true"/>
+        <cc:attribute name="searchOption" type="org.cdsframework.util.enumeration.SearchOption" default="Normal" />
+        <cc:attribute name="showAppSearchHelp" default="true" type="java.lang.Boolean" />
+        
+        <cc:attribute name="styleClass" type="java.lang.String" default="outer-width-panel" />
+        <cc:attribute name="searchButtonLabel" default="Search" type="java.lang.String" />
+        <cc:attribute name="clearButtonLabel" default="Clear" type="java.lang.String" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <p:panel id="#{cc.attrs.manager.searchMainPanelId}"
+                 header="#{cc.attrs.header}"
+                 styleClass="panel-form #{cc.attrs.styleClass}" >
+            <h:outputText rendered="#{cc.attrs.showAppSearchHelp}" 
+                          value="#{app.searchHelp}"
+                          styleClass="searchHelp" />
+            <h:panelGroup rendered="#{cc.attrs.showAppSearchHelp}">
+                <br/>
+                <br/>
+            </h:panelGroup>                
+            <h:panelGrid rendered="#{cc.attrs.searchOption != 'Normal'}"
+                         columns="1" style="padding:0 0 10px 10px;">
+                <h:outputText rendered="#{cc.attrs.searchOption == 'Asterisk' }"
+                              value="#{app.searchOptionAsteriskHelp}" />
+                <h:outputText rendered="#{cc.attrs.searchOption == 'PartialText' }"
+                              value="#{app.searchOptionPartialTextHelp}" />
+            </h:panelGrid>
+
+            <h:form id="#{cc.attrs.manager.formSearchId}" >
+                <!-- this style is so the search button will be the default button to fire when enter is hit in the form -->
+                <div style="position:relative;padding-bottom:35px;">
+                    <h:panelGrid columns="2"
+                                 styleClass="search-clear-button-console"
+                                 style="position:absolute;bottom:0px;"
+                                 columnClasses="search-clear-button-col1, search-clear-button-col2">
+
+                        <p:commandButton id="#{cc.attrs.queryClass}"
+                                         actionListener="#{cc.attrs.manager.searchMain}"
+                                         value="#{cc.attrs.searchButtonLabel}"
+                                         onmousedown="#{cc.attrs.manager.name}onStart()"
+                                         oncomplete="findFocus();"
+                                         icon="ui-icon-search"
+                                         widgetVar="#{cc.attrs.id}SearchButton"
+                                         title="#{cc.attrs.searchButtonLabel}" />
+
+
+                        <p:commandButton id="userClearButton"
+                                         value="#{cc.attrs.clearButtonLabel}"
+                                         immediate="true"
+                                         title="#{cc.attrs.clearButtonLabel}"
+                                         icon="ui-icon-cancel"
+                                         oncomplete="findFocus();"
+                                         actionListener="#{cc.attrs.manager.clearSearchMain}"
+                                         widgetVar="userClearButtonClearButton" />
+
+                    </h:panelGrid>
+                    <cc:insertChildren />
+                </div>
+                <p:remoteCommand name="#{cc.attrs.manager.name}onStart"
+                                 actionListener="#{cc.attrs.manager.resetSearch}"
+                                 immediate="true" />
+            </h:form>
+        </p:panel>
+
+        <!--
+            removed rendered attribute since findFocus is used by ShowAll in datatable
+            rendered="#{not cc.attrs.popup}">
+        -->
+        <h:panelGroup layout="block">
+            <script class="javascript" type="text/javascript">
+                function findFocus() {
+                    var foundInput;
+                    var searchForm = document.getElementById('#{cc.attrs.manager.formSearchUpdateId}');
+                    if (searchForm !== 'undefined') {
+                        var inputs = searchForm.getElementsByTagName('input');
+                        for (var i = 0; i !== inputs.length; i++) {
+                            if (inputs[i].type === 'text') {
+                                foundInput = inputs[i];
+                                foundInput.focus();
+                                break;
+                            }
+                        }
+                    }
+                }
+                addLoadEvent(findFocus);
+            </script>
+        </h:panelGroup>
+
+    </cc:implementation>
+</html>

@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:cc="http://java.sun.com/jsf/composite"
+              xmlns:p="http://primefaces.org/ui"
+              xmlns:f="http://java.sun.com/jsf/core"
+              xmlns:h="http://java.sun.com/jsf/html"
+              xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+              xmlns:b="http://java.sun.com/jsf/composite/components/base"
+              xmlns:ui="http://java.sun.com/jsf/facelets"
+              xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="extraButtonIncludeFile" />
+        <cc:attribute name="dynamic" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="width" type="java.lang.String" default="750" />
+        <cc:attribute name="height" type="java.lang.Integer" default="0"/>
+        <cc:attribute name="manager" type="org.cdsframework.base.BaseModule" required="true"/>
+        <cc:attribute name="header" type="java.lang.String" default="#{cc.attrs.manager.baseHeader} Editor"/>
+        <cc:attribute name="modal" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="resizable" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showCancel" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showRefresh" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="showOk" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="showRequired" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="showSave" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showNew" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="showNavigation" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showTabViewNavigator" type="java.lang.Boolean" default="true"/>
+        <cc:attribute name="showAudit" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="enctype" type="java.lang.String" default="application/x-www-form-urlencoded" />
+        <cc:attribute name="tabStyleClass" type="java.lang.String" default="" />
+        <cc:attribute name="tabDynamic" type="java.lang.Boolean" default="true" />
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <c:set var="processCommon"
+               value="#{cc.attrs.manager.processId}"  />
+        <c:set var="updateSave"
+               value="#{cc.attrs.manager.getUpdateId('save')}" />
+        <c:set var="updateApply"
+               value="#{cc.attrs.manager.getUpdateId('apply')}" />
+        <c:set var="extraButtonLinkId"
+               value="#{cc.attrs.manager.name}ExtraButtonLinkId" />
+        
+
+        <cc:attribute name="showApply" type="java.lang.Boolean" default="#{cc.attrs.showSave}" />
+        <style>
+            #{not cc.attrs.showTabViewNavigator ? utilityMGR.concat('.', cc.attrs.manager.name, '-style-class > .ui-tabs > .ui-tabs-nav {display:none;}') : ''}
+        </style>
+        <p:dialog id="#{cc.attrs.manager.editDialogId}"
+                  widgetVar="#{cc.attrs.manager.editDialogWidgetVar}"
+                  header="#{cc.attrs.header} #{catApplication.dev and cc.attrs.manager.saveImmediately ? '- [Save Option 3]' : ''}"
+                  modal="#{cc.attrs.modal}"
+                  draggable="true"
+                  onShow="#{cc.attrs.manager.postOpenDialog}();"
+                  closable="#{catApplication.dev}"
+                  resizable="#{cc.attrs.resizable}"
+                  width="#{cc.attrs.width}"
+                  height="#{cc.attrs.height}"
+                  styleClass="cat-scroll-editor"
+                  maximizable="true"
+                  minimizable="true"
+                  dynamic="#{cc.attrs.dynamic}">
+            <p:ajax event="close"
+                    listener="#{cc.attrs.manager.closeMain}" />
+            <h:form id="#{cc.attrs.manager.formEditId}"
+                    enctype="#{cc.attrs.enctype}">
+                <!-- TODO review usage of viewAction -->
+                <f:event listener="#{preRenderService.preRenderComponent}" 
+                         type="preRenderComponent" />   
+                <input type="hidden" name="formChanged" value=""/>
+
+                <div class="height100"
+                     id="#{cc.attrs.manager.name}Contents">
+                    <div class="fixed-height-scroll #{cc.attrs.manager.name}-style-class">
+                        <!-- Removed event onDialogTabChange for FireFox to work -->
+                        <p:tabView id="#{cc.attrs.manager.tabViewId}"
+                                   dynamic="#{cc.attrs.tabDynamic}"
+                                   styleClass="#{cc.attrs.tabStyleClass}"
+                                   onTabChange="return onDialogTabChange(#{cc.attrs.manager.saveImmediately}, '#{cc.attrs.manager.formEditUpdateId}', index, #{cc.attrs.manager.name}ApplyChanges);"
+                                   widgetVar="#{cc.attrs.manager.tabViewWidgetVar}">
+                            <p:ajax event="tabChange"
+                                    process="@this"
+                                    listener="#{cc.attrs.manager.onTabChangeMain}" />            
+                            <cc:insertChildren />
+                        </p:tabView>
+                    </div>
+                    <h:panelGroup layout="block"
+                                  style="position:absolute;bottom:0;width:100%">
+                        <h:panelGroup layout="block"
+                                      style="width:100%;position:absolute;">
+                            <h:panelGroup layout="block"
+                                          style="margin:0 auto;display:table;">
+
+                                <!-- removed from command button
+                                immediate="true"
+                                -->
+                                <p:commandButton id="first"
+                                                 title="First"
+                                                 disabled="#{facesContext.validationFailed or cc.attrs.manager.parentDTO.new or not cc.attrs.manager.gotoPreviousRecordEnabled}"
+                                                 process="@this"
+                                                 tabindex="990"
+                                                 style="margin-bottom:6px;"
+                                                 actionListener="#{dialogService.showDiscardDialog(cc.attrs.manager, 'onGotoRecord', 'first')}" 
+                                                 rendered="#{cc.attrs.showNavigation}"
+                                                 styleClass="nav-button"
+                                                 icon="ui-icon-seek-first" >
+                                    <p:ajax event="dialogReturn" listener="#{dialogService.onDiscardDialogReturn}"/>                                   
+                                </p:commandButton>
+
+                                <!-- removed from command button
+                                immediate="true"
+                                -->
+                                <p:commandButton id="prev"
+                                                 title="Previous"
+                                                 disabled="#{facesContext.validationFailed or cc.attrs.manager.parentDTO.new or not cc.attrs.manager.gotoPreviousRecordEnabled}"
+                                                 process="@this"
+                                                 tabindex="991"
+                                                 style="margin-bottom:6px;margin-left:5px;"
+                                                 actionListener="#{dialogService.showDiscardDialog(cc.attrs.manager, 'onGotoRecord', 'previous')}" 
+                                                 rendered="#{cc.attrs.showNavigation}"
+                                                 styleClass="nav-button"
+                                                 icon="ui-icon-seek-prev" >
+                                    <p:ajax event="dialogReturn" listener="#{dialogService.onDiscardDialogReturn}"/>                                   
+                                </p:commandButton>
+
+                                <!-- removed from command button
+                                immediate="true"
+                                -->
+                                <p:commandButton id="next"
+                                                 title="Next"
+                                                 disabled="#{facesContext.validationFailed or cc.attrs.manager.parentDTO.new or not cc.attrs.manager.gotoNextRecordEnabled}"
+                                                 process="@this"
+                                                 tabindex="992"
+                                                 style="margin-bottom:6px;margin-left:5px;"
+                                                 actionListener="#{dialogService.showDiscardDialog(cc.attrs.manager, 'onGotoRecord', 'next')}" 
+                                                 rendered="#{cc.attrs.showNavigation}"
+                                                 styleClass="nav-button"
+                                                 icon="ui-icon-seek-next" >
+                                    <p:ajax event="dialogReturn" listener="#{dialogService.onDiscardDialogReturn}"/>                                   
+                                </p:commandButton>
+
+                                <!-- removed from command button
+                                immediate="true"
+                                -->
+                                <p:commandButton id="last"
+                                                 title="Last"
+                                                 disabled="#{facesContext.validationFailed or cc.attrs.manager.parentDTO.new or not cc.attrs.manager.gotoNextRecordEnabled}"
+                                                 process="@this"
+                                                 tabindex="993"
+                                                 style="margin-bottom:6px;margin-left:5px;"
+                                                 actionListener="#{dialogService.showDiscardDialog(cc.attrs.manager, 'onGotoRecord', 'last')}" 
+                                                 rendered="#{cc.attrs.showNavigation}"
+                                                 styleClass="nav-button"
+                                                 icon="ui-icon-seek-end" >
+                                    <p:ajax event="dialogReturn" listener="#{dialogService.onDiscardDialogReturn}"/>                                   
+                                </p:commandButton>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block"
+                                      style="float:left;margin-bottom:10px;margin-left:15px;">
+                            <h:panelGroup id="#{extraButtonLinkId}"
+                                          layout="block">
+                                <ui:include src="#{cc.attrs.extraButtonIncludeFile}" />
+                            </h:panelGroup>
+                            <p:commandButton id="auditHistory"
+                                             actionListener="#{auditTransactionMGR.displayAudit(cc.attrs.manager)}"
+                                             disabled="#{cc.attrs.manager.parentDTO.new}"
+                                             rendered="#{cc.attrs.showAudit}"
+                                             process="@this"
+                                             styleClass="cat-editor-button nav-button"
+                                             value="Audit History"
+                                             title="Audit History"
+                                             tabindex="890"
+                                             icon="ui-icon-search"/>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block"
+                                      style="float:right;margin-bottom:10px;margin-right:15px;">
+
+                            <p:commandButton id="ok"
+                                             oncomplete="onOk('#{cc.attrs.id}', args.saved, PF('#{cc.attrs.manager.editDialogWidgetVar}'));"
+                                             icon="ui-icon-check"
+                                             tabindex="1001"
+                                             rendered="#{cc.attrs.showOk}"
+                                             actionListener="#{cc.attrs.manager.saveMain}"
+                                             update="#{updateSave}"
+                                             process="@this #{processCommon}"             
+                                             styleClass="cat-editor-button"
+                                             value="Ok" 
+                                             title="Store data without saving"/>
+
+                            <p:commandButton id="new"
+                                             disabled="#{cc.attrs.manager.parentDTO.new}"
+                                             actionListener="#{dialogService.showDiscardDialog(cc.attrs.manager, 'onNew', '')}" 
+                                             oncomplete="if (args.success) { #{cc.attrs.manager.postOpenDialog}(); }"                                    
+                                             icon="ui-icon-document"
+                                             tabindex="#{cc.attrs.showOk ? '1002' : '1008'}"
+                                             rendered="#{cc.attrs.showNew}"
+                                             immediate="true"
+                                             process="@this"
+                                             styleClass="cat-editor-button nav-button"
+                                             value="New"
+                                             title="Create new record" >
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{dialogService.onDiscardDialogReturn}" 
+                                        oncomplete="if (args.success) { #{cc.attrs.manager.postOpenDialog}(); }" />                                   
+                            </p:commandButton>
+
+                            <p:commandButton id="save"
+                                             oncomplete="onDialogSave('#{cc.attrs.manager.formEditUpdateId}', args.saved, PF('#{cc.attrs.manager.editDialogWidgetVar}'));"
+                                             icon="ui-icon-disk"
+                                             tabindex="1009"
+                                             rendered="#{cc.attrs.showSave}"
+                                             actionListener="#{cc.attrs.manager.saveMain}"
+                                             update="#{updateSave}"
+                                             process="@this #{processCommon}" 
+                                             styleClass="cat-editor-button"
+                                             value="Save" 
+                                             title="Save data and close page" />
+
+                            <p:commandButton id="apply"
+                                             oncomplete="onDialogApply('#{cc.attrs.manager.formEditUpdateId}', args.saved);"
+                                             icon="ui-icon-check"
+                                             tabindex="1010"
+                                             rendered="#{cc.attrs.showApply}"
+                                             actionListener="#{cc.attrs.manager.saveMain}"
+                                             update="#{updateApply} #{p:component(extraButtonLinkId)}"
+                                             process="@this #{processCommon}" 
+                                             styleClass="cat-editor-button"
+                                             value="Apply"
+                                             title="Save data and leave page open" />
+
+                            <p:commandButton id="cancel"
+                                             actionListener="#{dialogService.showDiscardDialog(cc.attrs.manager, 'onCancel', '')}" 
+                                             oncomplete="if (args.success) { PF('#{cc.attrs.manager.editDialogWidgetVar}').hide(); }"                                            
+                                             icon="ui-icon-close"
+                                             tabindex="#{cc.attrs.showOk ? '1003' : '1011'}"
+                                             rendered="#{cc.attrs.showCancel}"
+                                             process="@this"
+                                             onerror="PF('#{cc.attrs.manager.editDialogWidgetVar}').hide();"
+                                             immediate="true"
+                                             styleClass="cat-editor-button"
+                                             value="Cancel" 
+                                             title="Close the page" >
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{dialogService.onDiscardDialogReturn}" 
+                                        oncomplete="if (args.success) { PF('#{cc.attrs.manager.editDialogWidgetVar}').hide(); }" />                                            
+                            </p:commandButton>
+                            
+                            <p:commandButton id="refresh"
+                                             icon="ui-icon-refresh"   
+                                             tabindex="1012"
+                                             rendered="#{cc.attrs.showRefresh}"       
+                                             actionListener="#{dialogService.showDiscardDialog(cc.attrs.manager, 'onGotoRecord', 'current')}"
+                                             disabled="#{cc.attrs.manager.parentDTO.new}"
+                                             process="@this"
+                                             styleClass="cat-editor-button"
+                                             value="Refresh" 
+                                             title="Refresh data">
+                                <p:ajax event="dialogReturn" listener="#{dialogService.onDiscardDialogReturn}"/>                                   
+                            </p:commandButton>
+
+                        </h:panelGroup>
+                        <h:panelGroup layout="block"
+                                      rendered="#{cc.attrs.showRequired}"
+                                      style="float:left;margin-top:5px;margin-left:15px;">
+                            <h:outputText value="* = Required" />
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </div>
+                <p:remoteCommand name="displayMessage"
+                                 autoRun="#{cc.attrs.manager.autoRun}"
+                                 actionListener="#{cc.attrs.manager.displayMessage}"
+                                 process="@this"/>
+                <p:remoteCommand name="#{cc.attrs.manager.postOpenDialog}"
+                                 process="@this"
+                                 actionListener="#{cc.attrs.manager.postOpenDialogMain}" />
+                
+            </h:form>
+        </p:dialog>
+    </cc:implementation>
+</ui:component>

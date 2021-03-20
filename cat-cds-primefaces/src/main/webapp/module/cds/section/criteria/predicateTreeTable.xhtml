@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <style>
+        .criteria-predicate-part {float: left;height: 24px;line-height: 24px;padding-right: 5px;}
+        .criteria-predicate-part-no-pad {float: left;height: 24px;line-height: 24px;}
+        .openGroupNode .criteria-predicate-part {float: left;height: inherit;line-height: inherit;}
+        .criteria-predicate-part td {border-width: 0px !important;}
+        .ui-treetable tbody td {padding: 4px 5px;}
+        .ui-treetable tbody td tbody td {padding:0;}
+        .operatorNode, .openGroupNode, .closeGroupNode {font-weight: bold;}
+        .predicate-table .ui-treetable-data tr, .predicate-table .ui-treetable-data tr td {border: 0px !important;}
+        .criteria-action-table-td {width:20px;}
+        .datatable-options-col td {border-width:0;}
+        .criteria-predicate-part table { width:auto; }
+        .criteria-action-table { width:auto!important; }
+    </style>
+
+    <h:panelGroup id="#{idPrefix}PredicateManager" styleClass="tab-content">
+        <b:treeTable manager="#{predicateManager}"
+                     header="#{treeTableHeader}"
+                     showContextMenu="false"
+                     showNew="#{empty showNew ? true : showNew}"
+                     showSortMenu="false"
+                     styleClass="predicate-table"
+                     showFindAll="false">
+            <p:column headerText="#{treeTableColumnHeader}">
+
+                <ui:repeat value="#{predicateManager.isPredicateNode(dto) ? predicateManager.getFullPredicateDTO(dto).predicatePartDTOs
+                                    : predicateManager.isGroupNode(dto) ? predicateManager.getFullPredicateDTO(dto).groupPredicatePartDTOs
+                                    : null}"
+                           var="part"
+                           rendered="#{predicateManager.isBaseDTO(dto)}">
+                    <h:panelGroup layout="block"
+                                  styleClass="#{(part.partType == 'Resource' and part.criteriaResourceDTO.resourceType == 'Function') ? 'criteria-predicate-part-no-pad' : 'criteria-predicate-part'}">
+
+                        <h:outputText value="#{part.label}"
+                                      rendered="#{part.partType == 'Text'}" />
+
+                        <h:outputText rendered="#{part.partType == 'ModelElement'}"
+                                      value="#{part.label}" />
+
+                        <h:panelGroup rendered="#{part.partType == 'DataInput'}"
+                                      style="float:left;">
+
+                            <h:panelGroup rendered="#{part.dataInputClassType == 'Boolean'}"
+                                          style="float:left;">
+                                <fs:selectBooleanCheckbox showLabel="false"
+                                                          processOnChange="true"
+                                                          onChangeProcess="@parent"
+                                                          onChangeUpdate="@none"
+                                                          panelGridStyle="float:left;margin-right:5px;"
+                                                          panelGridStyleClass=""
+                                                          panelColumnClasses=""
+                                                          rendered="#{predicateManager.isOverridable(part)}"
+                                                          value="#{part.dataInputBoolean}" />
+
+                                <h:outputText rendered="#{not predicateManager.isOverridable(part)}"
+                                              value="#{part.dataInputBoolean}" />
+
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{part.dataInputClassType == 'Complex'}"
+                                          style="float:left;">
+                                <h:outputText value="unsupported part type!" />
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{part.dataInputClassType == 'Concept'}"
+                                          style="float:left;">
+
+                                <h:panelGroup rendered="#{part.conceptSelectionType == 'Code'}"
+                                              layout="block">
+                                    <h:outputText value="#{part.getConcatenatedConceptSelectionType('combo')}" 
+                                                  style="float: right" />
+                                    <p:commandLink actionListener="#{popupManager.showConceptCodeEditor(part)}"
+                                                   process="@this"
+                                                   rendered="#{not part.new}"
+                                                   styleClass="ui-icon ui-icon-pencil"
+                                                   title="CdsCode: Edit" />
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{part.conceptSelectionType == 'Concept'}"
+                                              layout="block">
+                                    <h:outputText value="#{part.getConcatenatedConceptSelectionType('combo')}" 
+                                                  style="float: right;" />
+                                    <p:commandLink actionListener="#{popupManager.showConceptCodeEditor(part)}"
+                                                   rendered="#{not part.new}"
+                                                   process="@this"
+                                                   styleClass="ui-icon ui-icon-pencil"
+                                                   title="OpenCds Concept: Edit" />
+                                </h:panelGroup>
+
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{part.dataInputClassType == 'Date'}"
+                                          style="float:left;">
+
+                                <fs:calendar showLabel="false"
+                                             panelGridStyle="float:left;margin-right:5px;"
+                                             panelColumnClasses=""
+                                             panelGridStyleClass=""
+                                             processOnChange="true"
+                                             onChangeProcess="@parent"
+                                             onChangeUpdate="@none"
+                                             rendered="#{predicateManager.isOverridable(part)}"
+                                             value="#{part.dataInputDate1}" />
+
+                                <h:outputText rendered="#{not predicateManager.isOverridable(part)}"
+                                              value="#{part.dataInputDate1}" />
+
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{part.dataInputClassType == 'Enumeration'}"
+                                          style="float:left;">
+                                <h:outputText value="unsupported part type!" />
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{part.dataInputClassType == 'Identifier'}"
+                                          style="float:left;">
+
+                                <h:panelGrid columns="2"
+                                             rendered="#{predicateManager.isOverridable(part)}"
+                                             cellpadding="0"
+                                             cellspacing="0">
+
+                                    <fs:inputText showLabel="false"
+                                                  processOnChange="true"
+                                                  onChangeProcess="@parent"
+                                                  onChangeUpdate="@none"
+                                                  panelGridStyle="float:left;margin-right:5px;"
+                                                  title="root"
+                                                  panelGridStyleClass=""
+                                                  panelColumnClasses=""
+                                                  value="#{part.defaultIdentifierRoot}"
+                                                  size="20" />
+
+                                    <fs:inputText showLabel="false"
+                                                  processOnChange="true"
+                                                  onChangeProcess="@parent"
+                                                  onChangeUpdate="@none"
+                                                  panelGridStyle="float:left;margin-right:5px;"
+                                                  title="extension"
+                                                  panelColumnClasses=""
+                                                  panelGridStyleClass=""
+                                                  value="#{part.defaultIdentifierExtension}"
+                                                  size="20" />
+
+                                </h:panelGrid>
+
+                                <h:outputText rendered="#{not predicateManager.isOverridable(part)}"
+                                              value="#{part.defaultIdentifierRoot}/#{part.defaultIdentifierExtension}" />
+
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{part.dataInputClassType == 'Numeric'}"
+                                          style="float:left;">
+
+                                <fs:inputText showLabel="false"
+                                              processOnChange="true"
+                                              onChangeProcess="@parent"
+                                              onChangeUpdate="@none"
+                                              panelGridStyleClass=""
+                                              panelColumnClasses=""
+                                              rendered="#{predicateManager.isOverridable(part)}"
+                                              value="#{part.dataInputNumeric}"
+                                              size="20" />
+
+                                <h:outputText rendered="#{not predicateManager.isOverridable(part)}"
+                                              value="#{part.dataInputNumeric}" />
+
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{part.dataInputClassType == 'Quantity'}"
+                                          style="float:left;">
+
+                                <h:panelGrid columns="2"
+                                             rendered="#{predicateManager.isOverridable(part)}"
+                                             cellpadding="0"
+                                             cellspacing="0">
+
+                                    <fs:inputText showLabel="false"
+                                                  processOnChange="true"
+                                                  onChangeProcess="@parent"
+                                                  onChangeUpdate="@none"
+                                                  title="Quantity"
+                                                  panelGridStyle="float:left;margin-right:5px;"
+                                                  panelGridStyleClass=""
+                                                  panelColumnClasses=""
+                                                  value="#{part.dataInputNumeric}"
+                                                  size="10" />
+
+                                    <fs:inputText showLabel="false"
+                                                  processOnChange="true"
+                                                  onChangeProcess="@parent"
+                                                  onChangeUpdate="@none"
+                                                  title="Unit"
+                                                  panelGridStyle="float:left;margin-right:5px;"
+                                                  panelColumnClasses=""
+                                                  panelGridStyleClass=""
+                                                  value="#{part.text}"
+                                                  size="20" />
+
+                                </h:panelGrid>
+
+                                <h:outputText rendered="#{not predicateManager.isOverridable(part)}"
+                                              value="#{part.dataInputNumeric} #{part.text}" />
+
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{part.dataInputClassType == 'DateRange'}"
+                                          style="float:left;">
+                                <h:panelGrid columns="2"
+                                             rendered="#{predicateManager.isOverridable(part)}"
+                                             cellpadding="0"
+                                             cellspacing="0">
+                                    <fs:calendar showLabel="false"
+                                                 processOnChange="true"
+                                                 onChangeProcess="@parent"
+                                                 onChangeUpdate="@none"
+                                                 title="Low"
+                                                 panelGridStyle="float:left;margin-right:5px;"
+                                                 panelGridStyleClass=""
+                                                 panelColumnClasses=""
+                                                 value="#{part.dataInputDate1}" />
+                                    <fs:calendar showLabel="false"
+                                                 processOnChange="true"
+                                                 onChangeProcess="@parent"
+                                                 onChangeUpdate="@none"
+                                                 title="High"
+                                                 panelGridStyle="float:left;margin-right:5px;"
+                                                 panelColumnClasses=""
+                                                 panelGridStyleClass=""
+                                                 value="#{part.dataInputDate2}" />
+                                </h:panelGrid>
+
+                                <h:outputText rendered="#{not predicateManager.isOverridable(part)}"
+                                              value="low: #{part.dataInputDate1} and high: #{part.dataInputDate2}" />
+
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{part.dataInputClassType == 'String'}"
+                                          style="float:left;">
+                                <fs:inputText showLabel="false"
+                                              processOnChange="true"
+                                              onChangeProcess="@parent"
+                                              onChangeUpdate="@none"
+                                              panelGridStyle="float:left;margin-right:5px;"
+                                              panelGridStyleClass=""
+                                              panelColumnClasses=""
+                                              rendered="#{predicateManager.isOverridable(part)}"
+                                              value="#{part.text}"
+                                              size="20" />
+
+                                <h:outputText rendered="#{not predicateManager.isOverridable(part)}"
+                                              value="#{part.text}" />
+
+                            </h:panelGroup>
+
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{part.partType == 'Resource'}">
+                            <h:panelGroup rendered="#{part.criteriaResourceDTO.resourceType == 'Function'}">
+                                <h:outputText value="#{part.label}" />
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{part.criteriaResourceDTO.resourceType == 'Global'}">
+                                <h:outputText value="#{part.label}" />
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{part.criteriaResourceDTO.resourceType == 'Operator'}">
+                                <fs:selectOneMenu showLabel="false"
+                                                  cellspacing="0"
+                                                  cellpadding="0"
+                                                  panelColumnClasses=""
+                                                  panelGridStyleClass=""
+                                                  panelGridStyle="float:left;margin-right:5px;"
+                                                  rendered="#{predicateManager.isOverridable(part)}"
+                                                  value="#{part.criteriaResourceParamDTO}"
+                                                  converter="#{criteriaResourceParamConverter}"
+                                                  selectItemsValue="#{part.criteriaResourceDTO.criteriaResourceParamDTOs}"
+                                                  selectItemLabel="#{item.name}"
+                                                  selectItemValue="#{item}" />
+
+                                <h:outputText rendered="#{not predicateManager.isOverridable(part)}"
+                                              value="#{part.criteriaResourceParamDTO.name}" />
+
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </ui:repeat>
+
+                <h:outputText value="#{dto}"
+                              rendered="#{predicateManager.isStringNode(dto)}" />
+
+                <c:set var="predicateCriteriaRule" value="#{idPrefix}PredicateCriteriaRule" />
+                <h:panelGroup id="#{predicateCriteriaRule}"
+                              rendered="#{predicateManager.isCriteriaNode(dto)}"
+                              layout="block" >
+                    <w:popupSearchLink showLabel="false"
+                                       value="#{dto.predicateCriteriaDTO.name}"
+                                       manager="#{popupManager}"
+                                       dto="#{dto}"
+                                       htmlPath="/module/cds/section/criteria/popup/criteriaSearch"
+                                       searchTitle="Criteria Search" 
+                                       fieldName="predicateCriteriaDTO"
+                                       showSearch="#{not dto.sourcedPredicate}"
+                                       showReset="#{not dto.sourcedPredicate}"
+                                       popupSearchUpdate=":#{p:component(predicateCriteriaRule)}"> 
+                    </w:popupSearchLink>                                        
+                </h:panelGroup>                           
+
+            </p:column>
+
+            <p:column headerText="Actions"
+                      rendered="#{empty showAction ? true : showAction}"
+                      style="width:50px">
+                <h:panelGrid columns="4"
+                             cellpadding="0"
+                             cellspacing="0"
+                             styleClass="criteria-action-table"
+                             columnClasses="criteria-action-table-td, criteria-action-table-td, criteria-action-table-td, criteria-action-table-td">
+                    <p:commandLink type="button"
+                                   rendered="#{not predicateManager.isString(dto)}"
+                                   title="Move Up"
+                                   actionListener="#{predicateManager.onNodePromote(dto)}"
+                                   styleClass="ui-icon ui-icon-arrowthick-1-n" />
+                    <p:commandLink type="button"
+                                   rendered="#{not predicateManager.isString(dto)}"
+                                   title="Move Down"
+                                   actionListener="#{predicateManager.onNodeDemote(dto)}"
+                                   styleClass="ui-icon ui-icon-arrowthick-1-s" />
+                    <p:commandLink type="button"
+                                   rendered="#{not predicateManager.isString(dto)}"
+                                   title="Delete"
+                                   actionListener="#{dialogService.showDeleteDialog(dto, predicateManager)}"
+                                   onstart="return onDataTableAction(#{predicateManager.saveImmediately},'DELETE','#{criteriaMGR.editFormId}',#{predicateManager.name}ApplyChanges);"
+                                   styleClass="ui-icon ui-icon-trash">
+                        <p:ajax event="dialogReturn" listener="#{dialogService.onDeleteDialogReturn}"/>                                   
+                    </p:commandLink>
+                    <p:commandLink type="button"
+                                   rendered="#{not predicateManager.isString(dto) and dto.predicateType == 'PredicateGroup'}"
+                                   title="Add Child Node"
+                                   actionListener="#{predicateManager.onNodeAdd(dto)}"
+                                   styleClass="ui-icon ui-icon-plus" />
+                    <h:panelGroup rendered="#{not predicateManager.isString(dto) and dto.predicateType != 'PredicateGroup'}" />
+                </h:panelGrid>
+            </p:column>
+        </b:treeTable>
+    </h:panelGroup>
+
+</ui:composition>
+
+
+

@@ -1,0 +1,765 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT ICE plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <b:editForm id="#{iceTestProposalMGR.editFormId}"
+                width="1150"
+                height="600"
+                showNew="false"
+                showNavigation="true"
+                extraButtonIncludeFile="/module/ice/section/testproposal/extraButtons.xhtml"
+                manager="#{iceTestProposalMGR}">
+        <p:tab title="#{iceTestProposalMGR.baseHeader} Details"
+               id="#{iceTestProposalMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="testProposalDetail" 
+                          styleClass="tab-content">
+
+                <fs:outputText id="proposalId"
+                               value="#{utilityMGR.formatUuid(iceTestProposalMGR.parentDTO.proposalId)}"
+                               rendered="#{not empty iceTestProposalMGR.parentDTO.proposalId}"/>
+
+                <h:panelGrid id="vaccineSelectorPG"
+                             cellpadding="0"
+                             cellspacing="0">
+
+                    <fs:selectOneRadio id="type"
+                                       selectItemsValue="#{proposalTypeList.selectItems}"
+                                       value="#{iceTestProposalMGR.parentDTO.proposalType}"
+                                       processOnChange="true"
+                                       onChangeProcess="#{p:component('vaccineSelectorPG')}"
+                                       onChangeUpdate="#{p:component('vaccineCodePG')}"
+                                       selectItemLabel="#{item.label}"
+                                       selectItemValue="#{item.toString()}" />
+
+                    <h:panelGroup id="vaccineCodePG">
+                        <w:popupSearchLink id="vaccine"
+                                           rendered="#{iceTestProposalMGR.parentDTO.proposalType == 'VACCINE'}"
+                                           showReset="false"
+                                           dto="#{iceTestProposalMGR.parentDTO}"
+                                           value="#{iceTestProposalMGR.parentDTO.iceVaccineDTO.vaccine.label}"
+                                           manager="#{iceTestProposalMGR}"
+                                           queryParms="#{[iceTestMGR.parentDTO.testId]}"
+                                           htmlPath="/module/ice/section/vaccine/popup/vaccineTestSearch"
+                                           searchTitle="Vaccine Search" 
+                                           fieldName="iceVaccineDTO"
+                                           popupSearchUpdate="#{p:component('vaccineCodePG')}" />
+
+                        <w:popupSearchLink id="vaccineGroup"
+                                           rendered="#{iceTestProposalMGR.parentDTO.proposalType == 'VACCINE_GROUP'}"
+                                           showReset="false"
+                                           dto="#{iceTestProposalMGR.parentDTO}"
+                                           value="#{iceTestProposalMGR.parentDTO.iceVaccineGroupDTO.vaccineGroupName} (#{iceTestProposalMGR.parentDTO.iceVaccineGroupDTO.vaccineGroupCode})"
+                                           manager="#{iceTestProposalMGR}"
+                                           queryParms="#{[iceTestMGR.parentDTO.testId]}"
+                                           htmlPath="/module/ice/section/vaccinegroup/popup/groupTestSearch"
+                                           searchTitle="Group Search" 
+                                           fieldName="iceVaccineGroupDTO"
+                                           popupSearchUpdate="#{p:component('vaccineCodePG')}" />
+
+                        <w:popupSearchLink id="groupFocus"
+                                           rendered="#{iceTestProposalMGR.parentDTO.proposalType == 'VACCINE' and not empty iceTestProposalMGR.parentDTO.iceVaccineDTO}"
+                                           showReset="false"
+                                           dto="#{iceTestProposalMGR.parentDTO}"
+                                           value="#{iceTestProposalMGR.parentDTO.iceVaccineGroupDTO.vaccineGroupName} (#{iceTestProposalMGR.parentDTO.iceVaccineGroupDTO.vaccineGroupCode})"
+                                           manager="#{iceTestProposalMGR}"
+                                           queryParms="#{[iceTestMGR.parentDTO.testId, iceTestProposalMGR.parentDTO.iceVaccineDTO.vaccineId]}"
+                                           htmlPath="/module/ice/section/vaccinegroup/popup/groupTestVaccineSearch"
+                                           searchTitle="Group Search" 
+                                           fieldName="groupFocus"
+                                           popupSearchUpdate="#{p:component('vaccineCodePG')}" />
+
+                    </h:panelGroup>
+
+                    <fs:inputText id="order"
+                                  size="2"
+                                  value="#{iceTestProposalMGR.parentDTO.recordOrder}" />
+
+                </h:panelGrid>
+
+                <p:separator />
+
+                <fs:outputText label="Date of Birth"
+                               value="#{utilityMGR.getFormattedDate(iceTestMGR.getIceTestDob(iceTestMGR.parentDTO))}" />
+
+                <fs:outputText label="Age @ Execution Date"
+                               value="#{iceTestMGR.getAgeAtExecutionDate(iceTestMGR.parentDTO)}" />
+
+                <fs:outputText label="Execution Date"
+                               rendered="#{not iceTestMGR.parentDTO.offsetBased}"
+                               value="#{utilityMGR.getFormattedDate(iceTestMGR.parentDTO.executionDate)}" />
+
+                <fs:outputText label="Execution Date"
+                               rendered="#{iceTestMGR.parentDTO.offsetBased}"
+                               value="#{utilityMGR.getFormattedDate(utilityMGR.getCurrentDate())}" />
+
+                <p:separator />
+
+                <p:panel id="earliestDatePG"
+                         header="Earliest Date"
+                         rendered="#{not empty iceTestProposalMGR.parentDTO}">
+
+                    <h:panelGrid id="earliestDateGrid"
+                                 columns="6"
+                                 cellpadding="0"
+                                 cellspacing="0">
+
+                        <fs:selectBooleanCheckbox id="earliestOffsetBased"
+                                                  label="Offset Based"
+                                                  panelColumnClasses="offset-grid-col1,"
+                                                  panelGridStyleClass=""
+                                                  processOnChange="true"
+                                                  onChangeProcess="#{p:component('earliestDatePG')}"
+                                                  onChangeUpdate="#{p:component('earliestDatePG')}"
+                                                  value="#{iceTestProposalMGR.parentDTO.earliestOffsetBased}" />
+
+                        <fs:selectOneRadio id="earliestOffsetType"
+                                           label="Offset Type"
+                                           panelColumnClasses="offset-grid-col1,"
+                                           panelGridStyleClass=""
+                                           processOnChange="true"
+                                           onChangeProcess="#{p:component('earliestDatePG')}"
+                                           onChangeUpdate="#{p:component('earliestDatePG')}"
+                                           rendered="#{iceTestProposalMGR.parentDTO.earliestOffsetBased}"
+                                           value="#{iceTestProposalMGR.parentDTO.earliestOffsetType}"
+                                           selectItemsValue="#{offsetTypeList.selectItems}" />
+
+                        <fs:calendar id="earliestDate"
+                                     panelColumnClasses="offset-grid-col2,"
+                                     panelGridStyleClass="offset-grid-table2"
+                                     label="Date"
+                                     rendered="#{not iceTestProposalMGR.parentDTO.earliestOffsetBased}"
+                                     processOnChange="true"
+                                     size="12"
+                                     onChangeProcess="#{p:component('earliestDatePG')}"
+                                     onChangeUpdate="#{p:component('earliestDatePG')}"
+                                     value="#{iceTestProposalMGR.parentDTO.earliestDate}" />
+
+                        <fs:outputText id="ealiestDateDerived"
+                                       panelColumnClasses="offset-grid-col2a,"
+                                       panelGridStyleClass=""
+                                       label="Date"
+                                       rendered="#{iceTestProposalMGR.parentDTO.earliestOffsetBased}"
+                                       value="#{utilityMGR.getFormattedDate(iceTestProposalMGR.getIceTestProposalDate(iceTestProposalMGR.parentDTO, 'EARLIEST'))}" />
+
+                        <fs:inputText id="earliestOffset"
+                                      label="Offset"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      rendered="#{iceTestProposalMGR.parentDTO.earliestOffsetBased}"
+                                      processOnChange="true"
+                                      onChangeProcess="#{p:component('earliestDatePG')}"
+                                      onChangeUpdate="#{p:component('earliestDatePG')}"
+                                      value="#{iceTestProposalMGR.parentDTO.earliestOffset}"
+                                      size="12" />
+
+                        <fs:inputText id="setEarliestDateAtAge"
+                                      labelWidth="120px"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      panelGridStyle="float:left;"
+                                      title="i.e. 12y 2m 7w 3d"
+                                      size="12"
+                                      label="Set Date @ Age"
+                                      rendered="#{not iceTestProposalMGR.parentDTO.earliestOffsetBased}"
+                                      value="#{iceTestProposalMGR.earliestDateAgeSet}" />
+
+                        <w:dialogButton process="#{p:component('earliestDatePG')}"
+                                        actionListener="#{iceTestProposalMGR.calcDateAtAge('EARLIEST')}"
+                                        value="Set"
+                                        icon="ui-icon-gear"
+                                        rendered="#{not iceTestProposalMGR.parentDTO.earliestOffsetBased}"
+                                        update="#{p:component('earliestDatePG')}" />
+
+                        <w:popupSearchLink id="earliestOffsetId"
+                                           label="Offset ID"
+                                           panelColumnClasses="offset-grid-col5,"
+                                           panelGridStyleClass=""
+                                           showReset="false"
+                                           rendered="#{iceTestProposalMGR.parentDTO.earliestOffsetType == 'Interval' and iceTestProposalMGR.parentDTO.earliestOffsetBased}"
+                                           dto="#{iceTestProposalMGR.parentDTO}"
+                                           value="#{iceTestEventMGR.getOffsetIdLabel(iceTestProposalMGR.parentDTO.earliestOffsetId)}"
+                                           manager="#{iceTestProposalMGR}"
+                                           queryParms="#{[iceTestMGR.parentDTO.testId, null]}"
+                                           htmlPath="/module/ice/section/testevent/popup/eventSearch"
+                                           searchTitle="Earliest Date Interval Event Offset Search" 
+                                           fieldName="earliestIceTestEventDTO"
+                                           popupSearchUpdate="#{p:component('earliestDatePG')}" />
+
+
+                        <fs:outputText id="ageAtEarliestDate"
+                                       label="Age @ Date"
+                                       panelColumnClasses="offset-grid-col5,"
+                                       panelGridStyleClass=""
+                                       value="#{iceTestProposalMGR.getIceTestProposalAgeAtDate(iceTestProposalMGR.parentDTO, 'EARLIEST', false)}" />
+
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="recommendedDatePG"
+                         header="Recommended Date"
+                         rendered="#{not empty iceTestProposalMGR.parentDTO}">
+
+                    <h:panelGrid id="recommendedDateGrid"
+                                 columns="6"
+                                 cellpadding="0"
+                                 cellspacing="0">
+
+                        <fs:selectBooleanCheckbox id="recommendedOffsetBased"
+                                                  label="Offset Based"
+                                                  panelColumnClasses="offset-grid-col1,"
+                                                  panelGridStyleClass=""
+                                                  processOnChange="true"
+                                                  onChangeProcess="#{p:component('recommendedDatePG')}"
+                                                  onChangeUpdate="#{p:component('recommendedDatePG')}"
+                                                  value="#{iceTestProposalMGR.parentDTO.recommendedOffsetBased}" />
+
+                        <fs:selectOneRadio id="recommendedOffsetType"
+                                           label="Offset Type"
+                                           panelColumnClasses="offset-grid-col1,"
+                                           panelGridStyleClass=""
+                                           processOnChange="true"
+                                           onChangeProcess="#{p:component('recommendedDatePG')}"
+                                           onChangeUpdate="#{p:component('recommendedDatePG')}"
+                                           rendered="#{iceTestProposalMGR.parentDTO.recommendedOffsetBased}"
+                                           value="#{iceTestProposalMGR.parentDTO.recommendedOffsetType}"
+                                           selectItemsValue="#{offsetTypeList.selectItems}" />
+
+                        <fs:calendar id="recommendedDate"
+                                     panelColumnClasses="offset-grid-col2,"
+                                     panelGridStyleClass="offset-grid-table2"
+                                     label="Date"
+                                     rendered="#{not iceTestProposalMGR.parentDTO.recommendedOffsetBased}"
+                                     processOnChange="true"
+                                     size="12"
+                                     onChangeProcess="#{p:component('recommendedDatePG')}"
+                                     onChangeUpdate="#{p:component('recommendedDatePG')}"
+                                     value="#{iceTestProposalMGR.parentDTO.recommendedDate}" />
+
+                        <fs:outputText id="recommendedDateDerived"
+                                       panelColumnClasses="offset-grid-col2a,"
+                                       panelGridStyleClass=""
+                                       label="Date"
+                                       rendered="#{iceTestProposalMGR.parentDTO.recommendedOffsetBased}"
+                                       value="#{utilityMGR.getFormattedDate(iceTestProposalMGR.getIceTestProposalDate(iceTestProposalMGR.parentDTO, 'RECOMMENDED'))}" />
+
+                        <fs:inputText id="recommendedOffset"
+                                      label="Offset"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      rendered="#{iceTestProposalMGR.parentDTO.recommendedOffsetBased}"
+                                      processOnChange="true"
+                                      onChangeProcess="#{p:component('recommendedDatePG')}"
+                                      onChangeUpdate="#{p:component('recommendedDatePG')}"
+                                      value="#{iceTestProposalMGR.parentDTO.recommendedOffset}"
+                                      size="12" />
+
+                        <fs:inputText id="setRecommendedDateAtAge"
+                                      labelWidth="120px"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      panelGridStyle="float:left;"
+                                      title="i.e. 12y 2m 7w 3d"
+                                      size="12"
+                                      label="Set Date @ Age"
+                                      rendered="#{not iceTestProposalMGR.parentDTO.recommendedOffsetBased}"
+                                      value="#{iceTestProposalMGR.recommendedDateAgeSet}" />
+
+                        <w:dialogButton process="#{p:component('recommendedDatePG')}"
+                                        actionListener="#{iceTestProposalMGR.calcDateAtAge('RECOMMENDED')}"
+                                        value="Set"
+                                        icon="ui-icon-gear"
+                                        rendered="#{not iceTestProposalMGR.parentDTO.recommendedOffsetBased}"
+                                        update="#{p:component('recommendedDatePG')}" />
+
+                        <w:popupSearchLink id="recommendedOffsetId"
+                                           label="Offset ID"
+                                           panelColumnClasses="offset-grid-col5,"
+                                           panelGridStyleClass=""
+                                           showReset="false"
+                                           rendered="#{iceTestProposalMGR.parentDTO.recommendedOffsetType == 'Interval' and iceTestProposalMGR.parentDTO.recommendedOffsetBased}"
+                                           dto="#{iceTestProposalMGR.parentDTO}"
+                                           value="#{iceTestEventMGR.getOffsetIdLabel(iceTestProposalMGR.parentDTO.recommendedOffsetId)}"
+                                           manager="#{iceTestProposalMGR}"
+                                           queryParms="#{[iceTestMGR.parentDTO.testId, null]}"
+                                           htmlPath="/module/ice/section/testevent/popup/eventSearch"
+                                           searchTitle="Recommended Date Interval Event Offset Search" 
+                                           fieldName="recommendedIceTestEventDTO"
+                                           popupSearchUpdate="#{p:component('recommendedDatePG')}" />
+
+                        <fs:outputText id="ageAtRecommendedDate"
+                                       label="Age @ Date"
+                                       panelColumnClasses="offset-grid-col5,"
+                                       panelGridStyleClass=""
+                                       value="#{iceTestProposalMGR.getIceTestProposalAgeAtDate(iceTestProposalMGR.parentDTO, 'RECOMMENDED', false)}" />
+
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="overdueDatePG"
+                         header="Overdue Date"
+                         rendered="#{not empty iceTestProposalMGR.parentDTO}">
+
+                    <h:panelGrid id="overdueDateGrid"
+                                 columns="6"
+                                 cellpadding="0"
+                                 cellspacing="0">
+
+                        <fs:selectBooleanCheckbox id="overdueOffsetBased"
+                                                  label="Offset Based"
+                                                  panelColumnClasses="offset-grid-col1,"
+                                                  panelGridStyleClass=""
+                                                  processOnChange="true"
+                                                  onChangeProcess="#{p:component('overdueDatePG')}"
+                                                  onChangeUpdate="#{p:component('overdueDatePG')}"
+                                                  value="#{iceTestProposalMGR.parentDTO.overdueOffsetBased}" />
+
+                        <fs:selectOneRadio id="overdueOffsetType"
+                                           label="Offset Type"
+                                           panelColumnClasses="offset-grid-col1,"
+                                           panelGridStyleClass=""
+                                           processOnChange="true"
+                                           onChangeProcess="#{p:component('overdueDatePG')}"
+                                           onChangeUpdate="#{p:component('overdueDatePG')}"
+                                           rendered="#{iceTestProposalMGR.parentDTO.overdueOffsetBased}"
+                                           value="#{iceTestProposalMGR.parentDTO.overdueOffsetType}"
+                                           selectItemsValue="#{offsetTypeList.selectItems}" />
+
+                        <fs:calendar id="overdueDate"
+                                     panelColumnClasses="offset-grid-col2,"
+                                     panelGridStyleClass="offset-grid-table2"
+                                     label="Date"
+                                     rendered="#{not iceTestProposalMGR.parentDTO.overdueOffsetBased}"
+                                     processOnChange="true"
+                                     size="12"
+                                     onChangeProcess="#{p:component('overdueDatePG')}"
+                                     onChangeUpdate="#{p:component('overdueDatePG')}"
+                                     value="#{iceTestProposalMGR.parentDTO.overdueDate}" />
+
+                        <fs:outputText id="overdueDateDerived"
+                                       panelColumnClasses="offset-grid-col2a,"
+                                       panelGridStyleClass=""
+                                       label="Date"
+                                       rendered="#{iceTestProposalMGR.parentDTO.overdueOffsetBased}"
+                                       value="#{utilityMGR.getFormattedDate(iceTestProposalMGR.getIceTestProposalDate(iceTestProposalMGR.parentDTO, 'OVERDUE'))}" />
+
+                        <fs:inputText id="overdueOffset"
+                                      label="Offset"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      rendered="#{iceTestProposalMGR.parentDTO.overdueOffsetBased}"
+                                      processOnChange="true"
+                                      onChangeProcess="#{p:component('overdueDatePG')}"
+                                      onChangeUpdate="#{p:component('overdueDatePG')}"
+                                      value="#{iceTestProposalMGR.parentDTO.overdueOffset}"
+                                      size="12" />
+
+                        <fs:inputText id="setOverdueDateAtAge"
+                                      labelWidth="120px"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      panelGridStyle="float:left;"
+                                      title="i.e. 12y 2m 7w 3d"
+                                      size="12"
+                                      label="Set Date @ Age"
+                                      rendered="#{not iceTestProposalMGR.parentDTO.overdueOffsetBased}"
+                                      value="#{iceTestProposalMGR.overdueDateAgeSet}" />
+
+                        <w:dialogButton process="#{p:component('overdueDatePG')}"
+                                        actionListener="#{iceTestProposalMGR.calcDateAtAge('OVERDUE')}"
+                                        value="Set"
+                                        icon="ui-icon-gear"
+                                        rendered="#{not iceTestProposalMGR.parentDTO.overdueOffsetBased}"
+                                        update="#{p:component('overdueDatePG')}" />
+
+                        <w:popupSearchLink id="overdueOffsetId"
+                                           label="Offset ID"
+                                           panelColumnClasses="offset-grid-col5,"
+                                           panelGridStyleClass=""
+                                           showReset="false"
+                                           rendered="#{iceTestProposalMGR.parentDTO.overdueOffsetType == 'Interval' and iceTestProposalMGR.parentDTO.overdueOffsetBased}"
+                                           dto="#{iceTestProposalMGR.parentDTO}"
+                                           value="#{iceTestEventMGR.getOffsetIdLabel(iceTestProposalMGR.parentDTO.overdueOffsetId)}"
+                                           manager="#{iceTestProposalMGR}"
+                                           queryParms="#{[iceTestMGR.parentDTO.testId, null]}"
+                                           htmlPath="/module/ice/section/testevent/popup/eventSearch"
+                                           searchTitle="Overdue Date Interval Event Offset Search" 
+                                           fieldName="overdueIceTestEventDTO"
+                                           popupSearchUpdate="#{p:component('overdueDatePG')}" />
+
+                        <fs:outputText id="ageAtOverdueDate"
+                                       label="Age @ Date"
+                                       panelColumnClasses="offset-grid-col5,"
+                                       panelGridStyleClass=""
+                                       value="#{iceTestProposalMGR.getIceTestProposalAgeAtDate(iceTestProposalMGR.parentDTO, 'OVERDUE', false)}" />
+
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel id="latestDatePG"
+                         header="Latest Date"
+                         rendered="#{not empty iceTestProposalMGR.parentDTO}">
+
+                    <h:panelGrid id="latestDateGrid"
+                                 columns="6"
+                                 cellpadding="0"
+                                 cellspacing="0">
+
+                        <fs:selectBooleanCheckbox id="latestOffsetBased"
+                                                  label="Offset Based"
+                                                  panelColumnClasses="offset-grid-col1,"
+                                                  panelGridStyleClass=""
+                                                  processOnChange="true"
+                                                  onChangeProcess="#{p:component('latestDatePG')}"
+                                                  onChangeUpdate="#{p:component('latestDatePG')}"
+                                                  value="#{iceTestProposalMGR.parentDTO.latestOffsetBased}" />
+
+                        <fs:selectOneRadio id="latestOffsetType"
+                                           label="Offset Type"
+                                           panelColumnClasses="offset-grid-col1,"
+                                           panelGridStyleClass=""
+                                           processOnChange="true"
+                                           onChangeProcess="#{p:component('latestDatePG')}"
+                                           onChangeUpdate="#{p:component('latestDatePG')}"
+                                           rendered="#{iceTestProposalMGR.parentDTO.latestOffsetBased}"
+                                           value="#{iceTestProposalMGR.parentDTO.latestOffsetType}"
+                                           selectItemsValue="#{offsetTypeList.selectItems}" />
+
+                        <fs:calendar id="latestDate"
+                                     panelColumnClasses="offset-grid-col2,"
+                                     panelGridStyleClass="offset-grid-table2"
+                                     label="Date"
+                                     rendered="#{not iceTestProposalMGR.parentDTO.latestOffsetBased}"
+                                     processOnChange="true"
+                                     size="12"
+                                     onChangeProcess="#{p:component('latestDatePG')}"
+                                     onChangeUpdate="#{p:component('latestDatePG')}"
+                                     value="#{iceTestProposalMGR.parentDTO.latestDate}" />
+
+                        <fs:outputText id="latestDateDerived"
+                                       panelColumnClasses="offset-grid-col2a,"
+                                       panelGridStyleClass=""
+                                       label="Date"
+                                       rendered="#{iceTestProposalMGR.parentDTO.latestOffsetBased}"
+                                       value="#{utilityMGR.getFormattedDate(iceTestProposalMGR.getIceTestProposalDate(iceTestProposalMGR.parentDTO, 'LATEST'))}" />
+
+                        <fs:inputText id="latestOffset"
+                                      label="Offset"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      rendered="#{iceTestProposalMGR.parentDTO.latestOffsetBased}"
+                                      processOnChange="true"
+                                      onChangeProcess="#{p:component('latestDatePG')}"
+                                      onChangeUpdate="#{p:component('latestDatePG')}"
+                                      value="#{iceTestProposalMGR.parentDTO.latestOffset}"
+                                      size="12" />
+
+                        <fs:inputText id="setLatestDateAtAge"
+                                      labelWidth="120px"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      panelGridStyle="float:left;"
+                                      title="i.e. 12y 2m 7w 3d"
+                                      size="12"
+                                      label="Set Date @ Age"
+                                      rendered="#{not iceTestProposalMGR.parentDTO.latestOffsetBased}"
+                                      value="#{iceTestProposalMGR.latestDateAgeSet}" />
+
+                        <w:dialogButton process="#{p:component('latestDatePG')}"
+                                        actionListener="#{iceTestProposalMGR.calcDateAtAge('LATEST')}"
+                                        value="Set"
+                                        icon="ui-icon-gear"
+                                        rendered="#{not iceTestProposalMGR.parentDTO.latestOffsetBased}"
+                                        update="#{p:component('latestDatePG')}" />
+
+                        <w:popupSearchLink id="latestOffsetId"
+                                           label="Offset ID"
+                                           panelColumnClasses="offset-grid-col5,"
+                                           panelGridStyleClass=""
+                                           showReset="false"
+                                           rendered="#{iceTestProposalMGR.parentDTO.latestOffsetType == 'Interval' and iceTestProposalMGR.parentDTO.latestOffsetBased}"
+                                           dto="#{iceTestProposalMGR.parentDTO}"
+                                           value="#{iceTestEventMGR.getOffsetIdLabel(iceTestProposalMGR.parentDTO.latestOffsetId)}"
+                                           manager="#{iceTestProposalMGR}"
+                                           queryParms="#{[iceTestMGR.parentDTO.testId, null]}"
+                                           htmlPath="/module/ice/section/testevent/popup/eventSearch"
+                                           searchTitle="Latest Date Interval Event Offset Search" 
+                                           fieldName="latestIceTestEventDTO"
+                                           popupSearchUpdate="#{p:component('latestDatePG')}" />
+
+                        <fs:outputText id="ageAtLatestDate"
+                                       label="Age @ Date"
+                                       panelColumnClasses="offset-grid-col5,"
+                                       panelGridStyleClass=""
+                                       value="#{iceTestProposalMGR.getIceTestProposalAgeAtDate(iceTestProposalMGR.parentDTO, 'LATEST', false)}" />
+
+                    </h:panelGrid>
+                </p:panel>
+
+                <!--
+                <h:panelGrid id="offsetBasedProposalProperties"
+                             columns="2"
+                             cellpadding="0"
+                             cellspacing="0">
+
+                    <fs:selectBooleanCheckbox id="offsetBased"
+                                              rendered="#{not empty iceTestProposalMGR.parentDTO}"
+                                              panelColumnClasses="default-cat-grid-col1,"
+                                              panelGridStyleClass=""
+                                              processOnChange="true"
+                                              onChangeProcess="#{p:component('offsetBasedProposalProperties')}"
+                                              onChangeUpdate="#{p:component('offsetBasedProposalProperties')} #{p:component('proposalPanelGrid')} #{p:component('ageAtDueDatePG')}"
+                                              value="#{iceTestProposalMGR.parentDTO.offsetBased}" />
+
+                    <fs:selectOneRadio id="offsetType"
+                                       panelColumnClasses=""
+                                       panelGridStyleClass=""
+                                       labelWidth="110px"
+                                       processOnChange="true"
+                                       onChangeProcess="#{p:component('offsetBasedProposalProperties')}"
+                                       onChangeUpdate="#{p:component('offsetBasedProposalProperties')} #{p:component('proposalPanelGrid')} #{p:component('ageAtDueDatePG')}"
+                                       rendered="#{iceTestProposalMGR.parentDTO.offsetBased}"
+                                       value="#{iceTestProposalMGR.parentDTO.offsetType}"
+                                       selectItemsValue="#{offsetTypeList.selectItems}" />
+
+                    <fs:inputText id="offsetValue"
+                                  rendered="#{iceTestProposalMGR.parentDTO.offsetBased}"
+                                  processOnChange="true"
+                                  onChangeProcess="#{p:component('offsetBasedProposalProperties')}"
+                                  onChangeUpdate="#{p:component('offsetBasedProposalProperties')} #{p:component('proposalPanelGrid')} #{p:component('ageAtDueDatePG')}"
+                                  value="#{iceTestProposalMGR.parentDTO.offset}"
+                                  size="35" />
+
+                    <h:panelGroup />
+
+                    <h:panelGroup id="offsetIdPG">
+                        <w:popupSearchLink id="offsetId"
+                                           showReset="false"
+                                           rendered="#{iceTestProposalMGR.parentDTO.offsetType == 'Interval'}"
+                                           dto="#{iceTestProposalMGR.parentDTO}"
+                                           value="#{iceTestEventMGR.getOffsetIdLabel(iceTestProposalMGR.parentDTO.offsetId)}"
+                                           manager="#{iceTestProposalMGR}"
+                                           queryParms="#{[iceTestMGR.parentDTO.testId, null]}"
+                                           htmlPath="/module/ice/section/testevent/popup/eventSearch"
+                                           searchTitle="Interval Event Offset Search" 
+                                           fieldName="iceTestEventDTO"
+                                           popupSearchUpdate="#{p:component('offsetIdPG')} #{p:component('proposalPanelGrid')} #{p:component('ageAtDueDatePG')}" />
+
+                    </h:panelGroup>
+
+                </h:panelGrid>
+                -->
+                <!--
+                <h:panelGroup id="proposalPanelGrid">
+
+                    <fs:outputText id="dueDateDerived"
+                                   label="Due Date"
+                                   rendered="#{iceTestProposalMGR.parentDTO.offsetBased}"
+                                   value="#{utilityMGR.getFormattedDate(iceTestProposalMGR.getIceTestProposalDate(iceTestProposalMGR.parentDTO))}" />
+
+                    <h:panelGrid id="earliestDateParameters"
+                                 columns="3"
+                                 cellpadding="0"
+                                 cellspacing="0">
+
+                        <fs:calendar id="earliestDate"
+                                     rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                     processOnChange="true"
+                                     size="12"
+                                     onChangeUpdate="#{iceTestProposalMGR.onDateDueUpdateIds}"
+                                     value="#{iceTestProposalMGR.parentDTO.earliestDate}" />
+
+                        <fs:inputText id="setEarliestDateAtAge"
+                                      labelWidth="160px"
+                                      panelGridStyleClass=""
+                                      panelGridStyle="float:left;"
+                                      title="i.e. 12y 2m 7w 3d"
+                                      size="10"
+                                      label="Set Earliest Date @ Age"
+                                      rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                      value="#{iceTestProposalMGR.dueDateAgeSet}" />
+
+                        <w:dialogButton process="@this #{iceTestProposalMGR.getTabViewUpdateId(true)}:setEarliestDateAtAge:setEarliestDateAtAge"
+                                        actionListener="#{iceTestProposalMGR.calcDueDateAtAge}"
+                                        value="Set"
+                                        icon="ui-icon-gear"
+                                        rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                        update="#{iceTestProposalMGR.onSetDateDueUpdateIds}" />
+
+                    </h:panelGrid>
+
+                    <h:panelGrid id="dueDateParameters"
+                                 columns="3"
+                                 cellpadding="0"
+                                 cellspacing="0">
+
+                        <fs:calendar id="dateDue"
+                                     size="12"
+                                     rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                     processOnChange="true"
+                                     onChangeUpdate="#{iceTestProposalMGR.onDateDueUpdateIds}"
+                                     value="#{iceTestProposalMGR.parentDTO.recommendedDate}" />
+
+                        <fs:inputText id="setDateDueAtAge"
+                                      labelWidth="160px"
+                                      panelGridStyleClass=""
+                                      panelGridStyle="float:left;"
+                                      title="i.e. 12y 2m 7w 3d"
+                                      size="10"
+                                      label="Set Date Due @ Age"
+                                      rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                      value="#{iceTestProposalMGR.dueDateAgeSet}" />
+
+                        <w:dialogButton process="@this #{iceTestProposalMGR.getTabViewUpdateId(true)}:setDateDueAtAge:setDateDueAtAge"
+                                        actionListener="#{iceTestProposalMGR.calcDueDateAtAge}"
+                                        value="Set"
+                                        icon="ui-icon-gear"
+                                        rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                        update="#{iceTestProposalMGR.onSetDateDueUpdateIds}" />
+
+                    </h:panelGrid>
+
+                    <h:panelGrid id="latestDateParameters"
+                                 columns="3"
+                                 cellpadding="0"
+                                 cellspacing="0">
+
+                        <fs:calendar id="latestDate"
+                                     size="12"
+                                     rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                     processOnChange="true"
+                                     onChangeUpdate="#{iceTestProposalMGR.onDateDueUpdateIds}"
+                                     value="#{iceTestProposalMGR.parentDTO.latestDate}" />
+
+                        <fs:inputText id="setLatestDateAtAge"
+                                      labelWidth="160px"
+                                      panelGridStyleClass=""
+                                      panelGridStyle="float:left;"
+                                      title="i.e. 12y 2m 7w 3d"
+                                      size="10"
+                                      label="Set Latest Date @ Age"
+                                      rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                      value="#{iceTestProposalMGR.dueDateAgeSet}" />
+
+                        <w:dialogButton process="@this #{iceTestProposalMGR.getTabViewUpdateId(true)}:setLatestDateAtAge:setLatestDateAtAge"
+                                        actionListener="#{iceTestProposalMGR.calcDueDateAtAge}"
+                                        value="Set"
+                                        icon="ui-icon-gear"
+                                        rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                        update="#{iceTestProposalMGR.onSetDateDueUpdateIds}" />
+
+                    </h:panelGrid>
+
+                    <h:panelGrid id="overdueDateParameters"
+                                 columns="3"
+                                 cellpadding="0"
+                                 cellspacing="0">
+
+                        <fs:calendar id="overdueDate"
+                                     size="12"
+                                     rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                     processOnChange="true"
+                                     onChangeUpdate="#{iceTestProposalMGR.onDateDueUpdateIds}"
+                                     value="#{iceTestProposalMGR.parentDTO.overdueDate}" />
+
+                        <fs:inputText id="setOverdueDateAtAge"
+                                      labelWidth="160px"
+                                      panelGridStyleClass=""
+                                      panelGridStyle="float:left;"
+                                      title="i.e. 12y 2m 7w 3d"
+                                      size="10"
+                                      label="Set Overdue Date @ Age"
+                                      rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                      value="#{iceTestProposalMGR.dueDateAgeSet}" />
+
+                        <w:dialogButton process="@this #{iceTestProposalMGR.getTabViewUpdateId(true)}:setOverdueDateAtAge:setOverdueDateAtAge"
+                                        actionListener="#{iceTestProposalMGR.calcDueDateAtAge}"
+                                        value="Set"
+                                        icon="ui-icon-gear"
+                                        rendered="#{not iceTestProposalMGR.parentDTO.offsetBased}"
+                                        update="#{iceTestProposalMGR.onSetDateDueUpdateIds}" />
+
+                    </h:panelGrid>
+
+                </h:panelGroup>
+                -->
+
+                <!--
+                <h:panelGroup id="ageAtDueDatePG">
+                    <fs:outputText id="ageAtDueDate"
+                                   label="Age @ Date Due"
+                                   value="#{iceTestProposalMGR.getIceTestProposalAgeAtDueDate(iceTestProposalMGR.parentDTO, false)}" />
+                </h:panelGroup>
+                -->
+
+                <p:separator />
+
+                <h:panelGroup id="recommendationPG">
+                    <w:popupSearchLink id="recommendation"
+                                       showReset="false"
+                                       dto="#{iceTestProposalMGR.parentDTO}"
+                                       value="#{iceTestProposalMGR.parentDTO.recommendationValue.label}"
+                                       manager="#{iceTestProposalMGR}"
+                                       htmlPath="/module/cds/section/listitem/popup/listItemSearch"
+                                       queryParms="#{['ICE_IMM_REC', null]}"
+                                       searchTitle="Recommendation Search" 
+                                       fieldName="recommendation"
+                                       popupSearchUpdate="#{p:component('recommendationPG')}" /> 
+
+                </h:panelGroup>
+
+                <b:dtoInlineDataTable  childClass="org.cdsframework.dto.IceTestRecommendationDTO$ByProposalId"
+                                       manager="#{iceTestProposalMGR}"
+                                       header="Reasons">
+                    <p:column>
+                        <w:popupSearchLink id="reason"
+                                           showLabel="false"
+                                           showReset="false"
+                                           dto="#{child}"
+                                           value="#{child.recommendationInterpretation.label}"
+                                           manager="#{iceTestProposalMGR}"
+                                           htmlPath="/module/cds/section/listitem/popup/listItemSearch"
+                                           queryParms="#{['ICE_IMM_REC_REASON', null]}"
+                                           searchTitle="Reason Search" 
+                                           fieldName="reason"
+                                           popupSearchUpdate="#{p:component('org_cdsframework_dto_IceTestRecommendationDTO_ByProposalId')}" /> 
+                    </p:column>
+                </b:dtoInlineDataTable>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

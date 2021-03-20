@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT Core plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <b:editForm id="#{securitySchemeMGR.editFormId}"
+                width="950"
+                height="600"
+                showTabViewNavigator="false"
+                manager="#{securitySchemeMGR}">
+        <p:tab title="#{securitySchemeMGR.parentDTO.schemeName} Security Scheme Summary"
+               id="#{securitySchemeMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="parentInfo"
+                          styleClass="tab-content">
+                <fs:outputText id="schemeId"
+                               rendered="#{not securitySchemeMGR.parentDTO.isNew()}"
+                               label="ID"
+                               value="#{securitySchemeMGR.parentDTO.schemeId}" />
+
+                <fs:inputText id="schemeName"
+                              value="#{securitySchemeMGR.parentDTO.schemeName}"
+                              size="60" />
+
+                <fs:inputTextarea id="description"
+                                  value="#{securitySchemeMGR.parentDTO.description}"
+                                  rows="4"
+                                  cols="60" />
+                <b:dtoInlineDataTable manager="#{securitySchemeMGR}"
+                                      childClass="org.cdsframework.dto.SecuritySchemeRelMapDTO"
+                                      paginator="false"
+                                      showAdd="#{not securitySchemeMGR.parentDTO.new}"
+                                      header="Associated Security Schemes">
+                    <p:column headerText="Related Scheme Name">
+                        <fs:selectOneMenu id="securityScheme"
+                                          showLabel="false"
+                                          rendered="#{child.isNew()}"
+                                          required="true"
+                                          onChangeProcess=":#{p:component('org_cdsframework_dto_SecuritySchemeRelMapDTO')}"
+                                          onChangeUpdate=":#{p:component('org_cdsframework_dto_SecuritySchemeRelMapDTO')}"
+                                          processOnChange="true"
+                                          value="#{child.relatedSecuritySchemeDTO}"
+                                          selectItemsValue="#{securitySchemeMGR.schemeDTOList}"
+                                          selectItemLabel="#{item.schemeName}"
+                                          selectItemValue="#{item}"
+                                          converter="#{schemeConverter}" />
+
+                        <h:outputText value="#{child.relatedSecuritySchemeDTO != null ? child.relatedSecuritySchemeDTO.schemeName : null}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                      rendered="#{not child.isNew()}" />
+                    </p:column>
+                    <p:column headerText="Related Scheme Description">
+                        <h:outputText value="#{child.relatedSecuritySchemeDTO != null ? child.relatedSecuritySchemeDTO.description : null}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}" />
+                    </p:column>
+                </b:dtoInlineDataTable>
+                <b:dtoInlineDataTable manager="#{securitySchemeMGR}"
+                                      paginator="false"
+                                      childClass="org.cdsframework.dto.SecurityPermissionDTO"
+                                      showAdd="#{not securitySchemeMGR.parentDTO.new}"
+                                      header="Security Permissions">
+                    <p:column sortBy="#{child.permissionClass.simpleName}"
+                              headerText="Permission Object">
+                        <fs:selectOneMenu id="permissionObject"
+                                          showLabel="false"
+                                          width="125px"
+                                          rendered="#{child.isNew()}"
+                                          required="true"
+                                          value="#{child.permissionClass}"
+                                          selectItemsValue="#{permissionObjectList.selectItems}"
+                                          selectItemLabel="#{item.label}"
+                                          selectItemValue="#{item.className}" />
+                        <h:outputText value="#{child.permissionClass != null ? permissionObjectList.get(child.permissionClass).label : child.permissionClass}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                      rendered="#{not child.isNew()}" />
+                    </p:column>
+                    <p:column sortBy="#{child.permissionType}"
+                              headerText="Permission Type">
+                        <fs:selectOneMenu id="permissionType"
+                                          showLabel="false"
+                                          rendered="#{child.isNew()}"
+                                          required="true"
+                                          value="#{child.permissionType}"
+                                          selectItemsValue="#{permissionTypeList.selectItems}"
+                                          selectItemLabel="#{item.toString()}"
+                                          selectItemValue="#{item}" />
+                        <h:outputText value="#{child.permissionType != null ? child.permissionType.toString() : null}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                      rendered="#{not child.isNew()}" />
+                    </p:column>
+                    <p:column headerText="Cascading?"
+                              style="text-align:center;">
+                        <fs:selectBooleanCheckbox id="cascade"
+                                                  showLabel="false"
+                                                  center="true"
+                                                  rendered="#{child.isNew()}"
+                                                  label="Cascading?"
+                                                  value="#{child.cascade}" />
+                        <w:booleanImage value="#{child.cascade}"
+                                        rendered="#{not child.isNew()}"
+                                        falseState="ui-state-default" />
+                    </p:column>
+                    <p:column headerText="Deny?"
+                              style="text-align:center;">
+                        <fs:selectBooleanCheckbox id="deny"
+                                                  showLabel="false"
+                                                  center="true"
+                                                  rendered="#{child.isNew()}"
+                                                  label="Deny?"
+                                                  value="#{child.deny}" />
+                        <w:booleanImage value="#{child.deny}"
+                                        rendered="#{not child.isNew()}"
+                                        falseState="ui-state-default" />
+                    </p:column>
+                </b:dtoInlineDataTable>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

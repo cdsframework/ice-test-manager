@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <b:editForm id="#{valueSetMGR.editFormId}"
+                width="950"
+                height="500"
+                showNew="false"
+                manager="#{valueSetMGR}">
+        <p:tab title="#{valueSetMGR.baseHeader} Details"
+               id="#{valueSetMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="valueSetDetails" styleClass="tab-content">
+                <fs:outputText id="valueSetId"
+                               label="ID"
+                               rendered="#{not valueSetMGR.parentDTO.isNew()}"
+                               labelWidth="110px"
+                               value="#{valueSetMGR.parentDTO.valueSetId}" />
+
+                <fs:inputText id="oid"
+                              label="OID"
+                              size="110"
+                              value="#{valueSetMGR.parentDTO.oid}" />
+
+                <fs:inputText id="code"
+                              size="110"
+                              value="#{valueSetMGR.parentDTO.code}" />
+
+                <fs:inputText id="name"
+                              size="110"
+                              value="#{valueSetMGR.parentDTO.name}" />
+
+                <fs:selectOneMenu id="valueSetType"
+                                  labelWidth="110px"
+                                  width="200px"
+                                  value="#{valueSetMGR.parentDTO.valueSetType}"
+                                  selectItemsValue="#{valueSetTypeList.selectItems}"
+                                  selectItemLabel="#{item.name()}"
+                                  selectItemValue="#{item}" />
+
+                <fs:inputTextarea id="source"
+                                  rows="4"
+                                  cols="85"
+                                  value="#{valueSetMGR.parentDTO.source}"/>
+
+                <fs:inputTextarea id="description"
+                                  rows="8"
+                                  cols="85"
+                                  value="#{valueSetMGR.parentDTO.description}"/>
+            </h:panelGroup>
+        </p:tab>
+        <p:tab title="Version Info"
+               disabled="#{valueSetMGR.parentDTO.new}"
+               id="#{valueSetMGR.getTabIdByIndex(1)}">
+            <h:panelGroup id="versionInfo" styleClass="tab-content">
+                <fs:inputText id="version"
+                              size="110"
+                              value="#{valueSetMGR.parentDTO.version}" />
+
+                <fs:inputText id="versionStatus"
+                              size="110"
+                              value="#{valueSetMGR.parentDTO.versionStatus}" />
+
+                <fs:calendar id="effectiveDate"
+                             size="12"
+                             value="#{valueSetMGR.parentDTO.versionEffectiveDate}" />
+
+                <fs:calendar id="expirationDate"
+                             size="12"
+                             value="#{valueSetMGR.parentDTO.versionExpirationDate}" />
+
+                <fs:inputTextarea id="versionDescription"
+                                  rows="3"
+                                  cols="80"
+                                  value="#{valueSetMGR.parentDTO.versionDescription}"/>
+            </h:panelGroup>
+        </p:tab>
+        <p:tab title="Related Code System Codes"
+               disabled="#{valueSetMGR.parentDTO.new}"
+               id="#{valueSetMGR.getTabIdByIndex(2)}">
+            <h:panelGroup id="relatedCodes" styleClass="tab-content" layout="block">
+                <!--
+                <b:inlineChildDtoDataTable childQueryClass="org.cdsframework.dto.ValueSetCdsCodeRelDTO$ByValueSetId"
+                                           parentDTO="#{valueSetMGR.parentDTO}"
+                                           header="Code System Code Relationships">
+                -->
+                <b:dtoInlineDataTable childClass="org.cdsframework.dto.ValueSetCdsCodeRelDTO$ByValueSetId"
+                                      lazy="true"
+                                      manager="#{valueSetMGR}"
+                                      header="Code System Code Relationships">
+                    <!-- Widget version 
+                      onChangeProcess=":#{p:component('relatedCodes')}"
+                      onChangeUpdate=":#{p:component('relatedCodes')}"
+                      onchange="onChange('#{valueSetMGR.editFormId}');" />
+                    -->
+                    <p:column headerText="Code System">
+                        <h:panelGroup id="cdsCodeSystemValueSet">
+                            <h:outputText value="#{child.cdsCodeDTO.codeSystemName} #{not empty child.cdsCodeDTO.codeSystem ? (child.cdsCodeDTO.codeSystem) : ''}" />
+                        </h:panelGroup>                        
+                        <!--
+                        <w:selectOneMenu id="codeSystem"
+                                          showLabel="false"
+                                          width="200px"
+                                          rendered="#{child.isNew()}"
+                                          value="#{child.cdsCodeDTO.codeSystemId}"
+                                          selectItemsValue="#{cdsCodeSystemDTOList.selectItems}"
+                                          selectItemLabel="#{item.name} - #{item.oid}"
+                                          selectItemValue="#{item.codeSystemId}"
+                                          processOnChange="true"
+                                          onChangeUpdate="#{p:component('codePanelGrid')}" />
+                        <h:outputText value="#{cdsCodeSystemDTOList.get(child.cdsCodeDTO.codeSystemId).name}
+                                      (#{cdsCodeSystemDTOList.get(child.cdsCodeDTO.codeSystemId).oid})"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                      rendered="#{not child.isNew()}" />
+                        -->
+                    </p:column>
+                    <p:column headerText="Code">
+                        <h:panelGroup id="cdsCodeValueSet"
+                                      layout="block">
+                            <w:popupSearchLink showLabel="false"
+                                               showReset="false"
+                                               dto="#{child}"
+                                               value="#{child.cdsCodeDTO.code} #{not empty child.cdsCodeDTO.code ? '-' : ''}
+                                                      #{child.cdsCodeDTO.displayName != null and child.cdsCodeDTO.displayName.length() > 60
+                                                      ? child.cdsCodeDTO.displayName.substring(0,60)
+                                                      : child.cdsCodeDTO.displayName}#{child.cdsCodeDTO.displayName != null and child.cdsCodeDTO.displayName.length() > 100
+                                                      ? '...'
+                                                      : ''}"
+                                               manager="#{valueSetMGR}"
+                                               htmlPath="/module/cds/section/code/popup/codeSearch"
+                                               searchTitle="Code Search" 
+                                               fieldName="cdsCodeDTO"
+                                               popupSearchUpdate=":#{p:component('cdsCodeValueSet')} :#{p:component('cdsCodeSystemValueSet')}"> 
+                            </w:popupSearchLink>
+                        </h:panelGroup>
+                        
+                        <!--
+                        <w:selectOneMenu id="code"
+                                          panelGridId="codePanelGrid"
+                                          showLabel="false"
+                                          width="200px"
+                                          rendered="#{child.isNew()}"
+                                          value="#{child.cdsCodeDTO.codeId}"
+                                          selectItemsValue="#{cdsCodeSystemDTOList.getCodeDTOsByCodeSystemId(child.cdsCodeDTO.codeSystemId)}"
+                                          selectItemLabel="#{item.code} -
+                                          #{item.displayName != null and item.displayName.length() > 60
+                                            ? item.displayName.substring(0,60)
+                                            : item.displayName}#{item.displayName != null and item.displayName.length() > 100
+                                            ? '...'
+                                            : ''}"
+                                          selectItemValue="#{item.codeId}"
+                                          onchange="onChange('#{valueSetMGR.editFormId}');" />
+                        <h:outputText value="#{child.cdsCodeDTO.code} - #{child.cdsCodeDTO.displayName}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                      rendered="#{not child.isNew()}" />
+                        -->
+                        
+                    </p:column>
+                    <!-- Stock control
+                    <p:column headerText="Code System">
+                        <p:selectOneMenu id="codeSystem"
+                                         style="width:200px;"
+                                         rendered="#{child.isNew()}"
+                                         value="#{child.cdsCodeDTO.codeSystemId}"
+                                         onchange="onChange('#{valueSetMGR.editFormId}');" >
+                            <f:selectItem itemLabel="#{utilityMGR.getNO_OPTION_SELECT_TEXT()}"
+                                          itemValue="#{null}" />                        
+                            <f:selectItems value="#{cdsCodeSystemDTOList.selectItems}"
+                                           var="item"
+                                           itemLabel="#{item.name} - #{item.oid}"
+                                           itemValue="#{item.codeSystemId}" />
+                            <p:ajax event="change"
+                                    process="@this"
+                                    update="codePanelGroup"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="#{cdsCodeSystemDTOList.get(child.cdsCodeDTO.codeSystemId).name}
+                                      (#{cdsCodeSystemDTOList.get(child.cdsCodeDTO.codeSystemId).oid})"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                      rendered="#{not child.isNew()}" />
+                    </p:column>
+                    <p:column headerText="Code">
+                        <h:panelGroup id="codePanelGroup"
+                                      layout="block">
+                            <p:selectOneMenu id="code"
+                                             style="width:200px;"
+                                             rendered="#{child.isNew()}"
+                                             value="#{child.cdsCodeDTO.codeId}"
+                                             onchange="onChange('#{valueSetMGR.editFormId}');" >
+                                <f:selectItem itemLabel="#{utilityMGR.getNO_OPTION_SELECT_TEXT()}"
+                                              itemValue="#{null}" />                        
+                                <f:selectItems value="#{cdsCodeSystemDTOList.getCodeDTOsByCodeSystemId(child.cdsCodeDTO.codeSystemId)}"
+                                               var="item"
+                                               itemLabel="#{item.code} -
+                                              #{item.displayName != null and item.displayName.length() > 60
+                                                ? item.displayName.substring(0,60)
+                                                : item.displayName}#{item.displayName != null and item.displayName.length() > 100
+                                                ? '...'
+                                                : ''}"
+                                               itemValue="#{item.codeId}" />
+                            </p:selectOneMenu>
+                            <h:outputText value="#{child.cdsCodeDTO.code} - #{child.cdsCodeDTO.displayName}"
+                                          styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                          rendered="#{not child.isNew()}" />
+
+                            </h:panelGroup>
+                    </p:column>
+                    -->
+                    
+                </b:dtoInlineDataTable>
+            </h:panelGroup>
+        </p:tab>
+        <p:tab title="Subvalue Set"
+               disabled="#{valueSetMGR.parentDTO.new}"
+               id="#{valueSetMGR.getTabIdByIndex(3)}">
+            <h:panelGroup id="subvalueSet" styleClass="tab-content">
+                <b:dtoInlineDataTable childClass="org.cdsframework.dto.ValueSetSubValueSetRelDTO$ByValueSetId"
+                                      lazy="true"
+                                      manager="#{valueSetMGR}"
+                                      header="Subvalue Sets">
+                    <p:column headerText="Subvalue Set">
+                        <fs:selectOneMenu id="subvalueSet"
+                                          showLabel="false"
+                                          width="200px"
+                                          rendered="#{child.isNew()}"
+                                          value="#{child.subValueSetDTO}"
+                                          converter="#{valueSetConverter}"
+                                          selectItemsValue="#{valueSetDTOList.getSelectItems(valueSetMGR.parentDTO.valueSetId)}"
+                                          selectItemLabel="#{item.name} - #{item.oid}"
+                                          selectItemValue="#{item}" />
+                        <!--
+                                          processOnChange="true"
+                                          onchange="onChange('#{valueSetMGR.editFormId}');"
+                                          onChangeProcess=":#{p:component('relatedCodes')} :#{p:component('org_cdsframework_dto_ValueSetSubValueSetRelDTO_ByValueSetId')}"
+                                          onChangeUpdate=":#{p:component('relatedCodes')} :#{p:component('org_cdsframework_dto_ValueSetSubValueSetRelDTO_ByValueSetId')}" />
+                        -->
+
+                        <h:outputText value="#{child.subValueSetDTO.name} - #{child.subValueSetDTO.oid}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                      rendered="#{not child.isNew()}" />
+                    </p:column>
+                </b:dtoInlineDataTable>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

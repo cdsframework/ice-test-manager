@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT ICE plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <b:editForm id="#{iceTestEventMGR.editFormId}"
+                width="950"
+                height="600"
+                showNew="false"
+                showNavigation="true"
+                extraButtonIncludeFile="/module/ice/section/testevent/extraButtons.xhtml"
+                manager="#{iceTestEventMGR}">
+        <p:tab title="#{iceTestEventMGR.baseHeader} Details"
+               id="#{iceTestEventMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="testEventDetail" 
+                          styleClass="tab-content">
+
+                <fs:outputText id="immunizationId"
+                               value="#{utilityMGR.formatUuid(iceTestEventMGR.parentDTO.eventId)}"
+                               rendered="#{not empty iceTestEventMGR.parentDTO.eventId}"/>
+
+                <h:panelGroup id="vaccineCodePG">
+                    <w:popupSearchLink id="vaccineCode"
+                                       showReset="false"
+                                       dto="#{iceTestEventMGR.parentDTO}"
+                                       value="#{iceTestEventMGR.parentDTO.iceVaccineDTO.vaccine.label}"
+                                       manager="#{iceTestEventMGR}"
+                                       queryParms="#{[iceTestMGR.parentDTO.testId]}"
+                                       htmlPath="/module/ice/section/vaccine/popup/vaccineTestSearch"
+                                       searchTitle="Vaccine Search" 
+                                       fieldName="iceVaccineDTO"
+                                       popupSearchUpdate="#{p:component('vaccineCodePG')} #{p:component('componentTable')}" />
+                </h:panelGroup>
+
+                <fs:inputText id="samedayorder"
+                              label="Same-Day Order"
+                              size="2"
+                              value="#{iceTestEventMGR.parentDTO.recordOrder}" />
+
+                <p:separator />
+
+                <p:panel id="administrationDatePG"
+                         header="Administration Date"
+                         rendered="#{not empty iceTestEventMGR.parentDTO}">
+
+                    <h:panelGrid id="earliestDateGrid"
+                                 columns="6"
+                                 cellpadding="0"
+                                 cellspacing="0">
+
+                        <fs:selectBooleanCheckbox id="offsetBased"
+                                                  panelColumnClasses="offset-grid-col1,"
+                                                  panelGridStyleClass=""
+                                                  processOnChange="true"
+                                                  onChangeProcess="#{p:component('administrationDatePG')}"
+                                                  onChangeUpdate="#{p:component('administrationDatePG')}"
+                                                  value="#{iceTestEventMGR.parentDTO.offsetBased}" />
+
+                        <fs:selectOneRadio id="offsetType"
+                                           panelColumnClasses="offset-grid-col1,"
+                                           panelGridStyleClass=""
+                                           processOnChange="true"
+                                           onChangeProcess="#{p:component('administrationDatePG')}"
+                                           onChangeUpdate="#{p:component('administrationDatePG')}"
+                                           rendered="#{iceTestEventMGR.parentDTO.offsetBased}"
+                                           value="#{iceTestEventMGR.parentDTO.offsetType}"
+                                           selectItemsValue="#{offsetTypeList.selectItems}" />
+
+                        <fs:calendar id="administrationDateSet"
+                                     panelColumnClasses="offset-grid-col2,"
+                                     panelGridStyleClass="offset-grid-table2"
+                                     label="Date"
+                                     rendered="#{not iceTestEventMGR.parentDTO.offsetBased}"
+                                     processOnChange="true"
+                                     size="12"
+                                     onChangeProcess="#{p:component('administrationDatePG')}"
+                                     onChangeUpdate="#{p:component('administrationDatePG')}"
+                                     value="#{iceTestEventMGR.parentDTO.administrationTime}" />
+
+                        <fs:outputText id="administrationDateDerived"
+                                       panelColumnClasses="offset-grid-col2a,"
+                                       panelGridStyleClass=""
+                                       label="Date"
+                                       rendered="#{iceTestEventMGR.parentDTO.offsetBased}"
+                                       value="#{utilityMGR.getFormattedDate(iceTestEventMGR.getIceTestEventDate(iceTestEventMGR.parentDTO))}" />
+
+                        <fs:inputText id="offset"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      rendered="#{iceTestEventMGR.parentDTO.offsetBased}"
+                                      processOnChange="true"
+                                      onChangeProcess="#{p:component('administrationDatePG')}"
+                                      onChangeUpdate="#{p:component('administrationDatePG')}"
+                                      value="#{iceTestEventMGR.parentDTO.offset}"
+                                      size="12" />
+
+                        <fs:inputText id="setAdminDateAtAge"
+                                      labelWidth="120px"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      panelGridStyle="float:left;"
+                                      title="i.e. 12y 2m 7w 3d"
+                                      size="12"
+                                      label="Set Date @ Age"
+                                      rendered="#{not iceTestEventMGR.parentDTO.offsetBased}"
+                                      value="#{iceTestEventMGR.adminDateAtAge}" />
+
+                        <w:dialogButton process="#{p:component('administrationDatePG')}"
+                                        actionListener="#{iceTestEventMGR.calcAdminDateAtAge}"
+                                        value="Set"
+                                        icon="ui-icon-gear"
+                                        rendered="#{not iceTestEventMGR.parentDTO.offsetBased}"
+                                        update="#{p:component('administrationDatePG')}" />
+
+                        <w:popupSearchLink id="offsetId"
+                                           label="Offset ID"
+                                           panelColumnClasses="offset-grid-col5,"
+                                           panelGridStyleClass=""
+                                           showReset="false"
+                                           rendered="#{iceTestEventMGR.parentDTO.offsetType == 'Interval' and iceTestEventMGR.parentDTO.offsetBased}"
+                                           dto="#{iceTestEventMGR.parentDTO}"
+                                           value="#{iceTestEventMGR.getOffsetIdLabel(iceTestEventMGR.parentDTO.offsetId)}"
+                                           manager="#{iceTestEventMGR}"
+                                           queryParms="#{[iceTestMGR.parentDTO.testId, iceTestEventMGR.parentDTO.eventId]}"
+                                           htmlPath="/module/ice/section/testevent/popup/eventSearch"
+                                           searchTitle="Interval Event Offset Search" 
+                                           fieldName="iceEventDTO"
+                                           popupSearchUpdate="#{p:component('administrationDatePG')}" />
+
+                        <fs:outputText id="ageAtAdministrationDate"
+                                       label="Age @ Date"
+                                       panelColumnClasses="offset-grid-col5,"
+                                       panelGridStyleClass=""
+                                       value="#{iceTestEventMGR.getIceTestEventAgeAtAdmin(iceTestEventMGR.parentDTO, false)}" />
+
+                    </h:panelGrid>
+                </p:panel>
+
+                <h:panelGroup id="componentTable"
+                              styleClass="component-style-table">
+
+                    <b:dtoDataTable manager="#{iceTestEventComponentMGR}"
+                                    paginator="false"
+                                    showAdd="false"
+                                    showDelete="false"
+                                    header="Component Entries">
+                        <p:column headerText="Component">#{iceUtilityMGR.getCodedElementLabel(dto.iceVaccineComponentDTO)}</p:column>
+                        <p:column headerText="Group Focus">#{dto.iceVaccineGroupDTO.vaccineGroupName} (#{dto.iceVaccineGroupDTO.vaccineGroupCode})</p:column>
+                        <p:column headerText="Evaluation Result">#{dto.evaluationValue.label}</p:column>
+                        <p:column headerText="Evaluation Reason">#{dto.evaluationReason}</p:column>
+                    </b:dtoDataTable>
+                </h:panelGroup>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

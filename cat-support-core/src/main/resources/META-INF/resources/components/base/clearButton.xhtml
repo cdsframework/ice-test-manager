@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!-- <cc:attribute name="id" type="java.lang.String" required="true" /> -->
+        <cc:attribute name="manager" type="org.cdsframework.base.BaseModule" required="true" />
+        <cc:attribute name="showButtonLabel" default="true" type="java.lang.Boolean" />
+        <cc:attribute name="tabindex" default="#{null}" type="java.lang.String" />
+        <cc:attribute name="buttonLabel" default="Clear" type="java.lang.String" />
+        <cc:attribute name="debug" type="java.lang.Boolean" default="false" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <!-- For debugging -->
+        <w:debugPanel >
+            <br/>
+            <h:outputLabel value="managerName: " />
+            <h:outputText value="#{cc.attrs.manager.name}" /> <br/>
+        </w:debugPanel>
+        <p:commandButton id="#{cc.attrs.id}"
+                         value="#{cc.attrs.buttonLabel}"
+                         immediate="true"
+                         title="#{cc.attrs.buttonLabel}"
+                         icon="ui-icon-cancel"
+                         tabindex="#{cc.attrs.tabindex}"
+                         oncomplete="findFocus();"
+                         actionListener="#{cc.attrs.manager.clearSearchMain}"
+                         widgetVar="#{cc.attrs.id}ClearButton" />
+    </cc:implementation>
+</html>

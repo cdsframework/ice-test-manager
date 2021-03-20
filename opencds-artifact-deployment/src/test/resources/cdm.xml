@@ -1,0 +1,1075 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:conceptDeterminationMethods xmlns:ns2="org.opencds.dss.config_rest.v1_0">
+    <conceptDeterminationMethod code="RCKMS0000" displayName="RCKMS CDM" codeSystem="2.16.840.1.113883.3.795.12.1.1" version="1.0">
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="C30" displayName="Male"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.5.1" codeSystemName="GENDER">
+                <concept code="M" displayName="Male"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMQA8" displayName="Chlamydia trachomatis antigen detection test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="14468-3" displayName="Chlamydia trachomatis Ag [Presence] in Blood by Immunoassay"/>
+                <concept code="14469-1" displayName="Chlamydia trachomatis Ag [Presence] in Cerebral spinal fluid by Immunoassay"/>
+                <concept code="14470-9" displayName="Chlamydia trachomatis Ag [Presence] in Cervix by Immunoassay"/>
+                <concept code="14471-7" displayName="Chlamydia trachomatis Ag [Presence] in Vaginal fluid by Immunoassay"/>
+                <concept code="14472-5" displayName="Chlamydia trachomatis Ag [Presence] in Urethra by Immunoassay"/>
+                <concept code="14474-1" displayName="Chlamydia trachomatis Ag [Presence] in Urine sediment by Immunoassay"/>
+                <concept code="14507-8" displayName="Chlamydia trachomatis Ag [Presence] in Blood by Immunofluorescence"/>
+                <concept code="14508-6" displayName="Chlamydia trachomatis Ag [Presence] in Cerebral spinal fluid by Immunofluorescence"/>
+                <concept code="14509-4" displayName="Chlamydia trachomatis Ag [Presence] in Cervix by Immunofluorescence"/>
+                <concept code="14510-2" displayName="Chlamydia trachomatis Ag [Presence] in Vaginal fluid by Immunofluorescence"/>
+                <concept code="14511-0" displayName="Chlamydia trachomatis Ag [Presence] in Urethra by Immunofluorescence"/>
+                <concept code="14513-6" displayName="Chlamydia trachomatis Ag [Presence] in Urine sediment by Immunofluorescence"/>
+                <concept code="31768-5" displayName="Chlamydia trachomatis Ag [Presence] in Blood"/>
+                <concept code="31769-3" displayName="Chlamydia trachomatis Ag [Presence] in Conjunctival specimen"/>
+                <concept code="31770-1" displayName="Chlamydia trachomatis Ag [Presence] in Cerebral spinal fluid"/>
+                <concept code="31771-9" displayName="Chlamydia trachomatis Ag [Presence] in Cervix"/>
+                <concept code="31772-7" displayName="Chlamydia trachomatis Ag [Presence] in Vaginal fluid"/>
+                <concept code="31774-3" displayName="Chlamydia trachomatis Ag [Presence] in Stool"/>
+                <concept code="31775-0" displayName="Chlamydia trachomatis Ag [Presence] in Urine sediment"/>
+                <concept code="31776-8" displayName="Chlamydia trachomatis Ag [Presence] in Urethra"/>
+                <concept code="31777-6" displayName="Chlamydia trachomatis Ag [Presence] in Unspecified specimen"/>
+                <concept code="34709-6" displayName="Chlamydia trachomatis Ag [Presence] in Nasopharynx"/>
+                <concept code="34710-4" displayName="Chlamydia trachomatis Ag [Presence] in Anal"/>
+                <concept code="45091-6" displayName="Chlamydia trachomatis Ag [Presence] in Genital specimen"/>
+                <concept code="45092-4" displayName="Chlamydia trachomatis Ag [Presence] in Nasopharynx by Immunoassay"/>
+                <concept code="47234-0" displayName="Chlamydia trachomatis Ag [Presence] in Body fluid"/>
+                <concept code="6350-3" displayName="Chlamydia trachomatis Ag [Presence] in Conjunctival specimen by Immunoassay"/>
+                <concept code="6351-1" displayName="Chlamydia trachomatis Ag [Presence] in Conjunctival specimen by Immunofluorescence"/>
+                <concept code="6352-9" displayName="Chlamydia trachomatis Ag [Presence] in Stool by Immunofluorescence"/>
+                <concept code="6353-7" displayName="Chlamydia trachomatis Ag [Presence] in Tissue by Immunofluorescence"/>
+                <concept code="6354-5" displayName="Chlamydia trachomatis Ag [Presence] in Unspecified specimen by Immunoassay"/>
+                <concept code="6355-2" displayName="Chlamydia trachomatis Ag [Presence] in Unspecified specimen by Immunofluorescence"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS1a" displayName="Apnea Symptoms"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.103" codeSystemName="ICD9CM Diagnosis">
+                <concept code="78603" displayName="Apnea [786.03]"/>
+                <concept code="77082" displayName="Other apnea of newborn [770.82]"/>
+                <concept code="77081" displayName="Primary apnea of newborn [770.81]"/>
+            </fromConcepts>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="1023001" displayName="Apnea (finding)"/>
+                <concept code="13094009" displayName="Apnea in the newborn (finding)"/>
+                <concept code="276545006" displayName="Obstructive apnea of newborn"/>
+                <concept code="1091000119108" displayName="Obstructive sleep apnea of child"/>
+                <concept code="430335007" displayName="Primary apnea in the newborn (finding)"/>
+                <concept code="361208003" displayName="Primary sleep apnea of newborn"/>
+                <concept code="276546007" displayName="Prolonged apnea of newborn"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS1b" displayName="Evidence of Chlamydia Diagnosis"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.103" codeSystemName="ICD9CM Diagnosis">
+                <concept code="7888" displayName="Other specified diseases due to chlamydiae [078.88]"/>
+                <concept code="7988" displayName="Other specified chlamydial infection [079.88]"/>
+                <concept code="7998" displayName="Unspecified chlamydial infection [079.98]"/>
+                <concept code="991" displayName="Lymphogranuloma venereum [099.1]"/>
+                <concept code="9941" displayName="Other nongonococcal urethritis, chlamydia trachomatis [099.41]"/>
+                <concept code="9950" displayName="Other venereal diseases due to chlamydia trachomatis, unspecified site  [099.50]"/>
+                <concept code="9951" displayName="Other venereal diseases due to chlamydia trachomatis, pharynx [099.51]"/>
+                <concept code="9952" displayName="Other venereal diseases due to chlamydia trachomatis, anus and rectum  [099.52]"/>
+                <concept code="9953" displayName="Other venereal diseases due to chlamydia trachomatis, lower genitourinary  sites [099.53]"/>
+                <concept code="9954" displayName="Other venereal diseases due to chlamydia trachomatis, other genitourinary  sites [099.54]"/>
+                <concept code="9955" displayName="Other venereal diseases due to chlamydia trachomatis, unspecified genitourinary  site [099.55]"/>
+                <concept code="9956" displayName="Other venereal diseases due to chlamydia trachomatis, peritoneum [099.56]"/>
+                <concept code="9959" displayName="Other venereal diseases due to chlamydia trachomatis, other specified  site [099.59]"/>
+                <concept code="4831" displayName="Pneumonia due to chlamydia [483.1]"/>
+                <concept code="7798" displayName="Unspecified diseases of conjunctiva due to chlamydiae [077.98]"/>
+            </fromConcepts>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.90" codeSystemName="ICD-10-CM Diagnosis">
+                <concept code="A55" displayName="Chlamydial lymphogranuloma (venereum)"/>
+                <concept code="A56.00" displayName="Chlamydial infection of lower genitourinary tract, unspecified"/>
+                <concept code="A56.01" displayName="Chlamydial cystitis and urethritis"/>
+                <concept code="A56.02" displayName="Chlamydial vulvovaginitis"/>
+                <concept code="A56.09" displayName="Other chlamydial infection of lower genitourinary tract"/>
+                <concept code="A56.11" displayName="Chlamydial female pelvic inflammatory disease"/>
+                <concept code="A56.19" displayName="Other chlamydial genitourinary infection"/>
+                <concept code="A56.2" displayName="Chlamydial infection of genitourinary tract, unspecified"/>
+                <concept code="A56.3" displayName="Chlamydial infection of anus and rectum"/>
+                <concept code="A56.4" displayName="Chlamydial infection of pharynx"/>
+                <concept code="A56.8" displayName="Sexually transmitted chlamydial infection of other sites"/>
+                <concept code="A71.0" displayName="Initial stage of trachoma"/>
+                <concept code="A71.1" displayName="Active stage of trachoma"/>
+                <concept code="A71.9" displayName="Trachoma, unspecified"/>
+                <concept code="A74.0" displayName="Chlamydial conjunctivitis"/>
+                <concept code="A74.81" displayName="Chlamydial peritonitis"/>
+                <concept code="A74.89" displayName="Other chlamydial diseases"/>
+                <concept code="A74.9" displayName="Chlamydial infection, unspecified"/>
+                <concept code="P23.1" displayName="Congenital pneumonia due to Chlamydia"/>
+                <concept code="P39.1" displayName="Neonatal conjunctivitis and dacryocystitis"/>
+                <concept code="A56" displayName="Other sexually transmitted chlamydial diseases"/>
+                <concept code="A56.0" displayName="Chlamydial infection of lower genitourinary tract"/>
+                <concept code="A56.1" displayName="Chlamydial infection of pelviperitoneum and other genitourinary organs"/>
+                <concept code="J16.0" displayName="Chlamydial pneumonia"/>
+            </fromConcepts>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="240589008" displayName="Chlamydia trachomatis infection (disorder)"/>
+                <concept code="426165006" displayName="Acute genitourinary chlamydia infection"/>
+                <concept code="420910002" displayName="Chlamydia trachomatis infection of anus and rectum (disorder)"/>
+                <concept code="231861005" displayName="Chlamydial conjunctivitis"/>
+                <concept code="428015005" displayName="Chlamydia trachomatis infection of genital structure (disorder)"/>
+                <concept code="189312004" displayName="Pelvic inflammation with female sterility due to Chlamydia trachomatis"/>
+                <concept code="198176005" displayName="Female chlamydial pelvic inflammatory disease (disorder)"/>
+                <concept code="186946009" displayName="Lymphogranuloma venereum"/>
+                <concept code="240602008" displayName="Early lymphogranuloma venereum"/>
+                <concept code="272262003" displayName="Esthiomene"/>
+                <concept code="240603003" displayName="Late lymphogranuloma venereum"/>
+                <concept code="240604009" displayName="Latent lymphogranuloma venereum"/>
+                <concept code="2576002" displayName="Trachoma"/>
+                <concept code="266109000" displayName="Inclusion conjunctivitis"/>
+                <concept code="56009001" displayName="Inclusion conjunctivitis of the adult"/>
+                <concept code="276683003" displayName="Neonatal inclusion body conjunctivitis"/>
+                <concept code="240591000" displayName="Neonatal chlamydial conjunctivitis (disorder)"/>
+                <concept code="52812002" displayName="Trachoma, active stage"/>
+                <concept code="29976007" displayName="Trachoma, initial stage"/>
+                <concept code="27020006" displayName="Trachomatous follicular conjunctivitis"/>
+                <concept code="90060000" displayName="Trachomatous granular conjunctivitis"/>
+                <concept code="55555001" displayName="Trachomatous pannus"/>
+                <concept code="179101003" displayName="Urethritis caused by Chlamydia trachomatis (disorder)"/>
+                <concept code="312099009" displayName="Genitourinary chlamydia infection"/>
+                <concept code="10750051000119105" displayName="Chlamydia trachomatis infection in mother complicating childbirth (disorder)"/>
+                <concept code="112121000119105" displayName="Venereal disease caused by Chlamydia trachomatis (disorder)"/>
+                <concept code="1621000119101" displayName="Chlamydia trachomatis infection in pregnancy (disorder)"/>
+                <concept code="367504009" displayName="Pelvic inflammatory disease with female sterility due to Chlamydia trachomatis (disorder)"/>
+                <concept code="426247003" displayName="Acute genitourinary Chlamydia trachomatis infection (disorder)"/>
+                <concept code="446471004" displayName="Infection of epididymis caused by Chlamydia trachomatis (disorder)"/>
+                <concept code="446594000" displayName="Infection of pharynx caused by Chlamydia trachomatis (disorder)"/>
+                <concept code="446642005" displayName="Infection of anus caused by Chlamydia trachomatis (disorder)"/>
+                <concept code="446752000" displayName="Infection of peritoneum caused by Chlamydia trachomatis (disorder)"/>
+                <concept code="446902002" displayName="Infection of testis caused by Chlamydia trachomatis (disorder)"/>
+                <concept code="447353001" displayName="Infection of cervix caused by Chlamydia trachomatis (disorder)"/>
+                <concept code="447372001" displayName="Infection of rectum caused by Chlamydia trachomatis (disorder)"/>
+                <concept code="447386002" displayName="Infection of vulva caused by Chlamydia trachomatis (disorder)"/>
+                <concept code="447402003" displayName="Infection of vagina caused by Chlamydia trachomatis (disorder)"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS1d" displayName="Lab Result Value (Pertussis)"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="46466005" displayName="Genus Bordetella (organism)"/>
+                <concept code="5247005" displayName="Bordetella pertussis (organism)"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS2a" displayName="Cough Symptoms"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.103" codeSystemName="ICD9CM Diagnosis">
+                <concept code="7862" displayName="Cough [786.2]"/>
+            </fromConcepts>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.3" codeSystemName="ICD 10">
+                <concept code="R05" displayName="Cough [R05]"/>
+            </fromConcepts>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="49727002" displayName="Cough (finding)"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS3a" displayName="Paroxysmal Qualifier"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="26593000" displayName="Paroxysmal "/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS4a" displayName="Lab Result with Present or Positive Value"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="441614007" displayName="Present one plus out of three plus (qualifier value)"/>
+                <concept code="441521003" displayName="Present three plus out of three plus (qualifier value)"/>
+                <concept code="441517005" displayName="Present two plus out of three plus (qualifier value)"/>
+                <concept code="89292003" displayName="Rare (qualifier value)"/>
+                <concept code="11214006" displayName="Reactive (qualifier value)"/>
+                <concept code="260405006" displayName="Trace (qualifier value)"/>
+                <concept code="260408008" displayName="Weakly positive (qualifier value)"/>
+                <concept code="117006002" displayName="Weakly-reactive (qualifier value)"/>
+                <concept code="373066001" displayName="Yes (qualifier value)"/>
+                <concept code="10828004" displayName="Positive (qualifier value)"/>
+                <concept code="260347006" displayName="Present + out of ++++ (qualifier value)"/>
+                <concept code="260348001" displayName="Present ++ out of ++++ (qualifier value)"/>
+                <concept code="260349009" displayName="Present +++ out of ++++ (qualifier value)"/>
+                <concept code="260350009" displayName="Present ++++ out of ++++ (qualifier value)"/>
+                <concept code="260351008" displayName="Just noticeable (qualifier value)"/>
+                <concept code="260373001" displayName="Detected (qualifier value)"/>
+                <concept code="260411009" displayName="Presence findings (qualifier value)"/>
+                <concept code="263776006" displayName="Heavy growth (qualifier value)"/>
+                <concept code="263812008" displayName="Moderate growth (qualifier value)"/>
+                <concept code="280415008" displayName="Abnormal result (qualifier value)"/>
+                <concept code="43261007" displayName="Abnormal presence of (qualifier value)"/>
+                <concept code="46651001" displayName="Isolated (qualifier value)"/>
+                <concept code="52101004" displayName="Present (qualifier value)"/>
+                <concept code="7882003" displayName="Identified (qualifier value)"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS5a" displayName="Abnormal Interpretation of an Observation"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.5.83" codeSystemName="ObservationInterpretation">
+                <concept code="A" displayName="Abnormal"/>
+                <concept code="AA" displayName="Critical abnormal"/>
+                <concept code="DET" displayName="Detected"/>
+                <concept code="H" displayName="High"/>
+                <concept code="H&gt;" displayName="Significantly high"/>
+                <concept code="HH" displayName="Critical high"/>
+                <concept code="I" displayName="Intermediate"/>
+                <concept code="L" displayName="Low"/>
+                <concept code="L&lt;" displayName="Significantly low"/>
+                <concept code="LL" displayName="Critical low"/>
+                <concept code="POS" displayName="Positive"/>
+                <concept code="R" displayName="Resistant"/>
+                <concept code="RR" displayName="Reactive"/>
+                <concept code="SYN-R" displayName="Synergy - resistant"/>
+                <concept code="WR" displayName="Weakly reactive"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS5b" displayName="Lab Result Value (Chlamydia)"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="131418003" displayName="Chlamydia species"/>
+                <concept code="63938009" displayName="Chlamydia trachomatis (organism)"/>
+                <concept code="115289001" displayName="Chlamydia trachomatis, serotype A (organism)"/>
+                <concept code="115290005" displayName="Chlamydia trachomatis, serotype B (organism)"/>
+                <concept code="115291009" displayName="Chlamydia trachomatis, serotype Ba (organism)"/>
+                <concept code="115292002" displayName="Chlamydia trachomatis, serotype C (organism)"/>
+                <concept code="115293007" displayName="Chlamydia trachomatis, serotype D (organism)"/>
+                <concept code="115294001" displayName="Chlamydia trachomatis, serotype E (organism)"/>
+                <concept code="115295000" displayName="Chlamydia trachomatis, serotype F (organism)"/>
+                <concept code="115319008" displayName="Chlamydia trachomatis, serotype G (organism)"/>
+                <concept code="115328009" displayName="Chlamydia trachomatis, serotype H (organism)"/>
+                <concept code="115296004" displayName="Chlamydia trachomatis, serotype I (organism)"/>
+                <concept code="115297008" displayName="Chlamydia trachomatis, serotype J (organism)"/>
+                <concept code="442505006" displayName="Chlamydia trachomatis, serotype Ja (organism)"/>
+                <concept code="115298003" displayName="Chlamydia trachomatis, serotype K (organism)"/>
+                <concept code="115299006" displayName="Chlamydia trachomatis, serotype L (organism)"/>
+                <concept code="115300003" displayName="Chlamydia trachomatis, serotype L1 (organism)"/>
+                <concept code="115301004" displayName="Chlamydia trachomatis, serotype L2 (organism)"/>
+                <concept code="115318000" displayName="Chlamydia trachomatis, serotype L3 (organism)"/>
+                <concept code="16241000" displayName="Genus Chlamydia (organism)"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS5d" displayName="Evidence of Pertussis Diagnosis"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.103" codeSystemName="ICD9CM Diagnosis">
+                <concept code="0330" displayName="BORDETELLA PERTUSSIS [033.0]"/>
+            </fromConcepts>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.3" codeSystemName="ICD 10">
+                <concept code="A37.0" displayName="Whooping cough due to Bordetella pertussis [A37.0]"/>
+            </fromConcepts>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="27836007" displayName="Pertussis (disorder)"/>
+                <concept code="408682005" displayName="Healthcare associated pertussis (disorder)"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS6d" displayName="Pertussis Symptoms"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="43025008" displayName="Paroxysmal cough (finding)"/>
+                <concept code="60537006" displayName="Whooping respiration"/>
+                <concept code="424580008" displayName="Post-tussive vomiting"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS_C1" displayName="Paroxysmal Cough"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="43025008" displayName="Paroxysmal cough (finding)"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS_C2" displayName="Inspiratory Whoop"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="60537006" displayName="Whooping respiration"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMS_C3" displayName="Post-tussive vomiting "/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="424580008" displayName="Post-tussive vomiting"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQ11" displayName="Chlamydia Trachomatis organism identification, nucleic acid detection or antigen detection tests"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="14461-8" displayName="Chlamydia trachomatis [Presence] in Blood by Organism specific culture"/>
+                <concept code="14462-6" displayName="Chlamydia trachomatis [Presence] in Cerebral spinal fluid by Organism specific culture"/>
+                <concept code="14463-4" displayName="Chlamydia trachomatis [Presence] in Cervix by Organism specific culture"/>
+                <concept code="14464-2" displayName="Chlamydia trachomatis [Presence] in Vaginal fluid by Organism specific culture"/>
+                <concept code="14465-9" displayName="Chlamydia trachomatis [Presence] in Urethra by Organism specific culture"/>
+                <concept code="14467-5" displayName="Chlamydia trachomatis [Presence] in Urine sediment by Organism specific culture"/>
+                <concept code="45093-2" displayName="Chlamydia trachomatis [Presence] in Anal by Organism specific culture"/>
+                <concept code="45094-0" displayName="Chlamydia trachomatis [Presence] in Conjunctival specimen by Organism specific culture"/>
+                <concept code="45095-7" displayName="Chlamydia trachomatis [Presence] in Genital specimen by Organism specific culture"/>
+                <concept code="45096-5" displayName="Chlamydia trachomatis [Presence] in Nasopharynx by Organism specific culture"/>
+                <concept code="6349-5" displayName="Chlamydia trachomatis [Presence] in Unspecified specimen by Organism specific culture"/>
+                <concept code="80367-6" displayName="Chlamydia trachomatis [Presence] in Rectum by Organism specific culture"/>
+                <concept code="16599-3" displayName="Chlamydia trachomatis DNA [Presence] in Blood by Probe and target amplification method"/>
+                <concept code="16600-9" displayName="Chlamydia trachomatis rRNA [Presence] in Genital specimen by DNA probe"/>
+                <concept code="16601-7" displayName="Chlamydia trachomatis rRNA [Presence] in Urine by DNA probe"/>
+                <concept code="21187-0" displayName="Chlamydia trachomatis DNA [Presence] in Conjunctival specimen by Probe and target amplification method"/>
+                <concept code="21188-8" displayName="Chlamydia trachomatis rRNA [Presence] in Conjunctival specimen by DNA probe"/>
+                <concept code="21189-6" displayName="Chlamydia trachomatis DNA [Presence] in Cervical mucus by Probe and target amplification method"/>
+                <concept code="21190-4" displayName="Chlamydia trachomatis DNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="21191-2" displayName="Chlamydia trachomatis DNA [Presence] in Urethra by Probe and target amplification method"/>
+                <concept code="21192-0" displayName="Chlamydia trachomatis rRNA [Presence] in Urethra by DNA probe"/>
+                <concept code="21613-5" displayName="Chlamydia trachomatis DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="23838-6" displayName="Chlamydia trachomatis rRNA [Presence] in Genital fluid by DNA probe"/>
+                <concept code="36902-5" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="36903-3" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Identifier] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="38469-3" displayName="Chlamydia trachomatis rRNA [Presence] in Blood by DNA probe"/>
+                <concept code="42931-6" displayName="Chlamydia trachomatis rRNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="43304-5" displayName="Chlamydia trachomatis rRNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="43404-3" displayName="Chlamydia trachomatis DNA [Presence] in Unspecified specimen by Probe and signal amplification method"/>
+                <concept code="43405-0" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Identifier] in Unspecified specimen by Probe and signal amplification method"/>
+                <concept code="43406-8" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Unspecified specimen by Probe and signal amplification method"/>
+                <concept code="44806-8" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="44807-6" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Genital specimen by Probe and target amplification method"/>
+                <concept code="45067-6" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Cervix by DNA probe"/>
+                <concept code="45068-4" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="45069-2" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Genital specimen by DNA probe"/>
+                <concept code="45070-0" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Vaginal fluid by DNA probe"/>
+                <concept code="45072-6" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Anal by DNA probe"/>
+                <concept code="45073-4" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Tissue by DNA probe"/>
+                <concept code="45074-2" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Urine by DNA probe"/>
+                <concept code="45075-9" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Urethra by DNA probe"/>
+                <concept code="45076-7" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen by DNA probe"/>
+                <concept code="45078-3" displayName="Chlamydia trachomatis rRNA [Presence] in Cervix by DNA probe"/>
+                <concept code="45080-9" displayName="Chlamydia trachomatis rRNA [Presence] in Vaginal fluid by DNA probe"/>
+                <concept code="45084-1" displayName="Chlamydia trachomatis DNA [Presence] in Vaginal fluid by Probe and target amplification method"/>
+                <concept code="45085-8" displayName="Chlamydia trachomatis rRNA [Presence] in Nasopharynx by DNA probe"/>
+                <concept code="45086-6" displayName="Chlamydia trachomatis DNA [Presence] in Nasopharynx by Probe and target amplification method"/>
+                <concept code="45089-0" displayName="Chlamydia trachomatis rRNA [Presence] in Anal by DNA probe"/>
+                <concept code="45090-8" displayName="Chlamydia trachomatis DNA [Presence] in Anal by Probe and target amplification method"/>
+                <concept code="47211-8" displayName="Chlamydia trachomatis L2 DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="47212-6" displayName="Chlamydia trachomatis DNA [Identifier] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="47362-9" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen from donor by Probe and target amplification method"/>
+                <concept code="49096-1" displayName="Chlamydia trachomatis DNA [Units/volume] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="4993-2" displayName="Chlamydia trachomatis rRNA [Presence] in Unspecified specimen by DNA probe"/>
+                <concept code="50311-0" displayName="Chlamydia trachomatis DNA [Presence] in Unspecified specimen from donor by Probe and target amplification method"/>
+                <concept code="50387-0" displayName="Chlamydia trachomatis rRNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="50411-8" displayName="Chlamydia trachomatis rRNA [Presence] in Unspecified specimen from donor by Probe and target amplification method"/>
+                <concept code="51578-3" displayName="Chlamydia trachomatis DNA [Presence] in Semen by Probe and target amplification method"/>
+                <concept code="53925-4" displayName="Chlamydia trachomatis rRNA [Presence] in Urethra by Probe and target amplification method"/>
+                <concept code="53926-2" displayName="Chlamydia trachomatis rRNA [Presence] in Vaginal fluid by Probe and target amplification method"/>
+                <concept code="57287-5" displayName="Chlamydia trachomatis rRNA [Presence] in Anal by Probe and target amplification method"/>
+                <concept code="57288-3" displayName="Chlamydia trachomatis rRNA [Presence] in Nasopharynx by Probe and target amplification method"/>
+                <concept code="6356-0" displayName="Chlamydia trachomatis DNA [Presence] in Genital specimen by Probe and target amplification method"/>
+                <concept code="6357-8" displayName="Chlamydia trachomatis DNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="64017-7" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Unspecified specimen by Probe and target amplification method"/>
+                <concept code="70161-5" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Urine by Probe and target amplification method"/>
+                <concept code="70162-3" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Urethra by Probe and target amplification method"/>
+                <concept code="70163-1" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Cervix by Probe and target amplification method"/>
+                <concept code="70164-9" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Vaginal fluid by Probe and target amplification method"/>
+                <concept code="72828-7" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae DNA panel - Unspecified specimen"/>
+                <concept code="77577-5" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae DNA panel - Urethra by Probe and target amplification method"/>
+                <concept code="80360-1" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="80361-9" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="80362-7" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Vaginal fluid by Probe and target amplification method"/>
+                <concept code="80363-5" displayName="Chlamydia trachomatis DNA [Presence] in Rectum by Probe and target amplification method"/>
+                <concept code="80364-3" displayName="Chlamydia trachomatis rRNA [Presence] in Rectum by Probe and target amplification method"/>
+                <concept code="80365-0" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Rectum by Probe and target amplification method"/>
+                <concept code="14468-3" displayName="Chlamydia trachomatis Ag [Presence] in Blood by Immunoassay"/>
+                <concept code="14469-1" displayName="Chlamydia trachomatis Ag [Presence] in Cerebral spinal fluid by Immunoassay"/>
+                <concept code="14470-9" displayName="Chlamydia trachomatis Ag [Presence] in Cervix by Immunoassay"/>
+                <concept code="14471-7" displayName="Chlamydia trachomatis Ag [Presence] in Vaginal fluid by Immunoassay"/>
+                <concept code="14472-5" displayName="Chlamydia trachomatis Ag [Presence] in Urethra by Immunoassay"/>
+                <concept code="14474-1" displayName="Chlamydia trachomatis Ag [Presence] in Urine sediment by Immunoassay"/>
+                <concept code="14507-8" displayName="Chlamydia trachomatis Ag [Presence] in Blood by Immunofluorescence"/>
+                <concept code="14508-6" displayName="Chlamydia trachomatis Ag [Presence] in Cerebral spinal fluid by Immunofluorescence"/>
+                <concept code="14509-4" displayName="Chlamydia trachomatis Ag [Presence] in Cervix by Immunofluorescence"/>
+                <concept code="14510-2" displayName="Chlamydia trachomatis Ag [Presence] in Vaginal fluid by Immunofluorescence"/>
+                <concept code="14511-0" displayName="Chlamydia trachomatis Ag [Presence] in Urethra by Immunofluorescence"/>
+                <concept code="14513-6" displayName="Chlamydia trachomatis Ag [Presence] in Urine sediment by Immunofluorescence"/>
+                <concept code="31768-5" displayName="Chlamydia trachomatis Ag [Presence] in Blood"/>
+                <concept code="31769-3" displayName="Chlamydia trachomatis Ag [Presence] in Conjunctival specimen"/>
+                <concept code="31770-1" displayName="Chlamydia trachomatis Ag [Presence] in Cerebral spinal fluid"/>
+                <concept code="31771-9" displayName="Chlamydia trachomatis Ag [Presence] in Cervix"/>
+                <concept code="31772-7" displayName="Chlamydia trachomatis Ag [Presence] in Vaginal fluid"/>
+                <concept code="31774-3" displayName="Chlamydia trachomatis Ag [Presence] in Stool"/>
+                <concept code="31775-0" displayName="Chlamydia trachomatis Ag [Presence] in Urine sediment"/>
+                <concept code="31776-8" displayName="Chlamydia trachomatis Ag [Presence] in Urethra"/>
+                <concept code="31777-6" displayName="Chlamydia trachomatis Ag [Presence] in Unspecified specimen"/>
+                <concept code="34709-6" displayName="Chlamydia trachomatis Ag [Presence] in Nasopharynx"/>
+                <concept code="34710-4" displayName="Chlamydia trachomatis Ag [Presence] in Anal"/>
+                <concept code="45091-6" displayName="Chlamydia trachomatis Ag [Presence] in Genital specimen"/>
+                <concept code="45092-4" displayName="Chlamydia trachomatis Ag [Presence] in Nasopharynx by Immunoassay"/>
+                <concept code="47234-0" displayName="Chlamydia trachomatis Ag [Presence] in Body fluid"/>
+                <concept code="6350-3" displayName="Chlamydia trachomatis Ag [Presence] in Conjunctival specimen by Immunoassay"/>
+                <concept code="6351-1" displayName="Chlamydia trachomatis Ag [Presence] in Conjunctival specimen by Immunofluorescence"/>
+                <concept code="6352-9" displayName="Chlamydia trachomatis Ag [Presence] in Stool by Immunofluorescence"/>
+                <concept code="6353-7" displayName="Chlamydia trachomatis Ag [Presence] in Tissue by Immunofluorescence"/>
+                <concept code="6354-5" displayName="Chlamydia trachomatis Ag [Presence] in Unspecified specimen by Immunoassay"/>
+                <concept code="6355-2" displayName="Chlamydia trachomatis Ag [Presence] in Unspecified specimen by Immunofluorescence"/>
+                <concept code="45110-4" displayName="Chlamydia Ag Penis Ql"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQ12" displayName="Bordetella pertussis Organism Identification Test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="43890-3" displayName="Bordetella pertussis [Presence] in Sputum by Organism specific culture"/>
+                <concept code="43896-0" displayName="Bordetella pertussis [Presence] in Pleural fluid by Organism specific culture"/>
+                <concept code="48741-3" displayName="Bordetella pertussis [Presence] in Nasopharynx by Organism specific culture"/>
+                <concept code="548-8" displayName="Bordetella pertussis [Presence] in Throat by Organism specific culture"/>
+                <concept code="549-6" displayName="Bordetella pertussis [Presence] in Unspecified specimen by Organism specific culture"/>
+                <concept code="78921-4" displayName="Bordetella pertussis and Bordetella parapertussis DNA and culture panel - Nasopharynx"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQ13" displayName="Bordetella pertussis nucleic acid Detection Test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="23826-1" displayName="Bordetella pertussis DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="41875-6" displayName="Bordetella pertussis and Bordetella parapertussis DNA panel - Unspecified specimen by Probe and target amplification method"/>
+                <concept code="43913-3" displayName="Bordetella pertussis DNA [Presence] in Nasopharynx by Probe and target amplification method"/>
+                <concept code="78921-4" displayName="Bordetella pertussis and Bordetella parapertussis DNA and culture panel - Nasopharynx"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQ14" displayName="Bordetella pertussis Antigen Detection Test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="31737-0" displayName="Bordetella pertussis Ag [Presence] in Unspecified specimen"/>
+                <concept code="38198-8" displayName="Bordetella pertussis Ag [Presence] in Nasopharynx by Immunofluorescence"/>
+                <concept code="43891-1" displayName="Bordetella pertussis Ag [Presence] in Sputum by Immunofluorescence"/>
+                <concept code="43909-1" displayName="Bordetella pertussis Ag [Presence] in Nasopharynx"/>
+                <concept code="550-4" displayName="Bordetella pertussis Ag [Presence] in Unspecified specimen by Immunofluorescence"/>
+                <concept code="69948-8" displayName="Bordetella parapertussis IgG Ab [Presence] in Serum by Immunoassay"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQ15" displayName="Bordetella pertussis Antibody Detection Test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="11585-7" displayName="Bordetella pertussis Ab [Units/volume] in Serum"/>
+                <concept code="16474-9" displayName="Bordetella pertussis Ab [Units/volume] in Serum by Complement fixation"/>
+                <concept code="20992-4" displayName="Bordetella pertussis Ab [Presence] in Unspecified specimen"/>
+                <concept code="22116-8" displayName="Bordetella pertussis Ab [Titer] in Serum"/>
+                <concept code="22117-6" displayName="Bordetella pertussis Ab [Titer] in Unspecified specimen"/>
+                <concept code="23827-9" displayName="Bordetella pertussis filamentous hemagglutinin IgA Ab [Units/volume] in Serum"/>
+                <concept code="23828-7" displayName="Bordetella pertussis filamentous hemagglutinin IgG Ab [Units/volume] in Serum"/>
+                <concept code="23829-5" displayName="Bordetella pertussis filamentous hemagglutinin IgM Ab [Units/volume] in Serum"/>
+                <concept code="23830-3" displayName="Bordetella pertussis toxin IgA Ab [Units/volume] in Serum"/>
+                <concept code="23831-1" displayName="Bordetella pertussis toxin IgG Ab [Units/volume] in Serum"/>
+                <concept code="23832-9" displayName="Bordetella pertussis toxin IgM Ab [Units/volume] in Serum"/>
+                <concept code="24033-3" displayName="Bordetella pertussis filamentous hemagglutinin IgG Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="24034-1" displayName="Bordetella pertussis filamentous hemagglutinin IgA Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="24035-8" displayName="Bordetella pertussis filamentous hemagglutinin IgM Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="24127-3" displayName="Bordetella pertussis toxin IgG Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="24128-1" displayName="Bordetella pertussis toxin IgA Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="24129-9" displayName="Bordetella pertussis toxin IgM Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="24130-7" displayName="Bordetella pertussis secretory IgA Ab [Presence] in Unspecified specimen by Immunoassay"/>
+                <concept code="25331-0" displayName="Bordetella pertussis IgG Ab [Titer] in Serum"/>
+                <concept code="25332-8" displayName="Bordetella pertussis IgM Ab [Titer] in Serum"/>
+                <concept code="25352-6" displayName="Bordetella pertussis IgG Ab [Titer] in Serum by Immunofluorescence"/>
+                <concept code="25353-4" displayName="Bordetella pertussis IgM Ab [Titer] in Serum by Immunofluorescence"/>
+                <concept code="29657-4" displayName="Bordetella pertussis IgA Ab [Presence] in Serum by Immunoassay"/>
+                <concept code="29658-2" displayName="Bordetella pertussis IgM Ab [Presence] in Serum by Immunoassay"/>
+                <concept code="29659-0" displayName="Bordetella pertussis IgG Ab [Presence] in Serum by Immunoassay"/>
+                <concept code="29672-3" displayName="Bordetella pertussis IgA Ab [Presence] in Serum"/>
+                <concept code="29673-1" displayName="Bordetella pertussis IgM Ab [Presence] in Serum"/>
+                <concept code="29674-9" displayName="Bordetella pertussis IgG Ab [Presence] in Serum"/>
+                <concept code="31266-0" displayName="Bordetella pertussis Ab [Units/volume] in Unspecified specimen"/>
+                <concept code="31267-8" displayName="Bordetella pertussis secretory IgA Ab [Presence] in Unspecified specimen"/>
+                <concept code="31998-8" displayName="Bordetella pertussis Ab [Presence] in Serum"/>
+                <concept code="33268-4" displayName="Bordetella pertussis toxin IgG Ab [Mass/volume] in Serum"/>
+                <concept code="42328-5" displayName="Bordetella pertussis IgA Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="42329-3" displayName="Bordetella pertussis IgM Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="42330-1" displayName="Bordetella pertussis IgG Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="43381-3" displayName="Bordetella pertussis Ab [Presence] in Unspecified specimen by Immunofluorescence"/>
+                <concept code="43880-4" displayName="Bordetella pertussis filamentous hemagglutinin IgA Ab [Presence] in Serum"/>
+                <concept code="43881-2" displayName="Bordetella pertussis filamentous hemagglutinin IgG Ab [Presence] in Serum"/>
+                <concept code="43882-0" displayName="Bordetella pertussis filamentous hemagglutinin IgM Ab [Presence] in Serum"/>
+                <concept code="44046-1" displayName="Bordetella pertussis Higashi-Hama Ab [Units/volume] in Serum"/>
+                <concept code="44047-9" displayName="Bordetella pertussis Yamaguchi Ab [Presence] in Serum"/>
+                <concept code="46253-1" displayName="Bordetella pertussis filamentous hemagglutinin IgG Ab [Units/volume] in Serum by Immunofluorescence"/>
+                <concept code="46254-9" displayName="Bordetella pertussis toxin IgG Ab [Units/volume] in Serum by Immunofluorescence"/>
+                <concept code="5059-1" displayName="Bordetella pertussis Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="6314-9" displayName="Bordetella pertussis Ab [Titer] in Unspecified specimen by Immunofluorescence"/>
+                <concept code="6315-6" displayName="Bordetella pertussis Ab [Titer] in Serum by Agglutination"/>
+                <concept code="6316-4" displayName="Bordetella pertussis Ab [Titer] in Serum by Complement fixation"/>
+                <concept code="69366-3" displayName="Bordetella pertussis IgA Ab [Presence] in Serum by Immunoblot (IB)"/>
+                <concept code="69367-1" displayName="Bordetella pertussis IgG Ab [Presence] in Serum by Immunoblot (IB)"/>
+                <concept code="69368-9" displayName="Bordetella pertussis IgM Ab [Presence] in Serum by Immunoblot (IB)"/>
+                <concept code="74765-9" displayName="Bordetella pertussis toxin IgA Ab [Presence] in Serum by IB.test strip"/>
+                <concept code="74766-7" displayName="Bordetella pertussis.toxin 100 IgG Ab [Presence] in Serum by IB.test strip"/>
+                <concept code="9362-5" displayName="Bordetella pertussis IgA Ab [Units/volume] in Serum"/>
+                <concept code="9363-3" displayName="Bordetella pertussis IgG Ab [Units/volume] in Serum"/>
+                <concept code="9364-1" displayName="Bordetella pertussis IgM Ab [Units/volume] in Serum"/>
+                <concept code="55161-4" displayName="Bordetella pertussis Ab.IgA &amp; IgG panel in Serum by Immunoassay"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQ17" displayName="Evidence of Gonorrhea"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="10754031000119105" displayName="Gonorrhea in mother complicating childbirth (disorder)"/>
+                <concept code="1086991000119103" displayName="Gonococcal abscess of brain (disorder)"/>
+                <concept code="1087061000119106" displayName="Gonococcal pneumonia (disorder)"/>
+                <concept code="111806005" displayName="Acute gonococcal prostatitis (disorder)"/>
+                <concept code="111807001" displayName="Gonococcal endophthalmia (disorder)"/>
+                <concept code="151004" displayName="Gonococcal meningitis (disorder)"/>
+                <concept code="15628003" displayName="Gonorrhea (disorder)"/>
+                <concept code="17305005" displayName="Acute gonorrhea of genitourinary tract (disorder)"/>
+                <concept code="186931002" displayName="Gonococcal anal infection (disorder)"/>
+                <concept code="186939000" displayName="Gonococcal peritonitis (disorder)"/>
+                <concept code="194910001" displayName="Acute gonococcal pericarditis (disorder)"/>
+                <concept code="197848003" displayName="Gonococcal cystitis (disorder)"/>
+                <concept code="197967000" displayName="Gonococcal prostatitis (disorder)"/>
+                <concept code="199161008" displayName="Maternal gonorrhea during pregnancy, childbirth and the puerperium (disorder)"/>
+                <concept code="199163006" displayName="Maternal gonorrhea during pregnancy - baby delivered (disorder)"/>
+                <concept code="199164000" displayName="Maternal gonorrhea in the puerperium - baby delivered during current episode of care (disorder)"/>
+                <concept code="199165004" displayName="Maternal gonorrhea during pregnancy - baby not yet delivered (disorder)"/>
+                <concept code="199166003" displayName="Maternal gonorrhea in the puerperium - baby delivered during previous episode of care (disorder)"/>
+                <concept code="20943002" displayName="Acute gonococcal cervicitis (disorder)"/>
+                <concept code="231858009" displayName="Gonococcal conjunctivitis (disorder)"/>
+                <concept code="235861001" displayName="Abscess gonococcal (disorder)"/>
+                <concept code="235863003" displayName="Gonococcal hepatitis (disorder)"/>
+                <concept code="236682002" displayName="Gonococcal urethritis (disorder)"/>
+                <concept code="236687008" displayName="Gonococcal urethral abscess (disorder)"/>
+                <concept code="236766009" displayName="Gonococcal epididymitis (disorder)"/>
+                <concept code="236772009" displayName="Gonococcal epididymo-orchitis (disorder)"/>
+                <concept code="237038001" displayName="Gonococcal salpingitis (disorder)"/>
+                <concept code="237042003" displayName="Gonococcal perihepatitis (disorder)"/>
+                <concept code="237046000" displayName="Gonococcal tubo-ovarian abscess (disorder)"/>
+                <concept code="237069002" displayName="Gonococcal endometritis (disorder)"/>
+                <concept code="237083000" displayName="Gonococcal cervicitis (disorder)"/>
+                <concept code="237095000" displayName="Gonococcal vulvovaginitis (disorder)"/>
+                <concept code="237096004" displayName="Neonatal gonococcal vulvovaginitis (disorder)"/>
+                <concept code="238419002" displayName="Gonococcal lymphangitis of penis (disorder)"/>
+                <concept code="2390000" displayName="Acute gonococcal vulvovaginitis (disorder)"/>
+                <concept code="240039005" displayName="Gonococcal tenosynovitis (disorder)"/>
+                <concept code="240571007" displayName="Neonatal gonococcal infection (disorder)"/>
+                <concept code="240572000" displayName="Gonorrhea with local complication (disorder)"/>
+                <concept code="240573005" displayName="Gonococcal Bartholin's gland abscess (disorder)"/>
+                <concept code="240574004" displayName="Gonococcal Skenitis (disorder)"/>
+                <concept code="240575003" displayName="Gonococcal Tysonitis (disorder)"/>
+                <concept code="240576002" displayName="Gonococcal Cowperitis (disorder)"/>
+                <concept code="240577006" displayName="Gonococcal Littritis (disorder)"/>
+                <concept code="240578001" displayName="Gonococcal Littré gland abscess (disorder)"/>
+                <concept code="240579009" displayName="Gonococcal paraurethral gland abscess (disorder)"/>
+                <concept code="240581006" displayName="Gonococcal female pelvic infection (disorder)"/>
+                <concept code="240582004" displayName="Gonococcal synovitis (disorder)"/>
+                <concept code="240583009" displayName="Cutaneous gonorrhea (disorder)"/>
+                <concept code="240584003" displayName="Gonococcal cellulitis (disorder)"/>
+                <concept code="24868007" displayName="Acute gonococcal cystitis (disorder)"/>
+                <concept code="266138002" displayName="Gonococcal synovitis or tenosynovitis (disorder)"/>
+                <concept code="272006008" displayName="Gonococcal arthritis dermatitis syndrome (disorder)"/>
+                <concept code="28438004" displayName="Gonococcal conjunctivitis neonatorum (disorder)"/>
+                <concept code="29864006" displayName="Acute gonococcal urethritis (disorder)"/>
+                <concept code="30168008" displayName="Acute gonococcal epididymo-orchitis (disorder)"/>
+                <concept code="301990003" displayName="Gonococcal seminal vesiculitis (disorder)"/>
+                <concept code="307423008" displayName="Gonococcal pelvic peritonitis (disorder)"/>
+                <concept code="342381000119109" displayName="Gonococcal iritis (disorder)"/>
+                <concept code="35255008" displayName="Gonorrhea in mother complicating pregnancy, childbirth AND/OR puerperium (disorder)"/>
+                <concept code="35876006" displayName="Gonococcal infection of eye (disorder)"/>
+                <concept code="40149008" displayName="Gonococcal keratitis (disorder)"/>
+                <concept code="406581000" displayName="Gonococcal infection of the central nervous system (disorder)"/>
+                <concept code="42746002" displayName="Gonorrhea of rectum (disorder)"/>
+                <concept code="444834005" displayName="Abscess of urethral gland caused by Neisseria gonorrhoeae (disorder)"/>
+                <concept code="44743006" displayName="Gonococcal infection of joint (disorder)"/>
+                <concept code="45377007" displayName="Acute gonococcal salpingitis (disorder)"/>
+                <concept code="46699001" displayName="Gonococcal bursitis (disorder)"/>
+                <concept code="5085001" displayName="Gonococcemia (disorder)"/>
+                <concept code="50970007" displayName="Acute gonorrhea of upper genitourinary tract (disorder)"/>
+                <concept code="53664003" displayName="Gonococcal spondylitis (disorder)"/>
+                <concept code="54825009" displayName="Acute gonorrhea of lower genitourinary tract (disorder)"/>
+                <concept code="60335002" displayName="Gonococcal keratosis (disorder)"/>
+                <concept code="61048000" displayName="Gonococcal endocarditis (disorder)"/>
+                <concept code="65049003" displayName="Acute gonococcal seminal vesiculitis (disorder)"/>
+                <concept code="65295003" displayName="Acute gonococcal endometritis (disorder)"/>
+                <concept code="72225002" displayName="Urethral stricture due to gonococcal infection (disorder)"/>
+                <concept code="74372003" displayName="Gonorrhea of pharynx (disorder)"/>
+                <concept code="80604007" displayName="Acute gonococcal bartholinitis (disorder)"/>
+                <concept code="90428001" displayName="Gonococcal pericarditis (disorder)"/>
+                <concept code="9091006" displayName="Gonococcal iridocyclitis (disorder)"/>
+                <concept code="9241004" displayName="Gonococcal heart disease (disorder)"/>
+            </fromConcepts>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.90" codeSystemName="ICD-10-CM Diagnosis">
+                <concept code="A54" displayName="Gonococcal infection"/>
+                <concept code="A54.0" displayName="Gonococcal infection of lower genitourinary tract without periurethral or accessory gland abscess"/>
+                <concept code="A54.00" displayName="Gonococcal infection of lower genitourinary tract, unspecified"/>
+                <concept code="A54.01" displayName="Gonococcal cystitis and urethritis, unspecified"/>
+                <concept code="A54.02" displayName="Gonococcal vulvovaginitis, unspecified"/>
+                <concept code="A54.03" displayName="Gonococcal cervicitis, unspecified"/>
+                <concept code="A54.09" displayName="Other gonococcal infection of lower genitourinary tract"/>
+                <concept code="A54.1" displayName="Gonococcal infection of lower genitourinary tract with periurethral and accessory gland abscess"/>
+                <concept code="A54.2" displayName="Gonococcal pelviperitonitis and other gonococcal genitourinary infection"/>
+                <concept code="A54.21" displayName="Gonococcal infection of kidney and ureter"/>
+                <concept code="A54.22" displayName="Gonococcal prostatitis"/>
+                <concept code="A54.23" displayName="Gonococcal infection of other male genital organs"/>
+                <concept code="A54.24" displayName="Gonococcal female pelvic inflammatory disease"/>
+                <concept code="A54.29" displayName="Other gonococcal genitourinary infections"/>
+                <concept code="A54.3" displayName="Gonococcal infection of eye"/>
+                <concept code="A54.30" displayName="Gonococcal infection of eye, unspecified"/>
+                <concept code="A54.31" displayName="Gonococcal conjunctivitis"/>
+                <concept code="A54.32" displayName="Gonococcal iridocyclitis"/>
+                <concept code="A54.33" displayName="Gonococcal keratitis"/>
+                <concept code="A54.39" displayName="Other gonococcal eye infection"/>
+                <concept code="A54.4" displayName="Gonococcal infection of musculoskeletal system"/>
+                <concept code="A54.40" displayName="Gonococcal infection of musculoskeletal system, unspecified"/>
+                <concept code="A54.41" displayName="Gonococcal spondylopathy"/>
+                <concept code="A54.42" displayName="Gonococcal arthritis"/>
+                <concept code="A54.43" displayName="Gonococcal osteomyelitis"/>
+                <concept code="A54.49" displayName="Gonococcal infection of other musculoskeletal tissue"/>
+                <concept code="A54.5" displayName="Gonococcal pharyngitis"/>
+                <concept code="A54.6" displayName="Gonococcal infection of anus and rectum"/>
+                <concept code="A54.8" displayName="Other gonococcal infections"/>
+                <concept code="A54.81" displayName="Gonococcal meningitis"/>
+                <concept code="A54.82" displayName="Gonococcal brain abscess"/>
+                <concept code="A54.83" displayName="Gonococcal heart infection"/>
+                <concept code="A54.84" displayName="Gonococcal pneumonia"/>
+                <concept code="A54.85" displayName="Gonococcal peritonitis"/>
+                <concept code="A54.86" displayName="Gonococcal sepsis"/>
+                <concept code="A54.89" displayName="Other gonococcal infections"/>
+                <concept code="A54.9" displayName="Gonococcal infection, unspecified"/>
+                <concept code="O98.2" displayName="Gonorrhea complicating pregnancy, childbirth and the puerperium"/>
+                <concept code="O98.21" displayName="Gonorrhea complicating pregnancy"/>
+                <concept code="O98.211" displayName="Gonorrhea complicating pregnancy, first trimester"/>
+                <concept code="O98.212" displayName="Gonorrhea complicating pregnancy, second trimester"/>
+                <concept code="O98.213" displayName="Gonorrhea complicating pregnancy, third trimester"/>
+                <concept code="O98.219" displayName="Gonorrhea complicating pregnancy, unspecified trimester"/>
+                <concept code="O98.22" displayName="Gonorrhea complicating childbirth"/>
+                <concept code="O98.23" displayName="Gonorrhea complicating the puerperium"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQ18" displayName="Neisseria Gonorrhoeae organism identification test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="14127-5" displayName="Neisseria gonorrhoeae [Presence] in Anal by Organism specific culture"/>
+                <concept code="30099-6" displayName="Neisseria gonorrhoeae [Presence] in Conjunctival specimen by Organism specific culture"/>
+                <concept code="688-2" displayName="Neisseria gonorrhoeae [Presence] in Cervix by Organism specific culture"/>
+                <concept code="690-8" displayName="Neisseria gonorrhoeae [Presence] in Endometrium by Organism specific culture"/>
+                <concept code="691-6" displayName="Neisseria gonorrhoeae [Presence] in Genital specimen by Organism specific culture"/>
+                <concept code="692-4" displayName="Neisseria gonorrhoeae [Presence] in Genital lochia by Organism specific culture"/>
+                <concept code="693-2" displayName="Neisseria gonorrhoeae [Presence] in Vaginal fluid by Organism specific culture"/>
+                <concept code="694-0" displayName="Neisseria gonorrhoeae [Presence] in Semen by Organism specific culture"/>
+                <concept code="695-7" displayName="Neisseria gonorrhoeae [Presence] in Synovial fluid by Organism specific culture"/>
+                <concept code="696-5" displayName="Neisseria gonorrhoeae [Presence] in Throat by Organism specific culture"/>
+                <concept code="697-3" displayName="Neisseria gonorrhoeae [Presence] in Urethra by Organism specific culture"/>
+                <concept code="698-1" displayName="Neisseria gonorrhoeae [Presence] in Unspecified specimen by Organism specific culture"/>
+                <concept code="80368-4" displayName="Neisseria gonorrhoeae [Presence] in Rectum by Organism specific culture"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQ19" displayName="Neisseria Gonorrhoeae nucleic acid detection test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="21414-8" displayName="Neisseria gonorrhoeae DNA [Presence] in Cervical mucus by Probe and target amplification method"/>
+                <concept code="21415-5" displayName="Neisseria gonorrhoeae DNA [Presence] in Urethra by Probe and target amplification method"/>
+                <concept code="21416-3" displayName="Neisseria gonorrhoeae DNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="24111-7" displayName="Neisseria gonorrhoeae DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="32198-4" displayName="Neisseria gonorrhoeae rRNA [Presence] in Cervix by DNA probe"/>
+                <concept code="32199-2" displayName="Neisseria gonorrhoeae rRNA [Presence] in Urethra by DNA probe"/>
+                <concept code="32705-6" displayName="Neisseria gonorrhoeae DNA [Presence] in Vaginal fluid by Probe and target amplification method"/>
+                <concept code="33904-4" displayName="Neisseria gonorrhoeae rRNA [Presence] in Conjunctival specimen by DNA probe"/>
+                <concept code="35735-0" displayName="Neisseria gonorrhoeae DNA [Presence] in Conjunctival specimen by Probe and target amplification method"/>
+                <concept code="36902-5" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="36903-3" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Identifier] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="43305-2" displayName="Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="43403-5" displayName="Neisseria gonorrhoeae DNA [Presence] in Unspecified specimen by Probe and signal amplification method"/>
+                <concept code="43405-0" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Identifier] in Unspecified specimen by Probe and signal amplification method"/>
+                <concept code="43406-8" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Unspecified specimen by Probe and signal amplification method"/>
+                <concept code="44806-8" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="44807-6" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Genital specimen by Probe and target amplification method"/>
+                <concept code="45067-6" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Cervix by DNA probe"/>
+                <concept code="45068-4" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="45069-2" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Genital specimen by DNA probe"/>
+                <concept code="45070-0" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Vaginal fluid by DNA probe"/>
+                <concept code="45072-6" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Anal by DNA probe"/>
+                <concept code="45073-4" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Tissue by DNA probe"/>
+                <concept code="45074-2" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Urine by DNA probe"/>
+                <concept code="45075-9" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Urethra by DNA probe"/>
+                <concept code="45076-7" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen by DNA probe"/>
+                <concept code="47362-9" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen from donor by Probe and target amplification method"/>
+                <concept code="47387-6" displayName="Neisseria gonorrhoeae DNA [Presence] in Genital specimen by Probe and target amplification method"/>
+                <concept code="5028-6" displayName="Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen by DNA probe"/>
+                <concept code="50326-8" displayName="Neisseria gonorrhoeae DNA [Presence] in Unspecified specimen from donor by Probe and target amplification method"/>
+                <concept code="50388-8" displayName="Neisseria gonorrhoeae rRNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="50412-6" displayName="Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen from donor by Probe and target amplification method"/>
+                <concept code="53879-3" displayName="Neisseria gonorrhoeae rRNA [Presence] in Vaginal fluid by Probe and target amplification method"/>
+                <concept code="53927-0" displayName="Neisseria gonorrhoeae rRNA [Presence] in Urethra by Probe and target amplification method"/>
+                <concept code="57180-2" displayName="Neisseria gonorrhoeae DNA [Presence] in Nasopharynx by Probe and target amplification method"/>
+                <concept code="57289-1" displayName="Neisseria gonorrhoeae rRNA [Presence] in Nasopharynx by Probe and target amplification method"/>
+                <concept code="57458-2" displayName="Neisseria gonorrhoeae rRNA [Presence] in Anal by Probe and target amplification method"/>
+                <concept code="60255-7" displayName="Neisseria gonorrhoeae rRNA [Presence] in Throat by Probe and target amplification method"/>
+                <concept code="60256-5" displayName="Neisseria gonorrhoeae rRNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="64017-7" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Unspecified specimen by Probe and target amplification method"/>
+                <concept code="70161-5" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Urine by Probe and target amplification method"/>
+                <concept code="70162-3" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Urethra by Probe and target amplification method"/>
+                <concept code="70163-1" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Cervix by Probe and target amplification method"/>
+                <concept code="70164-9" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Vaginal fluid by Probe and target amplification method"/>
+                <concept code="72828-7" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae DNA panel - Unspecified specimen"/>
+                <concept code="77577-5" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae DNA panel - Urethra by Probe and target amplification method"/>
+                <concept code="80360-1" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="80361-9" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="80362-7" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Vaginal fluid by Probe and target amplification method"/>
+                <concept code="80365-0" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Rectum by Probe and target amplification method"/>
+                <concept code="80366-8" displayName="Neisseria gonorrhoeae rRNA [Presence] in Rectum by Probe and target amplification method"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQ20" displayName="Microscopic observation of specimens from genitalia, urethra or cervix"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="691-6" displayName="Neisseria gonorrhoeae [Presence] in Genital specimen by Organism specific culture"/>
+                <concept code="10524-7" displayName="Microscopic observation [Identifier] in Cervix by Cyto stain"/>
+                <concept code="10856-3" displayName="Microscopic observation [Identifier] in Genital mucus by Gram stain"/>
+                <concept code="14317-2" displayName="Microscopic observation [Identifier] in Genital specimen by Wet preparation"/>
+                <concept code="14318-0" displayName="Microscopic observation [Identifier] in Cervix by Wet preparation"/>
+                <concept code="14355-2" displayName="Microscopic observation [Identifier] in Cervix by KOH preparation"/>
+                <concept code="18326-9" displayName="Microscopic observation [Identifier] in Cervix by Other stain"/>
+                <concept code="18500-9" displayName="Microscopic observation [Identifier] in Cervix by Cyto stain.thin prep"/>
+                <concept code="48712-4" displayName="Microscopic observation [Identifier] in Genital specimen by Gram stain"/>
+                <concept code="57851-8" displayName="Microscopic observation [Identifier] in Urethra by Wet preparation"/>
+                <concept code="6464-2" displayName="Microscopic observation [Identifier] in Cervix by Gram stain"/>
+                <concept code="6467-5" displayName="Microscopic observation [Identifier] in Genital fluid by Gram stain"/>
+                <concept code="6474-1" displayName="Microscopic observation [Identifier] in Urethra by Gram stain"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQ21" displayName="Lab Result (Gonorrhea)"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="277501003" displayName="Penicillinase-producing Neisseria gonorrhoeae (organism)"/>
+                <concept code="277502005" displayName="Tetracycline-resistant Neisseria gonorrhoeae (organism)"/>
+                <concept code="277503000" displayName="Cephalosporin-resistant Neisseria gonorrhoeae (organism)"/>
+                <concept code="277504006" displayName="Spectinomycin-resistant Neisseria gonorrhoeae (organism)"/>
+                <concept code="409805000" displayName="Fluoroquinolone-resistant Neisseria gonorrhoeae (organism)"/>
+                <concept code="414809001" displayName="Neisseria gonorrhoeae, beta lactamase negative (organism)"/>
+                <concept code="59083001" displayName="Genus Neisseria (organism)"/>
+                <concept code="68704007" displayName="Neisseria gonorrhoeae (organism)"/>
+                <concept code="83410001" displayName="Gram-negative diplococcus (organism)"/>
+                <concept code="1087061000119106" displayName="Gonococcal pneumonia (disorder)"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA1" displayName="Lab Result (Salmonellosis)"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="426165006" displayName="Acute genitourinary chlamydia infection"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA10" displayName="Chlamydia trachomatis organism identification test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="14461-8" displayName="Chlamydia trachomatis [Presence] in Blood by Organism specific culture"/>
+                <concept code="14462-6" displayName="Chlamydia trachomatis [Presence] in Cerebral spinal fluid by Organism specific culture"/>
+                <concept code="14463-4" displayName="Chlamydia trachomatis [Presence] in Cervix by Organism specific culture"/>
+                <concept code="14464-2" displayName="Chlamydia trachomatis [Presence] in Vaginal fluid by Organism specific culture"/>
+                <concept code="14465-9" displayName="Chlamydia trachomatis [Presence] in Urethra by Organism specific culture"/>
+                <concept code="14467-5" displayName="Chlamydia trachomatis [Presence] in Urine sediment by Organism specific culture"/>
+                <concept code="45093-2" displayName="Chlamydia trachomatis [Presence] in Anal by Organism specific culture"/>
+                <concept code="45094-0" displayName="Chlamydia trachomatis [Presence] in Conjunctival specimen by Organism specific culture"/>
+                <concept code="45095-7" displayName="Chlamydia trachomatis [Presence] in Genital specimen by Organism specific culture"/>
+                <concept code="45096-5" displayName="Chlamydia trachomatis [Presence] in Nasopharynx by Organism specific culture"/>
+                <concept code="6349-5" displayName="Chlamydia trachomatis [Presence] in Unspecified specimen by Organism specific culture"/>
+                <concept code="80367-6" displayName="Chlamydia trachomatis [Presence] in Rectum by Organism specific culture"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA16" displayName="Viruses (Tests by Culture and Identification Method)"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="10736-7" displayName="Virus identified in Cerebral spinal fluid by Electron microscopy"/>
+                <concept code="10737-5" displayName="Virus identified in Stool by Electron microscopy"/>
+                <concept code="10738-3" displayName="Virus identified in Tissue by Electron microscopy"/>
+                <concept code="10739-1" displayName="Virus identified in Unspecified specimen by Electron microscopy"/>
+                <concept code="11484-3" displayName="Virus identified in Amniotic fluid by Culture"/>
+                <concept code="12272-1" displayName="Virus identified in Unspecified specimen by Immunofluorescence"/>
+                <concept code="14451-9" displayName="Virus identified in Eye by Culture"/>
+                <concept code="14452-7" displayName="Virus identified in Cervix by Culture"/>
+                <concept code="14453-5" displayName="Virus identified in Vaginal fluid by Culture"/>
+                <concept code="14454-3" displayName="Virus identified in Nose by Culture"/>
+                <concept code="14455-0" displayName="Virus identified in Pleural fluid by Culture"/>
+                <concept code="14456-8" displayName="Virus identified in Peritoneal fluid by Culture"/>
+                <concept code="14457-6" displayName="Virus identified in Urine by Culture"/>
+                <concept code="14458-4" displayName="Virus identified in Sputum by Culture"/>
+                <concept code="14459-2" displayName="Virus identified in Penis by Culture"/>
+                <concept code="14460-0" displayName="Virus identified in Urethra by Culture"/>
+                <concept code="14488-1" displayName="Virus identified in Cerebral spinal fluid by Immunofluorescence"/>
+                <concept code="14489-9" displayName="Virus identified in Blood by Immunofluorescence"/>
+                <concept code="14490-7" displayName="Virus identified in Semen by Immunofluorescence"/>
+                <concept code="14491-5" displayName="Virus identified in Throat by Immunofluorescence"/>
+                <concept code="14492-3" displayName="Virus identified in Eye by Immunofluorescence"/>
+                <concept code="14493-1" displayName="Virus identified in Cervix by Immunofluorescence"/>
+                <concept code="14494-9" displayName="Virus identified in Vaginal fluid by Immunofluorescence"/>
+                <concept code="14495-6" displayName="Virus identified in Urine sediment by Immunofluorescence"/>
+                <concept code="14496-4" displayName="Virus identified in Sputum by Immunofluorescence"/>
+                <concept code="14497-2" displayName="Virus identified in Penis by Immunofluorescence"/>
+                <concept code="14498-0" displayName="Virus identified in Urethra by Immunofluorescence"/>
+                <concept code="17975-4" displayName="Virus # 2 identified in Unspecified specimen by Culture"/>
+                <concept code="17976-2" displayName="Virus # 3 identified in Unspecified specimen by Culture"/>
+                <concept code="40479-8" displayName="Virus identified in Body fluid by Culture"/>
+                <concept code="40480-6" displayName="Virus identified in Genital specimen by Culture"/>
+                <concept code="41461-5" displayName="Virus identified in Unspecified specimen"/>
+                <concept code="42808-6" displayName="Virus identified in Isolate"/>
+                <concept code="50024-9" displayName="Virus identified in Unspecified specimen by Shell vial culture"/>
+                <concept code="50219-5" displayName="Respiratory pathogens DNA and RNA 12a panel - Unspecified specimen by Probe and target amplification method"/>
+                <concept code="50548-7" displayName="Respiratory virus DNA+RNA [Identifier] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="54245-6" displayName="Respiratory virus Ag [Identifier] in Unspecified specimen by Immunofluorescence"/>
+                <concept code="55101-0" displayName="Respiratory pathogens panel - Unspecified specimen by Organism specific culture"/>
+                <concept code="5883-4" displayName="Virus identified in Blood by Culture"/>
+                <concept code="5884-2" displayName="Virus identified in Cerebral spinal fluid by Culture"/>
+                <concept code="5885-9" displayName="Virus identified in Skin by Culture"/>
+                <concept code="5886-7" displayName="Virus identified in Stool by Culture"/>
+                <concept code="5887-5" displayName="Virus identified in Throat by Culture"/>
+                <concept code="5888-3" displayName="Virus identified in Tissue by Culture"/>
+                <concept code="60566-7" displayName="Respiratory pathogens DNA and RNA 12b panel - Unspecified specimen by Probe and target amplification method"/>
+                <concept code="615-5" displayName="Virus identified in Isolate by Viral subtyping"/>
+                <concept code="6583-9" displayName="Virus identified in Semen by Culture"/>
+                <concept code="6584-7" displayName="Virus identified in Unspecified specimen by Culture"/>
+                <concept code="6608-4" displayName="Virus identified in Isolate by Culture"/>
+                <concept code="72373-4" displayName="Virus identified in Nasopharynx by Culture"/>
+                <concept code="72374-2" displayName="Virus identified in Lung tissue by Culture"/>
+                <concept code="76091-8" displayName="Respiratory pathogens DNA and RNA 4 panel - Nasopharynx by Probe and target amplification method"/>
+                <concept code="76771-5" displayName="Respiratory pathogens RNA 8 panel - Unspecified specimen by Probe and target amplification method"/>
+                <concept code="77029-7" displayName="Respiratory pathogens DNA and RNA 14 panel - Nasopharynx by Probe and target amplification method"/>
+                <concept code="78922-2" displayName="Respiratory pathogens DNA and RNA panel - Nasopharynx by Probe and target amplification method"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA2" displayName="Lab Test Name (Bacteria)"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="43896-0" displayName="Bordetella pertussis [Presence] in Pleural fluid by Organism specific culture"/>
+                <concept code="43381-3" displayName="Bordetella pertussis Ab [Presence] in Unspecified specimen by Immunofluorescence"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA3" displayName="Salmonella sp and subtypes (except typhi) nucleic acid and detection test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="23431-0" displayName="Salmonella gallinarum DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="23432-8" displayName="Salmonella gallinarum rRNA [Presence] in Unspecified specimen by DNA probe"/>
+                <concept code="23435-1" displayName="Salmonella pullorum DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="23436-9" displayName="Salmonella pullorum rRNA [Presence] in Unspecified specimen by DNA probe"/>
+                <concept code="49612-5" displayName="Salmonella sp DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="61370-3" displayName="Salmonella enterica DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA30" displayName="Zika Virus Disease (Disorders)"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="3928002" displayName="Zika virus disease (disorder)"/>
+            </fromConcepts>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.90" codeSystemName="ICD-10-CM Diagnosis">
+                <concept code="A92.5" displayName="Zika virus disease"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA31" displayName="Zika Virus Disease (Tests for Zika Virus Nucleic Acid)"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="79190-5" displayName="Zika virus RNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="80825-3" displayName="Zika virus envelope (E) gene [Presence] in Serum by Probe and target amplification method"/>
+                <concept code="80826-1" displayName="Zika virus envelope (E) gene [Presence] in Cerebral spinal fluid by Probe and target amplification method"/>
+                <concept code="81148-9" displayName="Zika virus envelope (E) gene [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="81149-7" displayName="Zika virus envelope (E) gene [Presence] in Amniotic fluid by Probe and target amplification method"/>
+                <concept code="80618-2" displayName="Zika virus IgM Ab [Units/volume] in Cerebral spinal fluid by Immunoassay"/>
+                <concept code="80619-0" displayName="Zika virus IgM Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="80823-8" displayName="Zika virus IgM Ab [Presence] in Cerebral spinal fluid by Immunoassay"/>
+                <concept code="80824-6" displayName="Zika virus IgM Ab [Presence] in Serum by Immunoassay"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA32" displayName="Zika Virus Disease (Tests for Zika Virus IgM Antibody)"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="80618-2" displayName="Zika virus IgM Ab [Units/volume] in Cerebral spinal fluid by Immunoassay"/>
+                <concept code="80619-0" displayName="Zika virus IgM Ab [Units/volume] in Serum by Immunoassay"/>
+                <concept code="80823-8" displayName="Zika virus IgM Ab [Presence] in Cerebral spinal fluid by Immunoassay"/>
+                <concept code="80824-6" displayName="Zika virus IgM Ab [Presence] in Serum by Immunoassay"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA33" displayName="Zika Virus Disease  (Organism or Substance in Lab Results)"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="50471002" displayName="Zika virus (organism)"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA4" displayName="Salmonella sp and subtypes (except typhi) Organism Identification Test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="17563-8" displayName="Salmonella sp identified in Unspecified specimen by Organism specific culture"/>
+                <concept code="20951-0" displayName="Salmonella sp serotype [Identifier] in Isolate by Agglutination"/>
+                <concept code="20953-6" displayName="Salmonella sp identified in Tissue by Organism specific culture"/>
+                <concept code="20955-1" displayName="Salmonella sp identified in Stool by Organism specific culture"/>
+                <concept code="23602-6" displayName="Salmonella enteritidis [Presence] in Stool by Organism specific culture"/>
+                <concept code="34891-2" displayName="Salmonella enteritidis [Presence] in Unspecified specimen by Organism specific culture"/>
+                <concept code="42255-0" displayName="Salmonella sp/Shigella sp identified in Unspecified specimen by Organism specific culture"/>
+                <concept code="43371-4" displayName="Salmonella sp/Shigella sp identified in Stool by Organism specific culture"/>
+                <concept code="48806-4" displayName="Salmonella sp+Shigella sp+Escherichia coli enterotoxic identified in Stool by Organism specific culture"/>
+                <concept code="56475-7" displayName="Salmonella sp antigenic formula [Identifier] in Isolate by Agglutination"/>
+                <concept code="59846-6" displayName="Salmonella sp identified [Type] in Isolate"/>
+                <concept code="65756-9" displayName="Salmonella sp serovar [Type] in Isolate"/>
+                <concept code="73672-8" displayName="Salmonella sp phage type in Isolate"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA5" displayName="Evidence of Salmonellosis"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED_CT">
+                <concept code="1092371000119103" displayName="Salmonella pyelonephritis (disorder)"/>
+                <concept code="127361000119109" displayName="Severe sepsis with acute organ dysfunction caused by Salmonella (disorder)"/>
+                <concept code="186134009" displayName="Infection of gastrointestinal tract by Salmonella enterica subspecies arizonae (disorder)"/>
+                <concept code="2523007" displayName="Salmonella pneumonia (disorder)"/>
+                <concept code="276288002" displayName="Recurrent salmonella septicemia (disorder)"/>
+                <concept code="302229004" displayName="Salmonella food poisoning (disorder)"/>
+                <concept code="302231008" displayName="Salmonella infection (disorder)"/>
+                <concept code="397503006" displayName="Salmonella enterica subspecies arizonae infection (disorder)"/>
+                <concept code="402962004" displayName="Salmonella infection with skin involvement (disorder)"/>
+                <concept code="420764009" displayName="Salmonella infection associated with acquired immunodeficiency syndrome (disorder)"/>
+                <concept code="42338000" displayName="Salmonella gastroenteritis (disorder)"/>
+                <concept code="449083008" displayName="Sepsis caused by Salmonella (disorder)"/>
+                <concept code="47375003" displayName="Localized Salmonella infection (disorder)"/>
+                <concept code="6803002" displayName="Salmonella osteomyelitis (disorder)"/>
+                <concept code="71299003" displayName="Salmonella arthritis (disorder)"/>
+                <concept code="77645007" displayName="Salmonella meningitis (disorder)"/>
+                <concept code="90974009" displayName="Salmonellosis (except human typhoid &amp; paratyphoid) (disorder)"/>
+            </fromConcepts>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.90" codeSystemName="ICD-10-CM Diagnosis">
+                <concept code="A02" displayName="Other salmonella infections"/>
+                <concept code="A02.0" displayName="Salmonella enteritis"/>
+                <concept code="A02.1" displayName="Salmonella sepsis"/>
+                <concept code="A02.2" displayName="Localized salmonella infections"/>
+                <concept code="A02.20" displayName="Localized salmonella infection, unspecified"/>
+                <concept code="A02.21" displayName="Salmonella meningitis"/>
+                <concept code="A02.22" displayName="Salmonella pneumonia"/>
+                <concept code="A02.23" displayName="Salmonella arthritis"/>
+                <concept code="A02.24" displayName="Salmonella osteomyelitis"/>
+                <concept code="A02.25" displayName="Salmonella pyelonephritis"/>
+                <concept code="A02.29" displayName="Salmonella with other localized infection"/>
+                <concept code="A02.8" displayName="Other specified salmonella infections"/>
+                <concept code="A02.9" displayName="Salmonella infection, unspecified"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA7" displayName="Chlamydia sp organism, nucleic acid, and antigen detection test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="16593-6" displayName="Chlamydia sp Ag [Presence] in Urine"/>
+                <concept code="20755-5" displayName="Chlamydia sp Ag [Presence] in Body fluid by Immunoassay"/>
+                <concept code="20756-3" displayName="Chlamydia sp Ag [Presence] in Stool by Immunoassay"/>
+                <concept code="20757-1" displayName="Chlamydia sp Ag [Presence] in Tissue by Immunofluorescence"/>
+                <concept code="24005-1" displayName="Chlamydia sp identified in Bronchial specimen by Organism specific culture"/>
+                <concept code="31763-6" displayName="Chlamydia sp Ag [Presence] in Conjunctival specimen"/>
+                <concept code="31764-4" displayName="Chlamydia sp Ag [Presence] in Body fluid"/>
+                <concept code="31765-1" displayName="Chlamydia sp Ag [Presence] in Genital specimen"/>
+                <concept code="31766-9" displayName="Chlamydia sp Ag [Presence] in Stool"/>
+                <concept code="31767-7" displayName="Chlamydia sp Ag [Presence] in Unspecified specimen"/>
+                <concept code="32001-0" displayName="Chlamydia sp Ag [Presence] in Vaginal fluid by Immunoassay"/>
+                <concept code="32003-6" displayName="Chlamydia sp Ag [Presence] in Peritoneal fluid by Immunoassay"/>
+                <concept code="32004-4" displayName="Chlamydia sp Ag [Presence] in Urine by Immunoassay"/>
+                <concept code="32671-0" displayName="Chlamydia sp Ag [Presence] in Vaginal fluid"/>
+                <concept code="32774-2" displayName="Chlamydia sp DNA [Presence] in Genital specimen by Probe and target amplification method"/>
+                <concept code="34708-8" displayName="Chlamydia sp DNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="35412-6" displayName="Chlamydia sp DNA [Presence] in Nose by Probe and target amplification method"/>
+                <concept code="35710-3" displayName="Chlamydia sp DNA [Presence] in Conjunctival specimen by Probe and target amplification method"/>
+                <concept code="35711-1" displayName="Chlamydia sp DNA [Presence] in Anal by Probe and target amplification method"/>
+                <concept code="35712-9" displayName="Chlamydia sp rRNA [Presence] in Conjunctival specimen by DNA probe"/>
+                <concept code="35713-7" displayName="Chlamydia sp DNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="35714-5" displayName="Chlamydia sp rRNA [Presence] in Cervix by DNA probe"/>
+                <concept code="35715-2" displayName="Chlamydia sp rRNA [Presence] in Genital specimen by DNA probe"/>
+                <concept code="35716-0" displayName="Chlamydia sp DNA [Presence] in Vaginal fluid by Probe and target amplification method"/>
+                <concept code="35717-8" displayName="Chlamydia sp rRNA [Presence] in Vaginal fluid by DNA probe"/>
+                <concept code="35718-6" displayName="Chlamydia sp rRNA [Presence] in Nose by DNA probe"/>
+                <concept code="35721-0" displayName="Chlamydia sp rRNA [Presence] in Anal by DNA probe"/>
+                <concept code="35722-8" displayName="Chlamydia sp DNA [Presence] in Serum by Probe and target amplification method"/>
+                <concept code="35723-6" displayName="Chlamydia sp rRNA [Presence] in Serum by DNA probe"/>
+                <concept code="35724-4" displayName="Chlamydia sp DNA [Presence] in Throat by Probe and target amplification method"/>
+                <concept code="35725-1" displayName="Chlamydia sp rRNA [Presence] in Throat by DNA probe"/>
+                <concept code="35726-9" displayName="Chlamydia sp rRNA [Presence] in Urine by DNA probe"/>
+                <concept code="35727-7" displayName="Chlamydia sp DNA [Presence] in Urethra by Probe and target amplification method"/>
+                <concept code="35728-5" displayName="Chlamydia sp rRNA [Presence] in Urethra by DNA probe"/>
+                <concept code="35729-3" displayName="Chlamydia sp DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="35730-1" displayName="Chlamydia sp rRNA [Presence] in Unspecified specimen by DNA probe"/>
+                <concept code="35736-8" displayName="Chlamydia sp rRNA [Presence] in Nasopharynx by DNA probe"/>
+                <concept code="45097-3" displayName="Chlamydia sp identified in Anal by Organism specific culture"/>
+                <concept code="45098-1" displayName="Chlamydia sp identified in Cervix by Organism specific culture"/>
+                <concept code="45099-9" displayName="Chlamydia sp identified in Body fluid by Organism specific culture"/>
+                <concept code="45100-5" displayName="Chlamydia sp identified in Vaginal fluid by Organism specific culture"/>
+                <concept code="45101-3" displayName="Chlamydia sp identified in Nasopharynx by Organism specific culture"/>
+                <concept code="45103-9" displayName="Chlamydia sp Ag [Presence] in Anal by Immunofluorescence"/>
+                <concept code="45104-7" displayName="Chlamydia sp Ag [Presence] in Anal by Immunoassay"/>
+                <concept code="45105-4" displayName="Chlamydia sp Ag [Presence] in Anal"/>
+                <concept code="45106-2" displayName="Chlamydia sp Ag [Presence] in Cervix by Immunoassay"/>
+                <concept code="45107-0" displayName="Chlamydia sp Ag [Presence] in Cervix"/>
+                <concept code="45108-8" displayName="Chlamydia sp Ag [Presence] in Cervix by Immunofluorescence"/>
+                <concept code="45109-6" displayName="Chlamydia sp Ag [Presence] in Body fluid by Immunofluorescence"/>
+                <concept code="45112-0" displayName="Chlamydia sp Ag [Presence] in Urine by Immunofluorescence"/>
+                <concept code="45113-8" displayName="Chlamydia sp Ag [Presence] in Urethra by Immunoassay"/>
+                <concept code="45114-6" displayName="Chlamydia sp Ag [Presence] in Urethra"/>
+                <concept code="45115-3" displayName="Chlamydia sp Ag [Presence] in Urethra by Immunofluorescence"/>
+                <concept code="45131-0" displayName="Chlamydia sp Ag [Presence] in Nasopharynx by Immunofluorescence"/>
+                <concept code="45132-8" displayName="Chlamydia sp Ag [Presence] in Nasopharynx by Immunoassay"/>
+                <concept code="45133-6" displayName="Chlamydia sp Ag [Presence] in Nasopharynx"/>
+                <concept code="556-1" displayName="Chlamydia sp identified in Conjunctival specimen by Organism specific culture"/>
+                <concept code="557-9" displayName="Chlamydia sp identified in Genital specimen by Organism specific culture"/>
+                <concept code="558-7" displayName="Chlamydia sp identified in Throat by Organism specific culture"/>
+                <concept code="559-5" displayName="Chlamydia sp identified in Urethra by Organism specific culture"/>
+                <concept code="560-3" displayName="Chlamydia sp identified in Unspecified specimen by Organism specific culture"/>
+                <concept code="561-1" displayName="Chlamydia sp Ag [Presence] in Unspecified specimen by Immunofluorescence"/>
+                <concept code="6343-8" displayName="Chlamydia sp Ag [Presence] in Conjunctival specimen by Immunoassay"/>
+                <concept code="6344-6" displayName="Chlamydia sp Ag [Presence] in Conjunctival specimen by Immunofluorescence"/>
+                <concept code="6345-3" displayName="Chlamydia sp Ag [Presence] in Genital specimen by Immunoassay"/>
+                <concept code="6346-1" displayName="Chlamydia sp Ag [Presence] in Genital specimen by Immunofluorescence"/>
+                <concept code="6347-9" displayName="Chlamydia sp Ag [Presence] in Unspecified specimen by Immunoassay"/>
+                <concept code="6348-7" displayName="Chlamydia sp identified in Sputum by Organism specific culture"/>
+            </fromConcepts>
+        </conceptMapping>
+        <conceptMapping>
+            <toConcept codeSystem="2.16.840.1.113883.3.795.12.1.1" code="RCKMSQA9" displayName="Chlamydia trachomatis nucleic acid test"/>
+            <fromConcepts codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC">
+                <concept code="16599-3" displayName="Chlamydia trachomatis DNA [Presence] in Blood by Probe and target amplification method"/>
+                <concept code="16600-9" displayName="Chlamydia trachomatis rRNA [Presence] in Genital specimen by DNA probe"/>
+                <concept code="16601-7" displayName="Chlamydia trachomatis rRNA [Presence] in Urine by DNA probe"/>
+                <concept code="21187-0" displayName="Chlamydia trachomatis DNA [Presence] in Conjunctival specimen by Probe and target amplification method"/>
+                <concept code="21188-8" displayName="Chlamydia trachomatis rRNA [Presence] in Conjunctival specimen by DNA probe"/>
+                <concept code="21189-6" displayName="Chlamydia trachomatis DNA [Presence] in Cervical mucus by Probe and target amplification method"/>
+                <concept code="21190-4" displayName="Chlamydia trachomatis DNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="21191-2" displayName="Chlamydia trachomatis DNA [Presence] in Urethra by Probe and target amplification method"/>
+                <concept code="21192-0" displayName="Chlamydia trachomatis rRNA [Presence] in Urethra by DNA probe"/>
+                <concept code="21613-5" displayName="Chlamydia trachomatis DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="23838-6" displayName="Chlamydia trachomatis rRNA [Presence] in Genital fluid by DNA probe"/>
+                <concept code="36902-5" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="36903-3" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Identifier] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="38469-3" displayName="Chlamydia trachomatis rRNA [Presence] in Blood by DNA probe"/>
+                <concept code="42931-6" displayName="Chlamydia trachomatis rRNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="43304-5" displayName="Chlamydia trachomatis rRNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="43404-3" displayName="Chlamydia trachomatis DNA [Presence] in Unspecified specimen by Probe and signal amplification method"/>
+                <concept code="43405-0" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Identifier] in Unspecified specimen by Probe and signal amplification method"/>
+                <concept code="43406-8" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Unspecified specimen by Probe and signal amplification method"/>
+                <concept code="44806-8" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="44807-6" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Genital specimen by Probe and target amplification method"/>
+                <concept code="45067-6" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Cervix by DNA probe"/>
+                <concept code="45068-4" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae DNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="45069-2" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Genital specimen by DNA probe"/>
+                <concept code="45070-0" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Vaginal fluid by DNA probe"/>
+                <concept code="45072-6" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Anal by DNA probe"/>
+                <concept code="45073-4" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Tissue by DNA probe"/>
+                <concept code="45074-2" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Urine by DNA probe"/>
+                <concept code="45075-9" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Urethra by DNA probe"/>
+                <concept code="45076-7" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen by DNA probe"/>
+                <concept code="45078-3" displayName="Chlamydia trachomatis rRNA [Presence] in Cervix by DNA probe"/>
+                <concept code="45080-9" displayName="Chlamydia trachomatis rRNA [Presence] in Vaginal fluid by DNA probe"/>
+                <concept code="45084-1" displayName="Chlamydia trachomatis DNA [Presence] in Vaginal fluid by Probe and target amplification method"/>
+                <concept code="45085-8" displayName="Chlamydia trachomatis rRNA [Presence] in Nasopharynx by DNA probe"/>
+                <concept code="45086-6" displayName="Chlamydia trachomatis DNA [Presence] in Nasopharynx by Probe and target amplification method"/>
+                <concept code="45089-0" displayName="Chlamydia trachomatis rRNA [Presence] in Anal by DNA probe"/>
+                <concept code="45090-8" displayName="Chlamydia trachomatis DNA [Presence] in Anal by Probe and target amplification method"/>
+                <concept code="47211-8" displayName="Chlamydia trachomatis L2 DNA [Presence] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="47212-6" displayName="Chlamydia trachomatis DNA [Identifier] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="47362-9" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Unspecified specimen from donor by Probe and target amplification method"/>
+                <concept code="49096-1" displayName="Chlamydia trachomatis DNA [Units/volume] in Unspecified specimen by Probe and target amplification method"/>
+                <concept code="4993-2" displayName="Chlamydia trachomatis rRNA [Presence] in Unspecified specimen by DNA probe"/>
+                <concept code="50311-0" displayName="Chlamydia trachomatis DNA [Presence] in Unspecified specimen from donor by Probe and target amplification method"/>
+                <concept code="50387-0" displayName="Chlamydia trachomatis rRNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="50411-8" displayName="Chlamydia trachomatis rRNA [Presence] in Unspecified specimen from donor by Probe and target amplification method"/>
+                <concept code="51578-3" displayName="Chlamydia trachomatis DNA [Presence] in Semen by Probe and target amplification method"/>
+                <concept code="53925-4" displayName="Chlamydia trachomatis rRNA [Presence] in Urethra by Probe and target amplification method"/>
+                <concept code="53926-2" displayName="Chlamydia trachomatis rRNA [Presence] in Vaginal fluid by Probe and target amplification method"/>
+                <concept code="57287-5" displayName="Chlamydia trachomatis rRNA [Presence] in Anal by Probe and target amplification method"/>
+                <concept code="57288-3" displayName="Chlamydia trachomatis rRNA [Presence] in Nasopharynx by Probe and target amplification method"/>
+                <concept code="6356-0" displayName="Chlamydia trachomatis DNA [Presence] in Genital specimen by Probe and target amplification method"/>
+                <concept code="6357-8" displayName="Chlamydia trachomatis DNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="64017-7" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Unspecified specimen by Probe and target amplification method"/>
+                <concept code="70161-5" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Urine by Probe and target amplification method"/>
+                <concept code="70162-3" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Urethra by Probe and target amplification method"/>
+                <concept code="70163-1" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Cervix by Probe and target amplification method"/>
+                <concept code="70164-9" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae rRNA panel - Vaginal fluid by Probe and target amplification method"/>
+                <concept code="72828-7" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae DNA panel - Unspecified specimen"/>
+                <concept code="77577-5" displayName="Chlamydia trachomatis and Neisseria gonorrhoeae DNA panel - Urethra by Probe and target amplification method"/>
+                <concept code="80360-1" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Urine by Probe and target amplification method"/>
+                <concept code="80361-9" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Cervix by Probe and target amplification method"/>
+                <concept code="80362-7" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Vaginal fluid by Probe and target amplification method"/>
+                <concept code="80363-5" displayName="Chlamydia trachomatis DNA [Presence] in Rectum by Probe and target amplification method"/>
+                <concept code="80364-3" displayName="Chlamydia trachomatis rRNA [Presence] in Rectum by Probe and target amplification method"/>
+                <concept code="80365-0" displayName="Chlamydia trachomatis+Neisseria gonorrhoeae rRNA [Presence] in Rectum by Probe and target amplification method"/>
+            </fromConcepts>
+        </conceptMapping>
+        <timestamp>2017-02-09T16:07:25.257-05:00</timestamp>
+        <userId>GENERATED</userId>
+    </conceptDeterminationMethod>
+</ns2:conceptDeterminationMethods>

@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="header" default="#{null}" type="java.lang.String" />
+        <cc:attribute name="parentDTO" type="org.cdsframework.base.BaseDTO" required="true" />
+        <cc:attribute name="childQueryClass" type="java.lang.String" required="true" />
+        <cc:attribute name="dataTableId" type="java.lang.String" required="false" />
+        <cc:attribute name="editable" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="editMode" type="java.lang.String" default="row" />
+        <cc:attribute name="footerStyle" default="width:200px" type="java.lang.String" />
+        <cc:attribute name="paginator" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="paginatorPosition" default="bottom" type="java.lang.String" />
+        <cc:attribute name="paginatorTemplate" default="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" type="java.lang.String" />
+        <cc:attribute name="rowCellEditListener" method-signature="void listener(org.primefaces.event.CellEditEvent)" default="#{utilityMGR.onCellEdit}" />
+        <cc:attribute name="rowCancelListener" method-signature="void listener(org.primefaces.event.RowEditEvent)" default="#{utilityMGR.onRowCancel}" />
+        <cc:attribute name="rowEditListener" method-signature="void listener(org.primefaces.event.RowEditEvent)" default="#{utilityMGR.onRowEdit}" />
+        <cc:attribute name="rows" type="java.lang.Integer" default="#{cc.attrs.paginator ? 10 : null}" />
+        <cc:attribute name="rowsPerPageTemplate" default="5,10,15,25" type="java.lang.String" />
+        <cc:attribute name="showAdd" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showDelete" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showResultCount" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="style" type="java.lang.String"/>
+        <cc:attribute name="value" default="#{cc.attrs.parentDTO.getChildrenDTOs(utilityMGR.classForName(cc.attrs.childQueryClass))}" type="java.util.List" />
+        <cc:attribute name="width" default="" type="java.lang.String" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <c:set var="childQueryClass"
+               value="#{utilityMGR.classForName(cc.attrs.childQueryClass)}"/>
+        <c:set var="dataTableId"
+               value="#{empty cc.attrs.dataTableId ? childQueryClass.canonicalName.replace('.', '_') : cc.attrs.dataTableId}"/>
+        <p:dataTable id="#{dataTableId}"
+                     value="#{cc.attrs.value}"
+                     paginator="#{cc.attrs.paginator}"
+                     paginatorPosition="#{cc.attrs.paginatorPosition}"
+                     paginatorTemplate="#{cc.attrs.paginatorTemplate}"
+                     rowsPerPageTemplate="#{cc.attrs.rowsPerPageTemplate}"
+                     rows="#{cc.attrs.rows}"
+                     var="child"
+                     editable="#{cc.attrs.editable}"
+                     editMode="#{cc.attrs.editMode}"
+                     style="width:#{empty cc.attrs.width ? '100%' : utilityMGR.concat(cc.attrs.width, 'px')};#{cc.attrs.style}"
+                     tableStyleClass="minimal-child-inline-dt"
+                     rowStyleClass="#{utilityMGR.getDTOState(cc.attrs.parentDTO, childQueryClass, child)}">
+
+            <p:ajax event="rowEdit" listener="#{cc.attrs.rowEditListener}" />
+            <p:ajax event="rowEditCancel" listener="#{cc.attrs.rowCancelListener}" />
+            <p:ajax event="cellEdit" listener="#{cc.attrs.rowCellEditListener}" />
+
+            <f:facet name="header" >
+                <h:panelGroup layout="block"
+                              style="min-height:23px;">
+                    <h:panelGroup style="line-height:23px;float:left;margin-right: 5px;">
+                        <h:outputText value="#{cc.attrs.header}" style="text-align:left;" />
+                    </h:panelGroup>
+                    <h:panelGroup style="font-weight:normal;line-height: 23px;float:left;">
+                        <h:outputText rendered="#{cc.attrs.showResultCount}"
+                                      value=" (#&nbsp;of&nbsp;Results:&nbsp;#{utilityMGR.getChildCount(cc.attrs.parentDTO, childQueryClass)})" />
+                    </h:panelGroup>
+                    <p:commandButton value="New"
+                                     rendered="#{cc.attrs.showAdd}"
+                                     process="@this #{p:component(dataTableId)}"
+                                     actionListener="#{utilityMGR.processDTONew(cc.attrs.parentDTO, childQueryClass, p:component(dataTableId))}"
+                                     style="float:right;height:23px;margin:0 -7px 0 0;"
+                                     update="#{p:component(dataTableId)}"
+                                     oncomplete="onChange('#{component.parent.parent.clientId}');
+                                     $(PrimeFaces.escapeClientId('#{component.parent.parent.clientId}'))
+                                     .find('.ui-icon-pencil')
+                                     .last()
+                                     .trigger('click');
+                                     $(PrimeFaces.escapeClientId('#{component.parent.parent.clientId}'))
+                                     .find('.ui-inputfield')
+                                     .first()
+                                     .focus();"
+                                     immediate="true"
+                                     icon="ui-icon-document" />
+                </h:panelGroup>
+            </f:facet>
+
+            <f:facet name="footer" >
+                <h:panelGroup layout="block"
+                              style="#{cc.attrs.footerStyle}" />
+            </f:facet>
+
+            <cc:insertChildren />
+
+            <p:column  headerText="Options"
+                       rendered="#{(cc.attrs.editable and cc.attrs.editMode == 'row') or cc.attrs.showDelete}"
+                       styleClass="datatable-options-col">
+                <p:rowEditor rendered="#{cc.attrs.editable and cc.attrs.editMode == 'row'}" styleClass="datatable-row-edit-button" />
+                <p:commandLink type="button"
+                               rendered="#{cc.attrs.showDelete}"
+                               title="#{child.isDeleted() ? 'Undo Delete' : 'Delete'}"
+                               immediate="true"
+                               actionListener="#{utilityMGR.processDTODelete(cc.attrs.parentDTO, childQueryClass, child, p:component(dataTableId))}"
+                               oncomplete="onChange('#{cc.parent.parent.attrs.id}');"
+                               style="margin-left:#{cc.attrs.editable ? '5px' : '40%'};"
+                               styleClass="datatable-row-delete-button #{child.isDeleted() ? 'ui-icon ui-icon-arrowreturnthick-1-w' : 'ui-icon ui-icon-trash'}" />
+            </p:column>
+        </p:dataTable>
+    </cc:implementation>
+</html>

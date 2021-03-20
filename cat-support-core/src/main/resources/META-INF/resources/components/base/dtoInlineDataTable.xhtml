@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:cc="http://java.sun.com/jsf/composite"
+              xmlns:p="http://primefaces.org/ui"
+              xmlns:f="http://java.sun.com/jsf/core"
+              xmlns:h="http://java.sun.com/jsf/html"
+              xmlns:b="http://java.sun.com/jsf/composite/components/base"      
+              xmlns:ui="http://java.sun.com/jsf/facelets"              
+              xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="header" default="#{null}" type="java.lang.String" />
+        <cc:attribute name="manager" type="org.cdsframework.base.BaseModule" required="true" />
+        <cc:attribute name="childClass" type="java.lang.String" required="true" />
+        <cc:attribute name="lazy" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="footerStyle" default="width:200px" type="java.lang.String" />
+        <cc:attribute name="paginator" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="paginatorPosition" default="bottom" type="java.lang.String" />
+        <cc:attribute name="paginatorTemplate" default="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" type="java.lang.String" />
+        <cc:attribute name="rows" type="java.lang.Integer" default="#{cc.attrs.paginator ? 15 : null}" />
+        <cc:attribute name="rowsPerPageTemplate" default="5,10,15,25" type="java.lang.String" />
+        <cc:attribute name="showAdd" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showDelete" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showResultCount" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="formChangedOnNew" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="deleteHeader" type="java.lang.String" />
+        <cc:attribute name="deleteMessage" type="java.lang.String" />
+        <cc:attribute name="style" type="java.lang.String"/>
+        <cc:attribute name="width" default="" type="java.lang.String" />
+        <cc:attribute name="editFormManager" type="org.cdsframework.base.BaseModule" default="#{cc.attrs.manager}" />
+        <cc:attribute name="onRowSelectEnable" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="onRowSelectUpdate" type="java.lang.String" default="#{cc.attrs.manager.onRowSelectUpdateIds}" />
+        <cc:attribute name="onRowSelectManager" type="org.cdsframework.base.BaseModule" default="#{cc.attrs.manager}" />
+	<cc:attribute name="onRowSelectComplete" type="java.lang.String" default="PF('#{cc.attrs.manager.getEditDialogWidgetVar('edit')}').show();"/>
+
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <c:set var="childClassType"
+               value="#{utilityMGR.classForName(cc.attrs.childClass).getCanonicalName().replace('.', '_')}"/>
+        <c:set var="editable"
+               value="false"/>
+        <c:set var="editMode"
+               value="row"/>
+        <c:set var="devInfo"
+               value="#{catApplication.dev and cc.attrs.lazy ? '- [Lazy Loaded Inline]' : '[Inline]'}" />
+
+        <!-- non-lazy selectable datatable isn't working -->
+        <p:dataTable id="#{cc.attrs.manager.inlineDataTableService.getDataTableId(cc.attrs.childClass)}"
+                     lazy="#{cc.attrs.manager.inlineDataTableService.dataTableParamMap[cc.attrs.childClass].getLazy(cc.attrs.lazy)}"
+                     value="#{cc.attrs.manager.inlineDataTableService.dataTableParamMap[cc.attrs.childClass].dataTableInterface}"
+                     paginator="#{cc.attrs.paginator and cc.attrs.manager.inlineDataTableService.dataTableParamMap[cc.attrs.childClass].loadStatus == null}"
+                     paginatorPosition="#{cc.attrs.paginatorPosition}"
+                     paginatorTemplate="#{cc.attrs.paginatorTemplate}"
+                     rowsPerPageTemplate="#{cc.attrs.rowsPerPageTemplate}"
+                     rows="#{cc.attrs.rows}"
+                     var="child"
+                     rowKey="#{dto.uuid}"
+                     selectionMode="single"
+                     editable="#{cc.attrs.editable}"
+                     editMode="#{cc.attrs.editMode}"
+                     style="width:#{empty cc.attrs.width ? '100%' : utilityMGR.concat(cc.attrs.width, 'px')};#{cc.attrs.style}"
+                     tableStyleClass="minimal-child-inline-dt"
+                     rowStyleClass="#{child.DTOState}">
+
+            <p:ajax event="rowSelect"
+                    disabled="#{not cc.attrs.onRowSelectEnable}"
+                    update="#{cc.attrs.onRowSelectUpdate}"
+                    listener="#{cc.attrs.onRowSelectManager.onRowSelectMain}" />
+
+            <f:facet name="header" >
+                <h:panelGroup layout="block"
+                              style="min-height:23px;">
+                    <h:panelGroup style="line-height:23px;float:left;margin-right: 5px;">
+                        <h:outputText value="#{cc.attrs.header}" style="text-align:left;" />
+                    </h:panelGroup>
+                    <h:panelGroup style="font-weight:normal;line-height: 23px;float:left;">
+                        <h:outputText rendered="#{cc.attrs.showResultCount}"
+                                      value=" (#&nbsp;of&nbsp;Results:&nbsp;#{cc.attrs.manager.inlineDataTableService.dataTableParamMap[cc.attrs.childClass].dataTableInterface.rowCount}) #{devInfo}" />
+                    </h:panelGroup>
+                    <p:commandButton value="New"
+                                     rendered="#{cc.attrs.showAdd}"
+                                     process="@this"
+                                     onstart="#{not cc.attrs.formChangedOnNew ? 'return true;' : ''} return onDataTableAction(#{cc.attrs.editFormManager.saveImmediately},'ROWNEW','#{cc.attrs.editFormManager.formEditUpdateId}',#{childClassType}ApplyChanges);"
+                                     actionListener="#{cc.attrs.manager.inlineDataTableService.add(cc.attrs.childClass)}"
+                                     style="float:right;height:23px;padding:0;margin:0px 0px 0px 5px;"
+                                     immediate="true"
+                                     icon="ui-icon-document" />
+                </h:panelGroup>
+            </f:facet>
+
+            <f:facet name="footer" >
+                <h:panelGroup layout="block"
+                              style="#{cc.attrs.footerStyle}" />
+            </f:facet>
+
+            <cc:insertChildren />
+
+            <p:column headerText="Options"
+                      rendered="#{(cc.attrs.editable and cc.attrs.editMode == 'row') or cc.attrs.showDelete}"
+                      styleClass="datatable-options-col">
+                <p:commandLink type="button"
+                               rendered="#{cc.attrs.showDelete and (child.DTOState == 'UNSET' or empty child)}"
+                               title="Delete"
+                               process="@this"
+                               immediate="true"
+                               onstart="return onDataTableAction(#{cc.attrs.editFormManager.saveImmediately},'DELETE','#{cc.attrs.editFormManager.formEditUpdateId}',#{childClassType}ApplyChanges);"
+                               actionListener="#{dialogService.showDeleteDialog(child, cc.attrs.deleteHeader, cc.attrs.deleteMessage, cc.attrs.manager)}"
+                               style="margin-left:#{cc.attrs.editable ? '5px' : '40%'};"
+                               styleClass="ui-icon ui-icon-trash" > 
+                    <p:ajax event="dialogReturn" listener="#{dialogService.onDeleteDialogReturn}"/>
+                </p:commandLink>
+                <p:commandLink type="button"
+                               rendered="#{cc.attrs.showDelete and (child.isNew() or empty child)}"
+                               process="@this"
+                               title="Undo"
+                               actionListener="#{cc.attrs.manager.inlineDataTableService.delete(true, child)}"
+                               immediate="true"
+                               style="margin-left:#{cc.attrs.editable ? '5px' : '40%'};"
+                               onstart="return onDataTableAction(#{cc.attrs.editFormManager.saveImmediately},'ROWNEWDELETE','#{cc.attrs.editFormManager.formEditUpdateId}',#{childClassType}ApplyChanges);"
+                               styleClass="ui-icon ui-icon-arrowreturnthick-1-w" >
+                </p:commandLink>
+            </p:column>
+        </p:dataTable>
+        <p:remoteCommand name="#{childClassType}ApplyChanges"
+                         immediate="true"
+                         actionListener="#{dialogService.showApplyDialog(cc.attrs.manager)}" 
+                         process="@this" >
+        </p:remoteCommand>           
+
+    </cc:implementation>
+</ui:component>

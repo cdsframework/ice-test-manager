@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="showColumnFilters" type="java.lang.Boolean" default="true" />
+
+        <cc:attribute name="manager" type="org.cdsframework.base.BaseModule" required="true" />
+        <cc:attribute name="paginator" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showExport" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="paginatorTemplate" default="#{cc.attrs.showExport ? '{Export} ' :''}{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" type="java.lang.String" />
+        <cc:attribute name="rowsPerPageTemplate" default="5,10,15,25" type="java.lang.String" />
+        <cc:attribute name="paginatorPosition" default="bottom" type="java.lang.String" />
+        <cc:attribute name="rows" type="java.lang.Integer" default="#{cc.attrs.paginator ? 15 : null}" />
+
+        <cc:attribute name="scrollable" default="#{null}" type="java.lang.Boolean" />
+        <cc:attribute name="height" type="java.lang.Integer" default="#{null}" />
+        <cc:attribute name="width" type="java.lang.String" />
+
+        <cc:attribute name="showFindAll" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="findAllQueryClass" type="java.lang.String" default="FindAll" />
+        <cc:attribute name="showDelete" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showEdit" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="showAdd" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="dynamicSearch" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="showResultCount" type="java.lang.Boolean" default="true" />
+        <cc:attribute name="formChangedOnNew" type="java.lang.Boolean" default="true" />
+
+        <!-- Override these with caution as you will need to apply these ids in your xhtml files noted below -->
+        <!-- Ideally it would be nice to use the bind attribute on the manager, however after multiple attempts
+             referring to the manager/form binded object client Id could not be placed in the
+             p:ajax rowSelected, New/Delete update/oncomplete attribtes -->
+        <cc:attribute name="editFormId" type="java.lang.String" default="#{cc.attrs.manager.editFormId}"
+                      displayName="Edit Form Id" shortDescription="Caution: If overriden make sure to change the id on your editForm.xhtml"/>
+
+        <cc:attribute name="header" default="#{cc.attrs.manager.baseHeader} Entries" type="java.lang.String" />
+        <cc:attribute name="footerStyle" default="width:200px" type="java.lang.String" />
+        <cc:attribute name="styleClass" type="java.lang.String" />
+        <cc:attribute name="style" type="java.lang.String"/>
+        <cc:attribute name="rowStyleClass" default="#{cc.attrs.manager.getDTOState(dto)}" type="java.lang.String"/>
+        <cc:attribute name="onRowSelectManager" type="org.cdsframework.base.BaseModule" default="#{cc.attrs.manager}" />
+        <cc:attribute name="onRowSelectComplete" type="java.lang.String" default="PF('#{cc.attrs.manager.getEditDialogWidgetVar('edit')}').show();"/>
+        <cc:attribute name="onRowSelectUpdate" type="java.lang.String" default="#{cc.attrs.manager.onRowSelectUpdateIds}" />
+        <cc:attribute name="editFormClientId" type="java.lang.String" default="#{cc.attrs.manager.parentMGR.formEditUpdateId}" />
+        <cc:attribute name="scrollWidth" type="java.lang.Integer" default="#{null}" />
+        <cc:attribute name="onRowSelectListener" method-signature="java.lang.Void selectEvent(org.primefaces.event.SelectEvent)" default="#{cc.attrs.onRowSelectManager.onRowSelectMain}" />
+        
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <!--
+                         selection="#{cc.attrs.manager.parentDTO}"
+    -->
+    <cc:implementation>
+        <c:set var="devInfo"
+               value="#{catApplication.dev and cc.attrs.manager.lazy ? '- [Lazy Loaded]' : ''}" />
+        <style>
+            #{not cc.attrs.showColumnFilters ? utilityMGR.concat('.', cc.attrs.manager.name, '-dt-style-class input.ui-column-filter {display:none!important;}') : '' }
+        </style>
+        <h:panelGroup id="#{cc.attrs.manager.name}DataTableWrapper"
+                      layout="block">
+            <!--                          
+            selection="#{cc.attrs.manager.selectedDTO}"
+            rowKey="#{dto}"
+            -->
+
+            <p:dataTable id="#{cc.attrs.manager.dataTableId}"
+                         lazy="#{cc.attrs.manager.lazy}"
+                         value="#{cc.attrs.manager.dataTableMGR}"
+                         widgetVar="#{cc.attrs.manager.dataTableWidgetVar}"
+                         paginator="#{cc.attrs.paginator}"
+                         paginatorPosition="#{cc.attrs.paginatorPosition}"
+                         paginatorTemplate="#{cc.attrs.paginatorTemplate}"
+                         rowsPerPageTemplate="#{cc.attrs.rowsPerPageTemplate}"
+                         rows="#{cc.attrs.rows}"
+                         scrollable="#{cc.attrs.scrollable}"
+                         var="dto"
+                         rowKey="#{dto.uuid}"
+                         style="width:#{cc.attrs.width != null ? cc.attrs.width : '100%'}#{cc.attrs.width != null ? 'px' : ''};#{cc.attrs.style}"
+                         styleClass="#{cc.attrs.styleClass} #{cc.attrs.manager.name}-dt-style-class"
+                         scrollHeight="#{cc.attrs.height}"
+                         scrollWidth="#{cc.attrs.scrollWidth}"
+                         selectionMode="single"
+                         rowStyleClass="#{cc.attrs.rowStyleClass}">
+
+                <p:ajax event="rowSelect"
+                        disabled="#{not cc.attrs.showEdit}"
+                        update="#{not cc.attrs.dynamicSearch ? cc.attrs.onRowSelectUpdate : ''}"
+                        listener="#{cc.attrs.onRowSelectListener}"
+                        onstart="#{cc.attrs.dynamicSearch ? 'return true;' : ''} return onDataTableAction(#{cc.attrs.manager.saveImmediately},'ROWSELECT','#{cc.attrs.editFormClientId}',#{cc.attrs.manager.name}ApplyChanges);" 
+                        oncomplete="#{not cc.attrs.dynamicSearch ? cc.attrs.onRowSelectComplete : ''};" >
+                </p:ajax>
+                
+                <f:facet name="{Export}">
+                    <h:commandLink style="float:left; margin-top:2px">
+                        <p:graphicImage value="/images/xls.png" width="22" height="22"/>
+                        <p:dataExporter type="xls" 
+                                        target="#{cc.attrs.manager.dataTable.clientId}" 
+                                        fileName="#{cc.attrs.manager.name}" />
+                    </h:commandLink>                                
+                    <h:commandLink style="float:left; margin-top:2px">
+                        <p:graphicImage value="/images/csv.png" width="22" height="22"/>
+                        <p:dataExporter type="csv" 
+                                        target="#{cc.attrs.manager.dataTable.clientId}" 
+                                        fileName="#{cc.attrs.manager.name}" />
+                    </h:commandLink>    
+                    <h:commandLink style="float:left; margin-top:2px">
+                        <p:graphicImage value="/images/xml.png" width="22" height="22"/>
+                        <p:dataExporter type="xml" 
+                                        target="#{cc.attrs.manager.dataTable.clientId}" 
+                                        fileName="#{cc.attrs.manager.name}" />
+                    </h:commandLink>
+                    <!-- PDF doesnt work real well for grids with many columns
+                    <h:commandLink style="float:left; margin-top:2px">
+                        <p:graphicImage value="/images/pdf.png" width="22" height="22"/>
+                        <p:dataExporter type="pdf" 
+                                        target="#{cc.attrs.manager.dataTable.clientId}" 
+                                        fileName="#{cc.attrs.manager.name}" />
+                    </h:commandLink>
+                    -->
+                </f:facet>
+
+                <f:facet name="header">
+                    <h:panelGroup layout="block"
+                                  style="min-height:23px;">
+                        <h:panelGroup style="line-height:23px;float:left;margin-right: 5px;">
+                            <h:outputText value="#{cc.attrs.header}" />
+                        </h:panelGroup>
+                        <h:panelGroup style="font-weight:normal;line-height:23px;float:left;">
+                            <h:outputText rendered="#{cc.attrs.showResultCount}"
+                                          value=" (#&nbsp;of&nbsp;Results:&nbsp;#{cc.attrs.manager.dataTableMGR.rowCount}) #{devInfo}" />
+                        </h:panelGroup>
+                        <p:commandButton value="Show All"
+                                         tabindex="80"
+                                         rendered="#{cc.attrs.showFindAll}"
+                                         actionListener="#{cc.attrs.manager.searchByClassName(cc.attrs.findAllQueryClass)}"
+                                         style="float:right;height:23px;padding:0;margin:0px -6px 0px 5px;"
+                                         id="#{cc.attrs.findAllQueryClass}"
+                                         oncomplete="findFocus();"
+                                         icon="ui-icon-search" />
+
+                        <p:commandButton id="new"
+                                         value="New"
+                                         tabindex="70"
+                                         rendered="#{cc.attrs.showAdd}"
+                                         process="@this"
+                                         actionListener="#{cc.attrs.manager.addMain}"
+                                         style="float:right;height:23px;padding:0;margin:0px 0px 0px 5px;"
+                                         onstart="#{not cc.attrs.formChangedOnNew ? 'return true;' : ''} return onDataTableAction(#{cc.attrs.manager.saveImmediately},'NEW','#{cc.attrs.editFormClientId}',#{cc.attrs.manager.name}ApplyChanges);"
+                                         oncomplete="PF('#{cc.attrs.manager.getEditDialogWidgetVar('new')}').show();"
+                                         immediate="true"
+                                         icon="ui-icon-document" />
+                    </h:panelGroup>
+                </f:facet>
+                <f:facet name="footer" >
+                    <h:panelGroup layout="block"
+                                  style="#{cc.attrs.footerStyle}" />
+                </f:facet>
+                <cc:insertChildren />
+                <p:column headerText="Delete"
+                          styleClass="datatable-options-col"
+                          rendered="#{cc.attrs.showDelete}">
+                    <p:commandLink type="button"
+                                   title="Delete"
+                                   process="@this"
+                                   actionListener="#{dialogService.showDeleteDialog(dto, cc.attrs.manager)}"
+                                   onstart="return onDataTableAction(#{cc.attrs.manager.saveImmediately},'DELETE','#{cc.attrs.editFormClientId}',#{cc.attrs.manager.name}ApplyChanges);"
+                                   style="float:left;margin-left:40%;"
+                                   styleClass="ui-icon ui-icon-trash" >
+                        <p:ajax event="dialogReturn" listener="#{dialogService.onDeleteDialogReturn}"/>                                   
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+
+            <p:remoteCommand name="#{cc.attrs.manager.name}ApplyChanges"
+                             actionListener="#{dialogService.showApplyDialog(cc.attrs.manager)}" 
+                             process="@this" />
+        </h:panelGroup>
+    </cc:implementation>
+</ui:component>

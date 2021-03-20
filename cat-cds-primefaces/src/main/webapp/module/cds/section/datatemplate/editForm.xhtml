@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <b:editForm id="#{dataTemplateMGR.editFormId}"
+                width="1100"
+                height="650"
+                showTabViewNavigator="false"
+                manager="#{dataTemplateMGR}">
+
+        <p:remoteCommand name="updateChildNodes"
+                         process="@this #{p:component('rootClassContainer')}"
+                         update="#{p:component('dataContainer')}"
+                         actionListener="#{dataTemplateMGR.updateChildNodes()}"/>
+
+        <p:tab title=" "
+               id="#{dataTemplateMGR.getTabIdByIndex(0)}">
+
+            <h:panelGroup id="dataTemplateDetails" styleClass="tab-content">
+
+                <fs:inputText id="oid"
+                              value="#{dataTemplateMGR.parentDTO.oid}"
+                              size="110" />
+
+                <fs:inputText id="code"
+                              value="#{dataTemplateMGR.parentDTO.code}"
+                              size="110" />
+
+                <fs:inputText id="name"
+                              value="#{dataTemplateMGR.parentDTO.name}"
+                              size="110" />
+
+                <fs:inputTextarea id="description"
+                                  verticalAlignLabelTop="true"
+                                  value="#{dataTemplateMGR.parentDTO.description}"
+                                  rows="3"
+                                  cols="80" />
+
+                <h:panelGrid columns="2"
+                             cellpadding="0"
+                             cellspacing="0">
+
+                    <w:selectOneMenu id="dataModel"
+                                     value="#{dataTemplateMGR.parentDTO.dataModelDTO}"
+                                     converter="#{dataModelConverter}"
+                                     processOnChange="true"
+                                     onChangeUpdate="#{p:component('rootClassContainer')}"
+                                     selectItemsValue="#{dataModelDTOList.selectItems}"
+                                     selectItemLabel="#{item.name} - #{item.version}"
+                                     selectItemValue="#{item}" />
+
+                    <fs:selectBooleanCheckbox id="searchBackPeriodRestriction"
+                                              labelWidth="200"
+                                              value="#{dataTemplateMGR.parentDTO.searchBackPeriodRestriction}" />
+
+                    <h:panelGroup layout="block" id="rootClassContainer">
+                        <w:selectOneMenu id="rootClass"
+                                         rendered="#{not empty dataTemplateMGR.parentDTO.dataModelDTO}"
+                                         value="#{dataTemplateMGR.parentDTO.rootClass}"
+                                         converter="#{dataModelClassConverter}"
+                                         onchange="updateChildNodes();"
+                                         selectItemsValue="#{dataModelClassDTOList.selectItems}"
+                                         selectItemLabel="#{item.name}"
+                                         selectItemValue="#{item}" />
+                    </h:panelGroup>
+
+                    <fs:selectBooleanCheckbox id="searchForwardPeriodRestriction"
+                                              labelWidth="200"
+                                              value="#{dataTemplateMGR.parentDTO.searchForwardPeriodRestriction}" />
+
+                    <fs:selectOneMenu id="status"
+                                      value="#{dataTemplateMGR.parentDTO.status}"
+                                      converter="#{cdsCodeConverter}"
+                                      selectItemsValue="#{cdsListDTOList.getListItemsByCode('TemplateStatusCodeLifeCycle', null)}"
+                                      selectItemLabel="#{item.refObject.displayName}"
+                                      selectItemValue="#{item.refObject}" />
+
+                    <fs:selectBooleanCheckbox id="numberLookBackRestriction"
+                                              labelWidth="200"
+                                              value="#{dataTemplateMGR.parentDTO.numberLookBackRestriction}" />
+
+                    <fs:calendar id="effectiveDate"
+                                 value="#{dataTemplateMGR.parentDTO.effectiveDate}" />
+
+                    <fs:selectBooleanCheckbox id="maxSamplingRateRestriction"
+                                              labelWidth="200"
+                                              value="#{dataTemplateMGR.parentDTO.maxSamplingRateRestriction}" />
+
+                    <fs:calendar id="expirationDate"
+                                 value="#{dataTemplateMGR.parentDTO.expirationDate}" />
+
+                    <fs:selectBooleanCheckbox id="dataRestrictionAllowed"
+                                              labelWidth="200"
+                                              value="#{dataTemplateMGR.parentDTO.restrictionAllowed}" />
+
+                    <h:panelGroup />
+
+                    <fs:inputTextarea id="dataExpectedNoRestriction"
+                                      labelWidth="200"
+                                      verticalAlignLabelTop="true"
+                                      label="Data Expected if No Restriction"
+                                      value="#{dataTemplateMGR.parentDTO.dataExpectedNoRestriction}"
+                                      rows="3"
+                                      cols="20" />
+
+                </h:panelGrid>
+            </h:panelGroup>
+            <h:panelGroup id="dataTemplate" styleClass="tab-content">
+                <b:dtoDataTable manager="#{dataTemplateNodeRelMGR}"
+                                showAdd="#{not dataTemplateMGR.parentDTO.new}"
+                                header="Element Nodes/Attributes"
+                                paginator="false">
+
+                    <p:column headerText="Name" sortBy="#{dto.dataModelClassNodeDTO != null ? dto.dataModelClassNodeDTO.name : null}">
+                        <h:outputText value="#{dto.dataModelClassNodeDTO != null ? utilityMGR.getLabelFromId(dto.dataModelClassNodeDTO.name) : null}" />
+                    </p:column>
+                    <p:column headerText="Node Path" sortBy="#{dto.nodePath}">
+                        <h:outputText value="#{dto.nodePath}" />
+                    </p:column>
+                    <p:column headerText="Data Class" sortBy="#{dto.dataModelClassNodeDTO != null ? dto.dataModelClassNodeDTO.dataModelClassDTO.name :  null}">
+                        <h:outputText value="#{dto.dataModelClassNodeDTO != null ? dto.dataModelClassNodeDTO.dataModelClassDTO.name : null}" />
+                    </p:column>
+                    <p:column headerText="Mandatory?" sortBy="#{dto.mandatory}">
+                        <h:outputText value="#{dto.mandatory}" />
+                    </p:column>
+                    <p:column headerText="Constraints" sortBy="#{dto.constraints}">
+                        <h:outputText value="#{dto.constraints}"/>
+                    </p:column>
+                    <p:column headerText="Comments" sortBy="#{dto.comments}">
+                        <h:outputText value="#{dto.comments}"/>
+                    </p:column>
+                </b:dtoDataTable>
+            </h:panelGroup>
+          <!--  <h:panelGroup id="dataTemplateReference" styleClass="tab-content">
+                <b:dtoInlineDataTable childClass="org.cdsframework.dto.DataTemplateLinkRelDTO$ByTemplateId"
+                                      lazy="true"
+                                      manager="#{dataTemplateMGR}"
+                                      showAdd="#{not dataTemplateMGR.parentDTO.new}"
+                                      header="Data Template Reference">
+
+                    <p:column headerText="Name" width="200">
+                        <fs:inputText id="name"
+                                      showLabel="false"
+                                      value="${child.name}" />
+                    </p:column>
+                    <p:column headerText="Template">
+                        <w:selectOneMenu id="childDataTemplateDTO"
+                                         showLabel="false"
+                                         value="#{child.childDataTemplateDTO}"
+                                         converter="#{dataTemplateConverter}"
+                                         processOnChange="true"
+                                         selectItemsValue="#{dataTemplateDTOList.selectItems}"
+                                         selectItemLabel="#{item.name} (#{item.oid})"
+                                         selectItemValue="#{item}" />
+                    </p:column>                
+
+                </b:dtoInlineDataTable>
+            </h:panelGroup>       -->     
+
+            <!--            <b:inlineChildDtoDataTable childQueryClass="org.cdsframework.dto.DataTemplateLinkRelDTO$ByTemplateId"
+                                                   parentDTO="#{dataTemplateMGR.parentDTO}"
+                                                   showAdd="#{not dataTemplateMGR.parentDTO.new}"
+                                                   paginator="false"
+                                                   header="Data Template Reference">
+                            <p:column headerText="Name" width="200">
+                                <fs:inputText id="name"
+                                              showLabel="false"
+                                              value="${child.name}" />
+                            </p:column>
+                            <p:column headerText="Template">
+                                <fs:selectOneMenu id="childDataTemplateDTO"
+                                                  showLabel="false"
+                                                  value="#{child.childDataTemplateDTO}"
+                                                  converter="#{dataTemplateConverter}"
+                                                  processOnChange="true"
+                                                  onChangeUpdate=":#{p:component('org_cdsframework_dto_DataTemplateLinkRelDTO_ByTemplateId')}"
+                                                  selectItemsValue="#{dataTemplateDTOList.selectItems}"
+                                                  selectItemLabel="#{item.name} (#{item.oid})"
+                                                  selectItemValue="#{item}" />
+                            </p:column>
+                        </b:inlineChildDtoDataTable>-->
+        </p:tab>
+    </b:editForm>
+</ui:composition>

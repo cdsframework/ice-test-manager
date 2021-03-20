@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    CAT CDS support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<ns1:catMenus
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns:ns1='http://menu.cdsframework.org'
+    xsi:schemaLocation='http://menu.cdsframework.org ../../../../../cdsframework-core-service/cat-support-xml/src/main/resources/catMenu.xsd'>
+    <ns1:pluginName>cds</ns1:pluginName>
+    <menu>
+        <ns1:menuName>CDS Data Manager</ns1:menuName>
+        <menuItem>
+            <ns1:menuItemName>Code System Editor</ns1:menuItemName>
+            <ns1:viewName>cdsCodeSystemMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.CdsCodeSystemDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Value Set Editor</ns1:menuItemName>
+            <ns1:viewName>valueSetMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.ValueSetDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Concept Manager</ns1:menuItemName>
+            <ns1:menuItemType>SUBMENU</ns1:menuItemType>
+            <menuItem>
+                <ns1:menuItemName>Concept Editor</ns1:menuItemName>
+                <ns1:viewName>conceptMGR.jsf</ns1:viewName>
+                <ns1:menuItemType>LINK</ns1:menuItemType>
+                <ns1:permissionType>FULL</ns1:permissionType>
+                <ns1:permissionClass>org.cdsframework.dto.OpenCdsConceptDTO</ns1:permissionClass>
+            </menuItem>
+            <menuItem>
+                <ns1:menuItemName>Concept Determination Method Editor</ns1:menuItemName>
+                <ns1:viewName>conceptDeterminationMethodMGR.jsf</ns1:viewName>
+                <ns1:menuItemType>LINK</ns1:menuItemType>
+                <ns1:permissionType>FULL</ns1:permissionType>
+                <ns1:permissionClass>org.cdsframework.dto.ConceptDeterminationMethodDTO</ns1:permissionClass>
+            </menuItem>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Misc</ns1:menuItemName>
+            <ns1:menuItemType>SEPARATOR</ns1:menuItemType>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>List Editor</ns1:menuItemName>
+            <ns1:viewName>listMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.CdsListDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Misc</ns1:menuItemName>
+            <ns1:menuItemType>SEPARATOR</ns1:menuItemType>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Data Model Editor</ns1:menuItemName>
+            <ns1:viewName>dataModelMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.DataModelDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Misc</ns1:menuItemName>
+            <ns1:menuItemType>SEPARATOR</ns1:menuItemType>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Data Template Editor</ns1:menuItemName>
+            <ns1:viewName>dataTemplateMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.DataTemplateDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Misc</ns1:menuItemName>
+            <ns1:menuItemType>SEPARATOR</ns1:menuItemType>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Criteria Resource Editor</ns1:menuItemName>
+            <ns1:viewName>criteriaResourceMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.CriteriaResourceDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Misc</ns1:menuItemName>
+            <ns1:menuItemType>SEPARATOR</ns1:menuItemType>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Criteria Editor</ns1:menuItemName>
+            <ns1:viewName>criteriaMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.CriteriaDTO</ns1:permissionClass>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Misc</ns1:menuItemName>
+            <ns1:menuItemType>SEPARATOR</ns1:menuItemType>
+        </menuItem>
+        <menuItem>
+            <ns1:menuItemName>Knowledge Module Editor</ns1:menuItemName>
+            <ns1:viewName>cdsBusinessScopeMGR.jsf</ns1:viewName>
+            <ns1:menuItemType>LINK</ns1:menuItemType>
+            <ns1:permissionType>FULL</ns1:permissionType>
+            <ns1:permissionClass>org.cdsframework.dto.CdsBusinessScopeDTO</ns1:permissionClass>
+        </menuItem>
+    </menu>
+  </ns1:catMenus>

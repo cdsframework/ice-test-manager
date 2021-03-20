@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget"                
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <style type="text/css">
+        .search-col {
+            width:10px;
+        }
+        .value-col {
+            width:500px;
+        }    
+    </style>
+    <b:editForm id="#{criteriaPredicatePartMGR.editFormId}"
+                width="1050"
+                height="600"
+                showTabViewNavigator="false"
+                manager="#{criteriaPredicatePartMGR}">
+
+        <p:tab title=" "
+               id="#{criteriaPredicatePartMGR.getTabIdByIndex(0)}"> 
+
+            <h:panelGroup layout="block"
+                          id="partSelector"
+                          styleClass="tab-content">
+
+                <h:panelGroup rendered="#{not criteriaPredicatePartMGR.showConceptCodeEditor}">
+
+                    <fs:outputText id="partId"
+                                   label="ID"
+                                   rendered="#{not criteriaPredicatePartMGR.parentDTO.new}"
+                                   value="#{criteriaPredicatePartMGR.parentDTO.partId}" />
+
+                    <fs:inputText id="alias"
+                                  label="Alias (optional)"
+                                  value="#{criteriaPredicatePartMGR.parentDTO.partAlias}"
+                                  size="80" />
+
+                    <fs:selectBooleanCheckbox id="overridable"
+                                              value="#{criteriaPredicatePartMGR.parentDTO.overridable}" />
+
+                    <fs:selectBooleanCheckbox id="parameterEnd"
+                                              value="#{criteriaPredicatePartMGR.parentDTO.parameterEnd}" />
+
+                    <fs:selectBooleanCheckbox id="functionEnd"
+                                              value="#{criteriaPredicatePartMGR.parentDTO.functionEnd}" />
+
+                    <fs:selectOneMenu id="partType"
+                                      value="#{criteriaPredicatePartMGR.parentDTO.partType}"
+                                      processOnChange="true"
+                                      onChangeProcess="#{p:component('partSelector')}"
+                                      onChangeUpdate="#{p:component('partSelector')}"
+                                      selectItemsValue="#{predicatePartTypeList.selectItems}"
+                                      selectItemLabel="#{item.name()}"
+                                      selectItemValue="#{item}" />
+
+                    <p:separator />
+
+                    <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.partType == 'Text'}">
+
+                        <fs:inputText id="text"
+                                      value="#{criteriaPredicatePartMGR.parentDTO.text}"
+                                      size="80" />
+
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.partType == 'Resource'}">
+
+                        <fs:selectOneMenu id="resourceType"
+                                          value="#{criteriaPredicatePartMGR.parentDTO.resourceType}"
+                                          processOnChange="true"
+                                          onChangeProcess="#{p:component('partSelector')}"
+                                          onChangeUpdate="#{p:component('partSelector')}"
+                                          selectItemsValue="#{criteriaResourceTypeList.selectItems}"
+                                          selectItemLabel="#{item.name()}"
+                                          selectItemValue="#{item}" />
+
+                        <fs:selectOneMenu id="resource"
+                                          rendered="#{not empty criteriaPredicatePartMGR.parentDTO.resourceType}"
+                                          processOnChange="true"
+                                          onChangeProcess="#{p:component('partSelector')}"
+                                          onChangeUpdate="#{p:component('partSelector')}"
+                                          converter="#{criteriaResourceConverter}"
+                                          value="#{criteriaPredicatePartMGR.parentDTO.criteriaResourceDTO}"
+                                          selectItemsValue="#{criteriaResourceDTOList.getCriteriaResourceDTOs(criteriaPredicatePartMGR.parentDTO.resourceType)}"
+                                          selectItemLabel="#{item.name}"
+                                          selectItemValue="#{item}" />
+
+                        <fs:selectOneMenu id="resourceSelection"
+                                          rendered="#{not empty criteriaPredicatePartMGR.parentDTO.criteriaResourceDTO and
+                                                      criteriaPredicatePartMGR.parentDTO.resourceType == 'Operator'}"
+                                          value="#{criteriaPredicatePartMGR.parentDTO.criteriaResourceParamDTO}"
+                                          converter="#{criteriaResourceParamConverter}"
+                                          selectItemsValue="#{criteriaPredicatePartMGR.parentDTO.criteriaResourceDTO.criteriaResourceParamDTOs}"
+                                          selectItemLabel="#{item.name}"
+                                          selectItemValue="#{item}" />
+
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.partType == 'ModelElement'}">
+
+                        <fs:selectOneMenu id="modelElement"
+                                          processOnChange="true"
+                                          onChangeProcess="#{p:component('partSelector')}"
+                                          onChangeUpdate="#{p:component('partSelector')}"
+                                          converter="#{criteriaDataTemplateRelNodeConverter}"
+                                          value="#{criteriaPredicatePartMGR.parentDTO.criteriaDataTemplateRelNodeDTO}"
+                                          selectItemsValue="#{criteriaPredicatePartMGR.criteriaDataTemplateRelNodeDTOs}"
+                                          selectItemLabel="#{item.nodePath}"
+                                          selectItemValue="#{item}" />
+
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.partType == 'DataInput'}">
+
+                        <fs:selectOneMenu id="classType"
+                                          processOnChange="true"
+                                          required="true"
+                                          requiredMessage="Class type is required."
+                                          onChangeProcess="#{p:component('partSelector')}"
+                                          onChangeUpdate="#{p:component('partSelector')}"
+                                          value="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType}"
+                                          selectItemsValue="#{dataModelClassTypeList.selectItems}"
+                                          selectItemLabel="#{item.name()}"
+                                          selectItemValue="#{item}" />
+
+                        <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'Boolean'}">
+                            <fs:selectBooleanCheckbox label="True or False"
+                                                      value="#{criteriaPredicatePartMGR.parentDTO.dataInputBoolean}" />
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'Complex'}">
+                            <h:outputText value="Unsupported" />
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'Date'}">
+                            <fs:calendar label="Value"
+                                         value="#{criteriaPredicatePartMGR.parentDTO.dataInputDate1}" />
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'Enumeration'}">
+                            <h:outputText value="Unsupported" />
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'Identifier'}">
+
+                            <h:panelGrid columns="2"
+                                         cellpadding="0"
+                                         cellspacing="0">
+
+                                <fs:inputText label="Root"
+                                              panelGridStyleClass=""
+                                              panelColumnClasses="default-cat-grid-col1,blahblah"
+                                              value="#{criteriaPredicatePartMGR.parentDTO.defaultIdentifierRoot}"
+                                              size="20" />
+                                <fs:inputText label="Extension"
+                                              panelColumnClasses=""
+                                              panelGridStyleClass=""
+                                              value="#{criteriaPredicatePartMGR.parentDTO.defaultIdentifierExtension}"
+                                              size="20" />
+
+                            </h:panelGrid>
+
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'Numeric'}">
+                            <fs:inputText label="Value"
+                                          value="#{criteriaPredicatePartMGR.parentDTO.dataInputNumeric}"
+                                          size="20" />
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'Quantity'}">
+                            <h:panelGrid columns="2"
+                                         cellpadding="0"
+                                         cellspacing="0">
+                                <fs:inputText label="Qty"
+                                              panelGridStyleClass=""
+                                              panelColumnClasses="default-cat-grid-col1,blahblah"
+                                              value="#{criteriaPredicatePartMGR.parentDTO.dataInputNumeric}"
+                                              size="10" />
+                                <fs:inputText label="Unit"
+                                              panelColumnClasses=""
+                                              panelGridStyleClass=""
+                                              value="#{criteriaPredicatePartMGR.parentDTO.text}"
+                                              size="20" />
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'DateRange'}">
+                            <h:panelGrid columns="2"
+                                         cellpadding="0"
+                                         cellspacing="0">
+                                <fs:calendar label="Low"
+                                             panelGridStyleClass=""
+                                             panelColumnClasses="default-cat-grid-col1,blahblah"
+                                             value="#{criteriaPredicatePartMGR.parentDTO.dataInputDate1}" />
+                                <fs:calendar label="High"
+                                             panelColumnClasses=""
+                                             panelGridStyleClass=""
+                                             value="#{criteriaPredicatePartMGR.parentDTO.dataInputDate2}" />
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'String'}">
+                            <fs:inputText label="Value"
+                                          value="#{criteriaPredicatePartMGR.parentDTO.text}"
+                                          size="60" />
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'Concept'}">
+                            <fs:selectOneMenu id="conceptSelectionType"
+                                              processOnChange="true"
+                                              onChangeProcess="#{p:component('partSelector')}"
+                                              onChangeUpdate="#{p:component('partSelector')}"
+                                              value="#{criteriaPredicatePartMGR.parentDTO.conceptSelectionType}"
+                                              selectItemsValue="#{conceptSelectionTypeList.selectItems}"
+                                              selectItemLabel="#{item.name()}"
+                                              selectItemValue="#{item}" />
+
+                        </h:panelGroup>
+                    </h:panelGroup>
+                    <p:separator />
+
+                    <br />
+
+                    <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'Concept'}"
+                                  styleClass="tab-content">
+
+                        <b:dtoInlineDataTable  manager="#{criteriaPredicatePartMGR}"
+                                               header="Concept Constraints"
+                                               showAdd="#{not criteriaPredicatePartMGR.parentDTO.new}"
+                                               childClass="org.cdsframework.dto.CriteriaPredicatePartRelDTO">
+
+                            <p:column headerText="Constraint Type" width="130">
+
+                                <fs:selectOneMenu id="constraintType"
+                                                  showLabel="false"
+                                                  processOnChange="true"
+                                                  onChangeProcess=":#{p:component('partSelector')}"
+                                                  onChangeUpdate=":#{p:component('partSelector')}"
+                                                  value="#{child.constraintType}"
+                                                  selectItemsValue="#{conceptConstraintTypeList.selectItems}"
+                                                  selectItemLabel="#{item.name()}"
+                                                  selectItemValue="#{item}" />
+
+                            </p:column>
+
+                            <p:column headerText="Constraint Source">
+                                <h:panelGroup id="cdsCodeSystemPart"
+                                              rendered="#{child.constraintType == 'CodeSystem'}"
+                                              layout="block">         
+
+                                    <w:popupSearchLink showLabel="false"
+                                                       value="#{child.cdsCodeSystemDTO.label}"
+                                                       manager="#{criteriaPredicatePartMGR}"
+                                                       dto="#{child}"
+                                                       htmlPath="/module/cds/section/codesystem/popup/codeSystemSearch"
+                                                       searchTitle="Code System Search" 
+                                                       fieldName="cdsCodeSystemDTO"
+                                                       popupSearchUpdate=":#{p:component('cdsCodeSystemPart')}"> 
+                                    </w:popupSearchLink>                                
+                                </h:panelGroup>
+                                <h:panelGroup id="cdsListPart"
+                                              layout="block"
+                                              rendered="#{child.constraintType == 'List'}">
+
+                                    <w:popupSearchLink showLabel="false"
+                                                       dto="#{child}"
+                                                       value="#{child.cdsListDTO.name}"
+                                                       manager="#{criteriaPredicatePartMGR}"
+                                                       htmlPath="/module/cds/section/list/popup/listSearch"
+                                                       searchTitle="List Search" 
+                                                       fieldName="cdsListDTO"
+                                                       popupSearchUpdate=":#{p:component('cdsListPart')}"> 
+                                    </w:popupSearchLink>
+                                </h:panelGroup>
+                                <h:panelGroup id="cdsCodePart"
+                                              rendered="#{child.constraintType == 'Code'}" 
+                                              layout="block">
+                                    <w:popupSearchLink showLabel="false"
+                                                       dto="#{child}"
+                                                       value="#{child.cdsCodeDTO.label}"
+                                                       manager="#{criteriaPredicatePartMGR}"
+                                                       htmlPath="/module/cds/section/code/popup/codeSearch"
+                                                       searchTitle="Code Search" 
+                                                       fieldName="cdsCodeDTO"
+                                                       popupSearchUpdate=":#{p:component('cdsCodePart')}"> 
+                                    </w:popupSearchLink>                                
+                                </h:panelGroup>
+                                <h:panelGroup id="openCdsConceptPart"
+                                              rendered="#{child.constraintType == 'Concept'}"
+                                              layout="block">
+
+                                    <w:popupSearchLink showLabel="false"
+                                                       dto="#{child}"
+                                                       value="#{child.openCdsConceptDTO.label}"
+                                                       manager="#{criteriaPredicatePartMGR}"
+                                                       htmlPath="/module/cds/section/concept/popup/conceptSearch"
+                                                       searchTitle="Concept Search" 
+                                                       fieldName="openCdsConceptDTO"
+                                                       popupSearchUpdate=":#{p:component('openCdsConceptPart')}"> 
+                                    </w:popupSearchLink>                                         
+                                </h:panelGroup>
+
+                                <h:panelGroup id="valueSetPart"
+                                              rendered="#{child.constraintType == 'ValueSet'}"
+                                              layout="block">
+                                    <w:popupSearchLink showLabel="false"
+                                                       dto="#{child}"
+                                                       value="#{child.valueSetDTO.label}"
+                                                       manager="#{criteriaPredicatePartMGR}"
+                                                       htmlPath="/module/cds/section/valueset/popup/valueSetSearch"
+                                                       searchTitle="ValueSet Search" 
+                                                       fieldName="valueSetDTO"
+                                                       popupSearchUpdate=":#{p:component('valueSetPart')}"> 
+                                    </w:popupSearchLink>                                       
+                                </h:panelGroup>                                
+                            </p:column>
+                        </b:dtoInlineDataTable>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{criteriaPredicatePartMGR.parentDTO.dataInputClassType == 'Concept'}">
+
+                    <b:dtoInlineDataTable  manager="#{criteriaPredicatePartMGR}"
+                                           header="Code/Concept Selection"
+                                           showAdd="#{not criteriaPredicatePartMGR.parentDTO.new}"
+                                           childClass="org.cdsframework.dto.CriteriaPredicatePartConceptDTO">
+
+                        <p:column headerText="Cds Code"
+                                  rendered="#{criteriaPredicatePartMGR.parentDTO.conceptSelectionType == 'Code'}">
+                            <h:panelGroup id="cdsCodePartConcept"
+                                          layout="block">
+                                <w:popupSearchLink showLabel="false"
+                                                   showReset="false"
+                                                   value="#{child.cdsCodeDTO.label}"
+                                                   manager="#{criteriaPredicatePartMGR}"
+                                                   queryParms="#{[criteriaPredicatePartMGR.parentDTO.partId]}"                                                   
+                                                   dto="#{child}"
+                                                   htmlPath="/module/cds/section/code/popup/codeCollectionSearch"
+                                                   searchTitle="Code Search" 
+                                                   fieldName="cdsCode"
+                                                   popupSearchUpdate=":#{p:component('org_cdsframework_dto_CriteriaPredicatePartConceptDTO')}">
+                                </w:popupSearchLink>
+                            </h:panelGroup>
+
+                        </p:column>
+
+                        <p:column headerText="OpenCds Concept"
+                                  rendered="#{criteriaPredicatePartMGR.parentDTO.conceptSelectionType == 'Concept'}">
+                            <h:panelGroup id="openCdsConceptPartConcept"
+                                          layout="block">
+                                <w:popupSearchLink showLabel="false"
+                                                   showReset="false"
+                                                   value="#{child.openCdsConceptDTO.label}"
+                                                   manager="#{criteriaPredicatePartMGR}"
+                                                   queryParms="#{[criteriaPredicatePartMGR.parentDTO.partId]}"                                                   
+                                                   dto="#{child}"
+                                                   htmlPath="/module/cds/section/concept/popup/conceptCollectionSearch"
+                                                   searchTitle="Concept Search" 
+                                                   fieldName="openCDSConcept"
+                                                   popupSearchUpdate=":#{p:component('org_cdsframework_dto_CriteriaPredicatePartConceptDTO')}">
+                                </w:popupSearchLink>
+                            </h:panelGroup>
+                        </p:column>                            
+                    </b:dtoInlineDataTable>
+                </h:panelGroup>   
+
+            </h:panelGroup>
+
+        </p:tab>
+    </b:editForm>
+</ui:composition>

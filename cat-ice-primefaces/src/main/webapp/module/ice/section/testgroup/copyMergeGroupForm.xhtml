@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT ICE plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+    <h:form id="cdGroupFormId">
+        <p:confirmDialog message="Enter a new group name: "
+                         header="Copy Group"
+                         id="copyGroupCd"
+                         width="575"
+                         widgetVar="copyCdGroupVar">
+            <h:panelGroup layout="block">
+                <fs:inputText id="newGroupName"
+                              value="#{iceTestGroupMGR.newGroupName}"
+                              size="50"
+                              maxlength="1024" />
+            </h:panelGroup>
+            <h:panelGroup layout="block"
+                          style="float:right;margin-top:10px;">
+                <w:dialogButton icon="ui-icon ui-icon-shuffle"
+                                actionListener="#{iceTestGroupMGR.copyGroup()}"
+                                oncomplete="PF('copyCdGroupVar').hide();PF('#{iceTestGroupMGR.editDialogWidgetVar}').hide();"
+                                value="Copy Group" />
+                <w:dialogButton icon="ui-icon ui-icon-close"
+                                oncomplete="PF('copyCdGroupVar').hide()"
+                                value="Cancel" />
+            </h:panelGroup>
+        </p:confirmDialog>
+        <p:confirmDialog message="Select a test group to merge &quot;#{iceTestGroupMGR.parentDTO.name}&quot; into."
+                         header="Merge Group"
+                         id="mergeGroupCd"
+                         width="575"
+                         widgetVar="mergeCdGroupVar">
+            <h:panelGroup id="testGroupPG"
+                          layout="block">
+                <h:outputText value="Note: this group will be merged into the selected group and will then be deleted."
+                              style="margin-left:10px;" />
+                <br />
+                <br />
+                <!--
+                <fs:selectOneMenu id="testGroups"
+                                  value="#{iceTestGroupMGR.mergeId}"
+                                  selectItemsValue="#{iceTestGroupMGR.mergableDTOs}"
+                                  selectItemLabel="#{item.name}"
+                                  selectItemValue="#{item.groupId}" />
+                -->
+
+                <w:popupSearchLink id="testGroup"
+                                   showReset="false"
+                                   dto="#{iceTestGroupMGR.parentDTO}"
+                                   value="#{iceTestGroupMGR.mergeIceTestGroupDTO.name}"
+                                   manager="#{iceTestGroupMGR}"
+                                   queryParms="#{[iceTestSuiteMGR.parentDTO.suiteId]}"
+                                   htmlPath="/module/ice/section/testgroup/popup/testGroupSearch"
+                                   searchTitle="Test Group Search" 
+                                   fieldName="mergeIceTestGroupDTO"
+                                   popupSearchUpdate="#{p:component('testGroupPG')}" />
+
+            </h:panelGroup>
+            <h:panelGroup layout="block"
+                          style="float:right;margin-top:10px;">
+                <w:dialogButton icon="ui-icon ui-icon-transfer-e-w"
+                                actionListener="#{iceTestGroupMGR.mergeGroups()}"
+                                oncomplete="PF('mergeCdGroupVar').hide();PF('#{iceTestGroupMGR.editDialogWidgetVar}').hide();"
+                                value="Merge Group" />
+                <w:dialogButton icon="ui-icon ui-icon-close"
+                                oncomplete="PF('mergeCdGroupVar').hide()"
+                                value="Cancel" />
+            </h:panelGroup>
+        </p:confirmDialog>
+    </h:form>
+</ui:composition>

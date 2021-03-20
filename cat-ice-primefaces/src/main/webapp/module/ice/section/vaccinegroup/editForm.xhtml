@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT ICE plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <b:editForm id="#{iceVaccineGroupMGR.editFormId}"
+                width="950"
+                height="620"
+                manager="#{iceVaccineGroupMGR}"
+                showNavigation="true">
+        <p:tab title="#{iceVaccineGroupMGR.baseHeader} Details"
+               id="#{iceVaccineGroupMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="mainContent"
+                          styleClass="tab-content">
+
+                <fs:outputText id="groupId"
+                               rendered="#{not iceVaccineGroupMGR.parentDTO.new}"
+                               label="ID"
+                               labelWidth="175px"
+                               value="#{iceVaccineGroupMGR.parentDTO.groupId}" />
+
+                <w:popupSearchLink id="vaccineGroup"
+                                   showReset="false"
+                                   labelWidth="175px"
+                                   dto="#{iceVaccineGroupMGR.parentDTO}"
+                                   value="#{iceVaccineGroupMGR.parentDTO.vaccineGroup.displayName} (#{iceVaccineGroupMGR.parentDTO.vaccineGroup.code})"
+                                   manager="#{iceVaccineGroupMGR}"
+                                   htmlPath="/module/cds/section/listitem/popup/listItemSearch"
+                                   queryParms="#{['ICE_IMM_VACCINE_GROUP', null]}"
+                                   searchTitle="Vaccine Group Search" 
+                                   fieldName="vaccineGroup"
+                                   popupSearchUpdate="#{p:component('mainContent')}" /> 
+
+                <fs:inputText id="processOrder"
+                              labelWidth="175px"
+                              value="#{iceVaccineGroupMGR.parentDTO.priority}" />
+
+                <h:panelGroup layout="block"
+                              style="color:#666;padding:10px;">
+                    <h:outputText value="Note: process order determines the order ICE processes each vaccine
+                                  group when performing series selection.
+                                  Higher numbers are processed before lower numbers (defaults to 0).
+                                  Example: to have HepB series selection occur before HepA series selection,
+                                  HepB would have a higher Process Order value than HepA." />
+                </h:panelGroup>
+
+                <w:popupSearchLink id="primaryOpenCdsConcept"
+                                   label="Primary OpenCDS Concept"
+                                   labelWidth="200px"
+                                   dto="#{iceVaccineGroupMGR.parentDTO}"
+                                   value="#{iceVaccineGroupMGR.parentDTO.primaryOpenCdsConceptDTO.displayName} (#{iceVaccineGroupMGR.parentDTO.primaryOpenCdsConceptDTO.code})"
+                                   manager="#{iceVaccineGroupMGR}"
+                                   htmlPath="/module/ice/section/vaccinegroup/popup/conceptByVaccineGroupSearch"
+                                   queryParms="#{[iceVaccineGroupMGR.parentDTO.groupId]}"
+                                   searchTitle="Concept Search" 
+                                   fieldName="primaryOpenCdsConceptDTO"
+                                   popupSearchUpdate="#{p:component('mainContent')}" /> 
+
+                <b:dtoInlineDataTable manager="#{iceVaccineGroupMGR}"
+                                      showAdd="#{not iceVaccineGroupMGR.parentDTO.new}"
+                                      paginator="false"
+                                      childClass="org.cdsframework.dto.IceVaccineGroupDiseaseRelDTO$ByVaccineGroupId"
+                                      header="Disease List">
+                    <p:column headerText="Disease Code">
+                        <w:popupSearchLink showLabel="false"
+                                           showSearch="#{child.new}"
+                                           showReset="false"
+                                           dto="#{child}"
+                                           value="#{child.iceDiseaseDTO.diseaseCdsCodeDTO.displayName} (#{child.iceDiseaseDTO.diseaseCdsCodeDTO.code})"
+                                           manager="#{iceVaccineGroupMGR}"
+                                           htmlPath="/module/ice/section/disease/popup/iceDiseaseSearch"
+                                           searchTitle="Disease Search" 
+                                           fieldName="iceDiseaseDTO"
+                                           popupSearchUpdate="#{p:component('org_cdsframework_dto_IceVaccineGroupDiseaseRelDTO_ByVaccineGroupId')}" />
+
+                    </p:column>
+                    <!--
+                <p:column headerText="Display Name">
+                    <h:outputText value="#{child.iceDiseaseDTO != null ? child.iceDiseaseDTO.diseaseCdsCodeDTO.displayName : null}"
+                                  styleClass="#{child.isDeleted() ? 'DELETED' : ''}" />
+                </p:column>
+                    -->
+
+                </b:dtoInlineDataTable>
+                <b:dtoInlineDataTable manager="#{iceVaccineGroupMGR}"
+                                      showAdd="#{not iceVaccineGroupMGR.parentDTO.new}"
+                                      childClass="org.cdsframework.dto.IceVaccineGroupVersionRelDTO$ByVaccineGroupId"
+                                      paginator="false"
+                                      header="Knowledge Module Version List">
+                    <p:column headerText="Knowledge Module Version">
+
+                        <w:popupSearchLink id="version"
+                                           showLabel="false"
+                                           showReset="false"
+                                           showSearch="#{child.new}"
+                                           dto="#{child}"
+                                           value="#{child.cdsVersionDTO.label}"
+                                           manager="#{iceVaccineGroupMGR}"
+                                           htmlPath="/module/cds/section/businessversion/popup/versionSearch"
+                                           searchTitle="Version Search" 
+                                           fieldName="cdsVersionDTO"
+                                           popupSearchUpdate="#{p:component('org_cdsframework_dto_IceVaccineGroupVersionRelDTO_ByVaccineGroupId')}" /> 
+
+                    </p:column>
+                    <!--
+                    <p:column headerText="Version">
+                        <h:outputText value="#{child.cdsVersionDTO != null ? child.cdsVersionDTO.name : null} - #{child.cdsVersionDTO != null ? child.cdsVersionDTO.version : null}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}" />
+                    </p:column>
+                    -->
+                </b:dtoInlineDataTable>
+                <b:dtoInlineDataTable manager="#{iceVaccineGroupMGR}"
+                                      paginator="false"
+                                      showDelete="false"
+                                      showAdd="false"
+                                      childClass="org.cdsframework.dto.IceVaccineGroupVaccineRelDTO$VaccineByVersionDiseaseRelationship"
+                                      header="Vaccine List">
+                    <p:column headerText="Vaccine">
+                        <h:outputText value="#{child.vaccine != null ? child.vaccine.displayName : null}" />
+                    </p:column>
+                    <p:column headerText="Vaccine Code">
+                        <h:outputText value="#{child.vaccine != null ? child.vaccine.code : null}" />
+                    </p:column>
+                </b:dtoInlineDataTable>
+                <p:dataTable id="opencdsMemberships"
+                             value="#{openCdsConceptDTOList.getCdsCodeDTOOpenCdsConceptDTOs(iceVaccineGroupMGR.parentDTO.vaccineGroup)}"
+                             var="child"
+                             style="width:100%;"
+                             tableStyleClass="minimal-child-inline-dt">
+                    <f:facet name="header" >
+                        <h:outputText value="OpenCDS Memberships" style="text-align:left;" />
+                    </f:facet>
+                    <f:facet name="footer" >
+                        <h:panelGroup layout="block" />
+                    </f:facet>
+                    <p:column headerText="OpenCDS Concept Code">
+                        <h:outputText value="#{child.label}" />
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+      xmlns:b="http://java.sun.com/jsf/composite/components/base"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="cellpadding" type="java.lang.String" default="3" />
+        <cc:attribute name="cellspacing" type="java.lang.String" default="0" />
+        <cc:attribute name="completeMethod" method-signature="java.lang.Void complete(java.lang.String)" default="#{utilityMGR.foo}" />
+        <cc:attribute name="converter" type="javax.faces.convert.Converter" />
+        <cc:attribute name="debug" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="forceSelection" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="immediate" type="java.lang.Boolean" required="false" />
+        <cc:attribute name="inputStyleClass" type="java.lang.String" default="form-value-left" />
+        <cc:attribute name="label" type="java.lang.String" default="#{utilityMGR.getLabelFromId(cc.attrs.id)}" />
+        <cc:attribute name="labelStyleClass" type="java.lang.String" default="label-right" />
+        <cc:attribute name="labelWidth" type="java.lang.String" default="auto" />
+        <cc:attribute name="maxlength" type="java.lang.Integer" default="65536" />
+        <cc:attribute name="maxResults" type="java.lang.Integer" default="25" />
+        <cc:attribute name="onchange" type="java.lang.String" default="onChange('#{cc.parent.attrs.id}')" />
+        <cc:attribute name="onChangeProcess" type="java.lang.String" default="#{cc.attrs.id}" />
+        <cc:attribute name="onChangeUpdate" type="java.lang.String" default="@form" />
+        <cc:attribute name="panelColumnClasses" type="java.lang.String" default="default-cat-grid-col1, default-cat-grid-col2" />
+        <cc:attribute name="panelGridId" type="java.lang.String" default="#{cc.attrs.id}AutoCompletePanelGrid" />
+        <cc:attribute name="panelGridStyleClass" type="java.lang.String" default="default-cat-panel-grid" />
+        <cc:attribute name="panelGridStyle" type="java.lang.String" default="#{null}" />
+        <cc:attribute name="processOnChange" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="required" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="requiredMessage" type="java.lang.String" default="#{cc.attrs.required ? cc.attrs.label : ''}#{cc.attrs.required ? ': must not be empty.' : ''}"/>
+        <cc:attribute name="showRequired" type="java.lang.Boolean" default="false" />
+        <cc:attribute name="selectItemLabel" default="#{item.toString()}" />
+        <cc:attribute name="selectItemValue" default="#{item}" />
+        <cc:attribute name="tabindex" />
+        <cc:attribute name="title" type="java.lang.String" default="#{cc.attrs.label}" />
+        <cc:attribute name="value" type="java.lang.Object" default="#{null}" />
+        <cc:attribute name="var" type="java.lang.String" default="item" />
+    </cc:interface>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <w:debugPanel />
+        <h:panelGrid id="#{cc.attrs.panelGridId}"
+                     columns="2"
+                     style="#{cc.attrs.panelGridStyle}"
+                     columnClasses="#{cc.attrs.panelColumnClasses}"
+                     styleClass="#{cc.attrs.panelGridStyleClass}"
+                     cellpadding="#{cc.attrs.cellpadding}"
+                     cellspacing="#{cc.attrs.cellspacing}">
+            <h:outputLabel for="#{cc.attrs.id}"
+                           style="width:#{cc.attrs.labelWidth}"
+                           styleClass="#{cc.attrs.labelStyleClass}"
+                           value="#{cc.attrs.required and cc.attrs.showRequired ? '* ' : ''}#{cc.attrs.label}:" />
+            <p:autoComplete id="#{cc.attrs.id}"
+                            autocomplete="off"
+                            converter="#{cc.attrs.converter}"
+                            maxlength="#{cc.attrs.maxlength}"
+                            maxResults="#{cc.attrs.maxResults}"
+                            immediate="#{cc.attrs.immediate}"
+                            forceSelection="#{cc.attrs.forceSelection}"
+                            tabindex="#{cc.attrs.tabindex}"
+                            styleClass="#{cc.attrs.inputStyleClass}"
+                            title="#{cc.attrs.title}"
+                            label="#{cc.attrs.label}"
+                            required="#{cc.attrs.required}"
+                            requiredMessage="#{cc.attrs.requiredMessage}"
+                            value="#{cc.attrs.value}"
+                            completeMethod="#{cc.attrs.completeMethod}"
+                            onchange="#{cc.attrs.id}RC();"
+                            itemLabel="#{cc.attrs.selectItemLabel}"
+                            itemValue="#{cc.attrs.selectItemValue}" />
+        </h:panelGrid>
+        <p:remoteCommand name="#{cc.attrs.id}RC"
+                         oncomplete="#{cc.attrs.onchange};"
+                         process="#{utilityMGR.getRemoteCmdProcessValue(cc.attrs.processOnChange, cc.attrs.onChangeProcess)}"
+                         update="#{utilityMGR.getRemoteCmdUpdateValue(cc.attrs.processOnChange, cc.attrs.onChangeUpdate, cc.attrs.panelGridId)}" />
+    </cc:implementation>
+</html>

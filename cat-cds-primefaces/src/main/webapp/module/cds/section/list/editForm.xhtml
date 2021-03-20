@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <b:editForm id="#{cdsListMGR.editFormId}"
+                width="950"
+                height="600"
+                showNew="false"
+                manager="#{cdsListMGR}">
+        <p:tab title="List Details"
+               id="#{cdsListMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="typeSection" styleClass="tab-content">
+                <fs:outputText id="listId"
+                               label="ID"
+                               rendered="#{not cdsListMGR.parentDTO.isNew()}"
+                               labelWidth="110px"
+                               value="#{cdsListMGR.parentDTO.listId}" />
+
+                <fs:outputBoolean id="isVersioned"
+                                  labelWidth="110px"
+                                  value="#{cdsListMGR.parentDTO.versioned}" />
+
+                <fs:inputText id="name"
+                              size="110"
+                              value="#{cdsListMGR.parentDTO.name}" />
+
+                <fs:inputText id="code"
+                              size="110"
+                              value="#{cdsListMGR.parentDTO.code}" />
+                <fs:selectOneMenu id="type"
+                                  rendered="#{cdsListMGR.parentDTO.isNew()}"
+                                  labelWidth="110px"
+                                  width="600px"
+                                  value="#{cdsListMGR.parentDTO.listType}"
+                                  converter="#{cdsListTypeConverter}"
+                                  processOnChange="true"
+                                  onChangeProcess=":#{p:component('typeSection')}"
+                                  onChangeUpdate=":#{p:component('typeSection')}"
+                                  selectItemsValue="#{cdsListTypeList.selectItems}"
+                                  selectItemLabel="#{item.name()}"
+                                  selectItemValue="#{item}" />
+
+                <fs:outputText rendered="#{not cdsListMGR.parentDTO.isNew()}"
+                               label="List Type"
+                               labelWidth="110px"
+                               value="#{cdsListMGR.parentDTO.listType}" />
+
+                <fs:inputText id="enumClassName"
+                              label="Enumeration Class"
+                              rendered="#{cdsListMGR.parentDTO.listType == 'JAVA_ENUM'}"
+                              size="110"
+                              value="#{cdsListMGR.parentDTO.enumClass}" />
+
+
+                <h:panelGroup id="codeSystem"
+                              rendered="#{cdsListMGR.parentDTO.listType == 'CODE_SYSTEM'
+                                          or cdsListMGR.parentDTO.listType == 'CONCEPT'}"                              
+                              layout="block">         
+
+                    <w:popupSearchLink showLabel="true"
+                                       labelWidth="110px"
+                                       label="Code System"
+                                       value="#{cdsListMGR.parentDTO.cdsCodeSystemDTO.name} #{not empty cdsListMGR.parentDTO.cdsCodeSystemDTO ? '-' : ''} #{cdsListMGR.parentDTO.cdsCodeSystemDTO.oid}"
+                                       manager="#{cdsListMGR}"
+                                       dto="#{cdsListMGR.parentDTO}"
+                                       htmlPath="/module/cds/section/codesystem/popup/codeSystemSearch"
+                                       searchTitle="Code System Search" 
+                                       fieldName="cdsCodeSystemDTO"
+                                       popupSearchUpdate=":#{p:component('codeSystem')}"> 
+                    </w:popupSearchLink>     
+                </h:panelGroup>
+
+                <!--
+                <fs:selectOneMenu id="codeSystem"
+                                  rendered="#{cdsListMGR.parentDTO.listType == 'CODE_SYSTEM'
+                            or cdsListMGR.parentDTO.listType == 'CONCEPT'}"
+                value="#{cdsListMGR.parentDTO.cdsCodeSystemDTO}"
+                labelWidth="110px"
+                width="600px"
+                converter="#{cdsCodeSystemConverter}"
+                selectItemsValue="#{cdsCodeSystemDTOList.selectItems}"
+                selectItemLabel="#{item.name} - #{item.oid}"
+                selectItemValue="#{item}" />
+                -->
+
+                <h:panelGroup id="valueSet"
+                              rendered="#{cdsListMGR.parentDTO.listType == 'VALUE_SET'}"
+                              layout="block" >
+                    <w:popupSearchLink label="Value Set"
+                                       labelWidth="110px"
+                                       value="#{cdsListMGR.parentDTO.valueSetDTO.code} #{not empty cdsListMGR.parentDTO.valueSetDTO ? '-' : ''} #{cdsListMGR.parentDTO.valueSetDTO.oid}"
+                                       dto="#{cdsListMGR.parentDTO}"                                           
+                                       manager="#{cdsListMGR}"
+                                       fieldName="valueSetDTO"
+                                       htmlPath="/module/cds/section/valueset/popup/valueSetSearch"
+                                       searchTitle="Value Set Search" 
+                                       popupSearchUpdate=":#{p:component('valueSet')}"> 
+                    </w:popupSearchLink>
+                </h:panelGroup>                
+                <!--
+                <fs:selectOneMenu id="valueSet"
+                                  rendered="#{cdsListMGR.parentDTO.listType == 'VALUE_SET'}"
+                                  value="#{cdsListMGR.parentDTO.valueSetDTO}"
+                                  labelWidth="110px"
+                                  width="600px"
+                                  converter="#{valueSetConverter}"
+                                  selectItemsValue="#{valueSetDTOList.selectItems}"
+                                  selectItemLabel="#{item.code} - #{item.oid}"
+                                  selectItemValue="#{item}" />
+                -->
+
+                <fs:inputTextarea id="description"
+                                  labelWidth="110px"
+                                  rows="15"
+                                  cols="90"
+                                  value="#{cdsListMGR.parentDTO.description}"/>
+
+            </h:panelGroup>
+        </p:tab>
+        <p:tab title="List Versions"
+               id="#{cdsListMGR.getTabIdByIndex(1)}"
+               disabled="#{cdsListMGR.parentDTO.isNew()}">
+
+            <h:panelGroup id="listVersionsDetail" styleClass="tabl-content">
+                <h:outputText value="Note: adding a version to a list makes it only available to the selected versions." />
+            </h:panelGroup>
+
+            <h:panelGroup id="listVersionsBusinessScope" styleClass="tab-content">
+                <b:dtoInlineDataTable manager="#{cdsListMGR}"
+                                      lazy="true"
+                                      childClass="org.cdsframework.dto.CdsListVersionRelDTO$ByCdsListId"
+                                      header="Knowledge Module Version List">
+                    <!--
+                    <p:column headerText="Business Scope">
+                        <p:selectOneMenu id="version"
+                                         value="#{child.cdsVersionDTO}"
+                                         rendered="#{child.isNew()}"
+                                         converter="#{cdsVersionConverter}"
+                                         onchange="onChange('#{cdsListMGR.editFormId}');" >
+                            <f:selectItem itemLabel="#{utilityMGR.getNO_OPTION_SELECT_TEXT()}"
+                                          itemValue="#{null}" />                        
+                            <f:selectItems value="#{cdsBusinessScopeDTOList.allCdsVersionDTOs}"
+                                           var="item"
+                                           itemLabel="#{item.businessId} - #{item.scopingEntityId} - #{item.version}"
+                                           itemValue="#{item}" />
+                            <p:ajax event="change"
+                                    process="@this"
+                                    update="sampleSelectPanelGroup versionInfo"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="#{child.cdsVersionDTO != null ? child.cdsVersionDTO.businessId : null}
+                                      - #{child.cdsVersionDTO != null ? child.cdsVersionDTO.scopingEntityId : null}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                      rendered="#{not child.isNew()}" />
+                    </p:column>
+                    -->
+
+                    <p:column headerText="Business Scope">
+                        <!--
+                          processOnChange="true"
+                          onChangeUpdate=":#{p:component('org_cdsframework_dto_CdsListVersionRelDTO_ByCdsListId')}"
+                        -->
+                        <fs:selectOneMenu id="version"
+                                          showLabel="false"
+                                          value="#{child.cdsVersionDTO}"
+                                          rendered="#{child.isNew()}"
+                                          converter="#{cdsVersionConverter}"
+                                          processOnChange="true"
+                                          onChangeUpdate="#{p:component('versionInfo')}"
+                                          selectItemsValue="#{cdsBusinessScopeDTOList.allCdsVersionDTOs}"
+                                          selectItemLabel="#{item.businessId} - #{item.scopingEntityId} - #{item.version}"
+                                          selectItemValue="#{item}" />
+                        <h:outputText value="#{child.cdsVersionDTO != null ? child.cdsVersionDTO.businessId : null}
+                                      - #{child.cdsVersionDTO != null ? child.cdsVersionDTO.scopingEntityId : null}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                      rendered="#{not child.isNew()}" />
+                    </p:column>
+
+                    <p:column headerText="Version">
+                        <h:outputText id="versionInfo"
+                                      value="#{child.cdsVersionDTO != null ? child.cdsVersionDTO.name : null} - #{child.cdsVersionDTO != null ? child.cdsVersionDTO.version : null}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}" />
+                    </p:column>
+                    <!--
+                    <p:column headerText="Sample Select Menu">
+                        <fs:selectOneMenu id="sampleSelectMenu"
+                                          panelGridId="samplePanelGrid"
+                                          showLabel="false"
+                                          selectStyle="width:200px;"
+                                          converter="#{cdsListItemConverter}"
+                                          value="#{cdsListMGR.sampleCdsListItemDTO}"
+                                          selectItemsValue="#{cdsListDTOList.getListItems(cdsListMGR.parentDTO, child.cdsVersionDTO)}"
+                                          selectItemLabel="#{item.name}"
+                                          selectItemValue="#{item}" />
+                    </p:column>
+                    -->
+                </b:dtoInlineDataTable>
+            </h:panelGroup>
+
+            <br />
+
+            <!--
+            <h:panelGroup id="sampleData"
+                          rendered="#{not cdsListMGR.parentDTO.versioned
+                                      and cdsListMGR.parentDTO.listType != 'CONCEPT'
+                                      and cdsListMGR.parentDTO.listType != 'AD_HOC_CONCEPT'}"
+                          layout="block">
+
+                <fs:selectOneMenu id="globalSampleSelectMenu"
+                                  labelWidth="155px"
+                                  selectStyle="width:200px;"
+                                  converter="#{cdsListItemConverter}"
+                                  value="#{cdsListMGR.sampleCdsListItemDTO}"
+                                  selectItemsValue="#{cdsListDTOList.getListItems(cdsListMGR.parentDTO, null)}"
+                                  selectItemLabel="#{item.name}"
+                                  selectItemValue="#{item}"
+                                  processOnChange="true"
+                                  onChangeProcess="#{p:component('sampleData')}"
+                                  onChangeUpdate="#{p:component('sampleData')}"/>
+
+                <fs:outputText id="sampleItemSelected"
+                               labelWidth="155px"
+                               value="#{cdsListMGR.sampleCdsListItemDTO.name}" />
+            -->
+
+                <!--
+                <h:panelGrid columns="2"
+                             columnClasses="default-cat-grid-col1, default-cat-grid-col2">
+                    <p:outputLabel for="sampleSelectMenu"
+                                   value="Sample Select Menu: "
+                                   styleClass="label-right" />                    
+                    <p:selectOneMenu id="sampleSelectMenu"
+                                     style="width: 200px"
+                                     value="#{cdsListMGR.sampleCdsListItemDTO}"
+                                     converter="#{cdsListItemConverter}"
+                                     onchange="onChange('#{cdsListMGR.editFormId}');" >
+                        <f:selectItem itemLabel="#{utilityMGR.getNO_OPTION_SELECT_TEXT()}"
+                                      itemValue="#{null}" />                        
+                        <f:selectItems value="#{cdsListDTOList.getListItems(cdsListMGR.parentDTO, null)}"
+                                       var="item"
+                                       itemLabel="#{item.name}"
+                                       itemValue="#{item}" />
+                        <p:ajax event="change"
+                                process="@this"
+                                update="sampleItemSelected"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <h:panelGrid columns="2"
+                             columnClasses="default-cat-grid-col1, default-cat-grid-col2">
+                    <p:outputLabel value="Sample Item Select:" 
+                                   styleClass="label-right" />
+                    <h:outputText id="sampleItemSelected"
+                                  style="width: 155px"
+                                  value="#{cdsListMGR.sampleCdsListItemDTO.name}" />
+                </h:panelGrid>
+                -->
+
+                <!--
+            </h:panelGroup>
+                -->
+        </p:tab>
+        <p:tab title="List Items"
+               id="#{cdsListMGR.getTabIdByIndex(2)}"
+               disabled="#{cdsListMGR.parentDTO.isNew()}">
+
+            <b:dtoDataTable manager="#{cdsListItemMGR}"
+                            showAdd="#{cdsListMGR.parentDTO.listType == 'AD_HOC'
+                                       or cdsListMGR.parentDTO.listType == 'AD_HOC_CONCEPT'}"
+                            showDelete="#{cdsListMGR.parentDTO.listType == 'AD_HOC'
+                                          or cdsListMGR.parentDTO.listType == 'AD_HOC_CONCEPT'}"
+                            header="List Items">
+                <p:column headerText="Key"
+                          rendered="#{cdsListMGR.parentDTO.listType == 'AD_HOC'}">
+                    <h:outputText value="#{dto.adHocId}" />
+                </p:column>
+                <p:column headerText="Value"
+                          rendered="#{cdsListMGR.parentDTO.listType != 'AD_HOC'}">
+                    <h:outputText value="#{dto.value}" />
+                </p:column>
+                <p:column headerText="Label">
+                    <h:outputText value="#{dto.name}" />
+                </p:column>
+            </b:dtoDataTable>
+        </p:tab>
+    </b:editForm>
+
+</ui:composition>

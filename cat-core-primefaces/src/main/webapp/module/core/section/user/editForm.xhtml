@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT Core plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset">
+
+    <style type="text/css">
+        .custom-usermgr-grid-col2 {
+            min-width:15px;
+        }
+    </style>
+    <b:editForm id="#{userMGR.editFormId}"
+                width="950"
+                height="640"
+                showNew="false"
+                manager="#{userMGR}">
+        <p:tab title="User Details"
+               id="#{userMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="parentInfo"
+                          styleClass="tab-content">
+                <h:panelGrid columns="2"
+                             style="width:100%;">
+                    <h:panelGrid>
+
+                        <fs:outputText id="userId"
+                                       rendered="#{not userMGR.parentDTO.isNew()}"
+                                       label="ID"
+                                       labelWidth="170px"
+                                       value="#{userMGR.parentDTO.userId}" />
+
+                        <fs:inputText id="username"
+                                      labelWidth="170px"
+                                      value="#{userMGR.parentDTO.username}" />
+
+                        <fs:selectOneMenu id="prefix"
+                                          labelWidth="170px"
+                                          value="#{userMGR.parentDTO.prefix}"
+                                          selectItemsValue="#{namePrefixList.selectItems}"
+                                          selectItemLabel="#{item.toString()}"
+                                          selectItemValue="#{item}" />
+
+                        <fs:inputText id="firstName"
+                                      labelWidth="170px"
+                                      value="#{userMGR.parentDTO.firstName}" />
+
+                        <fs:inputText id="middleName"
+                                      labelWidth="170px"
+                                      value="#{userMGR.parentDTO.middleName}" />
+
+                        <fs:inputText id="lastName"
+                                      labelWidth="170px"
+                                      value="#{userMGR.parentDTO.lastName}" />
+
+                        <fs:selectOneMenu id="suffix"
+                                          labelWidth="170px"
+                                          value="#{userMGR.parentDTO.suffix}"
+                                          selectItemsValue="#{nameSuffixList.selectItems}"
+                                          selectItemLabel="#{item.toString()}"
+                                          selectItemValue="#{item}" />
+
+                        <fs:inputText id="email"
+                                      labelWidth="170px"
+                                      value="#{userMGR.parentDTO.email}" />
+
+                        <fs:inputMask id="phone"
+                                      mask="?999-999-9999"
+                                      maxlength="10"
+                                      converter="#{phoneTenDigitConverter}"
+                                      converterMessage="Phone Number: Must be 10 digits."
+                                      size="12"
+                                      labelWidth="170px"
+                                      value="#{userMGR.parentDTO.phone}" />
+
+                        <fs:password id="password"
+                                     labelWidth="170px"
+                                     value="#{userMGR.parentDTO.password}" />
+
+                        <fs:password id="confirmPassword"
+                                     labelWidth="170px"
+                                     value="#{userMGR.parentDTO.passwordConfirm}" />
+
+                        <!-- <fs:selectBooleanCheckbox id="changePassword"
+                                                  labelWidth="170px"
+                                                  value="#{userMGR.parentDTO.changePassword}" /> -->
+                    </h:panelGrid>
+
+                    <h:panelGrid>
+
+                        <h:panelGrid rendered="#{not userMGR.parentDTO.new}"
+                                     columns="3">
+
+                            <h:outputText value="Failed Login Attempts: "
+                                          style="display:block;font-weight:bold;text-align:right;width:200px;"/>
+                            <h:outputText value="#{userMGR.parentDTO.failedLoginAttempts}"
+                                          style=""/>
+                            <p:commandButton actionListener="#{userMGR.resetFailedLoginAttempts}"
+                                             style=""
+                                             value="Reset"
+                                             update="@form" />
+                        </h:panelGrid>
+
+                        <fs:calendar id="expirationDate"
+                                     labelWidth="200px"
+                                     value="#{userMGR.parentDTO.expirationDate}" />
+
+                        <fs:selectBooleanCheckbox id="disabled"
+                                                  labelWidth="200px"
+                                                  value="#{userMGR.parentDTO.disabled}" />
+
+                        <h:panelGroup layout="block"
+                                      style="width:100%;font-weight:bold;text-align:center;text-decoration:underline;margin-top:25px;">
+                            <h:outputText value="Advanced Properties" />
+                        </h:panelGroup>
+
+                        <fs:selectBooleanCheckbox id="applicationProxyUser"
+                                                  labelWidth="200px"
+                                                  value="#{userMGR.parentDTO.appProxyUser}" />
+
+                        <fs:selectOneMenu id="applicationProxyId"
+                                          labelWidth="200px"
+                                          value="#{userMGR.parentDTO.proxyAppId}"
+                                          selectItemsValue="#{appDTOList.selectItems}"
+                                          selectItemLabel="#{item.appName}"
+                                          selectItemValue="#{item.appId}" />
+                    </h:panelGrid>
+
+                </h:panelGrid>
+                <b:dtoInlineDataTable manager="#{userMGR}"
+                                      childClass="org.cdsframework.dto.UserSecurityMapDTO"
+                                      showAdd="#{not userMGR.parentDTO.new}"
+                                      paginator="false"
+                                      header="Security Scheme Memberships">
+                    <p:column headerText="Name">
+                        <fs:selectOneMenu id="securityScheme"
+                                          showLabel="false"
+                                          rendered="#{child.isNew()}"
+                                          onChangeProcess=":#{p:component('org_cdsframework_dto_UserSecurityMapDTO')}"
+                                          onChangeUpdate=":#{p:component('org_cdsframework_dto_UserSecurityMapDTO')}"
+                                          processOnChange="true"
+                                          value="#{child.securitySchemeDTO}"
+                                          selectItemsValue="#{schemeDTOList.selectItems}"
+                                          selectItemLabel="#{item.schemeName}"
+                                          selectItemValue="#{item}"
+                                          converter="#{schemeConverter}" />
+
+                        <h:outputText value="#{child.securitySchemeDTO != null ? child.securitySchemeDTO.schemeName : null}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}"
+                                      rendered="#{not child.isNew()}" />
+                    </p:column>
+                    <p:column headerText="Description">
+                        <h:outputText value="#{child.securitySchemeDTO != null ? child.securitySchemeDTO.description : null}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}" />
+                    </p:column>
+                </b:dtoInlineDataTable>
+            </h:panelGroup>
+        </p:tab>
+        <p:tab title="User Preferences"
+               id="#{userMGR.getTabIdByIndex(1)}"
+               disabled="#{userMGR.parentDTO.new}">
+            <h:panelGroup id="preferenceInfo"
+                          styleClass="tab-content">
+                <h:outputText value="Do not edit the values below unless you know what you are doing. :)" />
+                <br />
+                <br />
+                <b:dtoInlineDataTable manager="#{userMGR}"
+                                      childClass="org.cdsframework.dto.UserPreferenceDTO"
+                                      paginator="false"
+                                      showAdd="false"
+                                      showDelete="false"
+                                      header="User Preferences">
+                    <p:column headerText="Name">
+                        <h:outputText id="name"
+                                      value="#{child.name}" />
+                    </p:column>
+                    <p:column headerText="Value">
+                        <p:inputText id="value"
+                                     value="#{child.value}" />
+                    </p:column>
+                    <p:column headerText="Type">
+                        <h:outputText id="type"
+                                      value="#{child.type}" />
+                    </p:column>
+                    <p:column headerText="Session Preference?">
+                        <h:outputText id="sessionPreference"
+                                      value="#{child.sessionPreference}" />
+                    </p:column>
+                    <p:column headerText="Session Persistent?">
+                        <h:outputText id="sessionPersistent"
+                                      value="#{child.sessionPersistent}" />
+                    </p:column>
+                    <p:column headerText="User Editable?">
+                        <h:outputText id="userEditable"
+                                      value="#{child.userEditable}" />
+                    </p:column>
+                </b:dtoInlineDataTable>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

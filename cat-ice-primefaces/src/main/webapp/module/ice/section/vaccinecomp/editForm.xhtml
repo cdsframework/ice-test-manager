@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT ICE plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <b:editForm id="#{iceVaccineComponentMGR.editFormId}"
+                width="950"
+                height="600"
+                showNavigation="true"
+                manager="#{iceVaccineComponentMGR}">
+        <p:tab title="#{iceVaccineComponentMGR.baseHeader} Details"
+               id="#{iceVaccineComponentMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="mainContent"
+                          styleClass="tab-content">
+                <fs:outputText id="vaccineCompId"
+                               rendered="#{not iceVaccineComponentMGR.parentDTO.new}"
+                               label="ID"
+                               labelWidth="200px"
+                               value="#{iceVaccineComponentMGR.parentDTO.componentId}" />
+
+                <fs:selectBooleanCheckbox id="liveVirus"
+                                          label="Live Vaccine"
+                                          labelWidth="200px"
+                                          value="#{iceVaccineComponentMGR.parentDTO.liveVirus}" />
+
+                <w:popupSearchLink id="vaccine"
+                                   labelWidth="200px"
+                                   showReset="false"
+                                   dto="#{iceVaccineComponentMGR.parentDTO}"
+                                   value="#{iceVaccineComponentMGR.parentDTO.vaccineComponent.displayName} (#{iceVaccineComponentMGR.parentDTO.vaccineComponent.code})"
+                                   manager="#{iceVaccineComponentMGR}"
+                                   htmlPath="/module/cds/section/listitem/popup/listItemSearch"
+                                   queryParms="#{['ICE_IMM_VACCINE', null]}"
+                                   searchTitle="Component Search" 
+                                   fieldName="vaccineComponent"
+                                   popupSearchUpdate="#{p:component('mainContent')}"> 
+                </w:popupSearchLink>
+
+                <br />
+                <br />
+                <b:dtoInlineDataTable manager="#{iceVaccineComponentMGR}"
+                                      showAdd="#{not iceVaccineComponentMGR.parentDTO.new}"
+                                      childClass="org.cdsframework.dto.IceVaccineComponentDiseaseRelDTO$ByVaccineComponentId"
+                                      paginator="false"
+                                      header="Vaccine Component Disease List">
+                    <p:column headerText="Disease Code">
+                        <w:popupSearchLink showLabel="false"
+                                           showSearch="#{child.new}"
+                                           showReset="false"
+                                           dto="#{child}"
+                                           value="#{child.iceDiseaseDTO.diseaseCdsCodeDTO.displayName} (#{child.iceDiseaseDTO.diseaseCdsCodeDTO.code})"
+                                           manager="#{iceVaccineComponentMGR}"
+                                           htmlPath="/module/ice/section/disease/popup/iceDiseaseSearch"
+                                           searchTitle="Disease Search" 
+                                           fieldName="iceDiseaseDTO"
+                                           popupSearchUpdate="#{p:component('org_cdsframework_dto_IceVaccineComponentDiseaseRelDTO_ByVaccineComponentId')}" />
+
+                    </p:column>
+                    <!--
+                    <p:column headerText="Display Name">
+                        <h:outputText value="#{child.iceDiseaseDTO != null ? child.iceDiseaseDTO.diseaseCdsCodeDTO.displayName : null}"
+                                      styleClass="#{child.isDeleted() ? 'DELETED' : ''}" />
+                    </p:column>
+                    -->
+                </b:dtoInlineDataTable>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

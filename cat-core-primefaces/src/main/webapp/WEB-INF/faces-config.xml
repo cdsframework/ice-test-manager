@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.0"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+    <application>
+        <message-bundle>application</message-bundle>
+        <resource-bundle>
+            <base-name>application</base-name>
+            <var>app</var>
+        </resource-bundle>
+        <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+        <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+        <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+    </application>
+    <navigation-rule>
+        <description>Successful Login</description>
+        <from-view-id>/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>welcome</from-outcome>
+            <to-view-id>/module/core/views/welcome.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>welcome</from-outcome>
+            <to-view-id>/views/welcome.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>fatalException</from-outcome>
+            <to-view-id>/module/core/views/error.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>viewExpired</from-outcome>
+            <to-view-id>/module/core/views/welcome.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+
+    <converter>
+        <description>A Converter for phone number</description>
+        <converter-id>PhoneNumberConverter</converter-id>
+        <converter-class>org.cdsframework.util.converter.PhoneNumberConverter</converter-class>
+    </converter>
+    <factory>
+        <exception-handler-factory>org.cdsframework.handlers.DefaultExceptionHandlerFactory</exception-handler-factory>
+    </factory>
+    <lifecycle>
+        <phase-listener>org.cdsframework.listeners.RenderResponsePhaseListener</phase-listener>
+        <!--
+        <phase-listener>org.cdsframework.listeners.LifeCycleListener</phase-listener>
+        -->
+    </lifecycle>
+</faces-config>

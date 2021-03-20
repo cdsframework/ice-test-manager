@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT ICE plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <h:form id="#{iceTestSuiteMGR.name}SearchResultsForm">
+
+        <p:treeTable id="#{iceTestTreeTableAssist.treeTableId}"
+                     value="#{iceTestTreeTableAssist.treeTableRoot}"
+                     var="dto"
+                     selection="#{iceTestTreeTableAssist.foo}"
+                     selectionMode="single">
+
+            <p:ajax event="expand"
+                    listener="#{iceTestTreeTableAssist.onNodeExpand}" />  
+
+            <p:ajax event="collapse"
+                    listener="#{iceTestTreeTableAssist.onNodeCollapse}" />  
+
+            <p:ajax event="select"
+                    listener="#{iceTestTreeTableAssist.onNodeSelect}" />  
+
+            <p:ajax event="unselect"
+                    listener="#{iceTestTreeTableAssist.onNodeUnselect}" />  
+
+            <f:facet name="header">
+                <h:panelGroup layout="block"
+                              style="min-height:23px;">
+                    <h:panelGroup layout="block"
+                                  style="line-height:23px;float:left;">
+                        <h:outputText value="#{iceTestSuiteMGR.baseHeader} Search Results" />
+                    </h:panelGroup>
+                    <h:panelGroup layout="block"
+                                  style="font-weight:normal;line-height:23px;float:left;margin-left:5px;">
+                        <h:outputText value=" (#&nbsp;of&nbsp;Results:&nbsp;#{iceTestTreeTableAssist.treeTableRoot.childCount})" />
+                    </h:panelGroup>
+                    <p:commandButton value="Show All"
+                                     tabindex="80"
+                                     actionListener="#{iceTestSuiteMGR.searchByClassName('FindAll')}"
+                                     style="float:right;height:22px;padding:0;margin:0px -6px 0px 5px;"
+                                     id="FindAll"
+                                     icon="ui-icon ui-icon-search" />
+                    <p:commandButton value="New #{iceTestSuiteMGR.baseHeader}"
+                                     tabindex="70"
+                                     actionListener="#{iceTestSuiteMGR.addMain}"
+                                     style="float:right;height:22px;padding:0;margin:0px 0px 0px 5px;"
+                                     oncomplete="resetChangedState('#{iceTestSuiteMGR.name}SearchResultsForm'); PF('#{iceTestSuiteMGR.getEditDialogWidgetVar('new')}').show()"
+                                     immediate="true"
+                                     icon="ui-icon ui-icon-document" />
+                    <p:selectOneMenu id="sortTestsBy"
+                                     style="float:right;margin:1px 0px 0px 5px;"
+                                     value="#{iceTestSuiteMGR.sortTestBy}"
+                                     label="Sort Tests By">
+                        <f:selectItem itemLabel="#{utilityMGR.getNO_OPTION_SELECT_TEXT()}"
+                                      itemValue="#{null}" />
+                        <f:selectItem itemLabel="Test ID"
+                                      itemValue="id" />
+                        <f:selectItem itemLabel="Test Name"
+                                      itemValue="name" />
+                        <f:selectItem itemLabel="Last Modified"
+                                      itemValue="lastmod" />
+                        <p:ajax event="change"
+                                listener="#{iceTestSuiteMGR.onChangeSortOrder}"
+                                process="@this"
+                                update="@form" />
+                    </p:selectOneMenu>
+                    <h:panelGroup layout="block"
+                                  style="font-weight:bold;float:right;margin-left:5px;">
+                        <p:outputLabel for="sortTestsBy"
+                                       style="line-height:25px;"
+                                       value="Sort Tests By" />
+                    </h:panelGroup>
+                </h:panelGroup>
+            </f:facet>
+
+            <p:column headerText="Name"
+                      sortBy="#{dto.name}">
+                <h:outputText value="#{dto.name}"
+                              style="font-weight:bold;"
+                              rendered="#{not empty dto}" />
+                <h:outputText value="No records found."
+                              rendered="#{empty dto}" />
+                <h:outputText value=" #{utilityMGR.formatUuid(dto.testId)} "
+                              rendered="#{iceTestTreeTableAssist.isIceTestDTO(dto)}" />
+                <h:outputText value=" (#{dto.numOfGroups} groups; #{dto.numOfTests} tests)"
+                              rendered="#{iceTestTreeTableAssist.isIceTestSuiteDTO(dto)}" />
+                <h:outputText value=" (#{dto.numOfTests} tests)"
+                              rendered="#{iceTestTreeTableAssist.isIceTestGroupDTO(dto)}" />
+            </p:column>
+            <p:column headerText="Last Modified"
+                      style="width:150px;">
+                <h:outputText value="#{utilityMGR.getFormattedDateTime(dto.lastModDatetime)}" />
+            </p:column>
+            <p:column headerText="Last Modified By"
+                      style="width:100px;">
+                <h:outputText value="#{userDTOList.get(dto.lastModId) != null ? userDTOList.get(dto.lastModId).username : dto.lastModId}" />
+            </p:column>
+            <p:column headerText="Action"
+                      style="text-align:center;width:50px;">
+                <h:panelGroup style="width:100%;"
+                              rendered="#{not empty dto}">
+                    <h:panelGroup layout="block"
+                                  style="margin:0 auto;display:table;">
+                        <b:cogMenu id="treeMenu">
+                            <!-- SUITE MENUS -->
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestSuiteDTO(dto)}"
+                                        value="Edit Suite"
+                                        actionListener="#{iceTestTreeTableAssist.onNodeSelectIceTestSuiteDTO(dto)}"
+                                        icon="ui-icon-pencil"/>
+                            <!--
+                                        actionListener="#{iceTestSuiteMGR.onDeleteSelectMain(dto)}"
+                                        oncomplete="PF('#{iceTestSuiteMGR.deleteDialogWidgetVar}').show();"
+                            -->
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestSuiteDTO(dto)}"
+                                        value="Delete Suite"
+                                        actionListener="#{iceTestSuiteMGR.setParentDTO(dto)}"
+                                        oncomplete="document.getElementById('iceTestSuiteSearchResultsForm:deleteIceTestSuite').click();"
+                                        icon="ui-icon-trash"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestSuiteDTO(dto)}"
+                                        value="Add Group"
+                                        actionListener="#{iceTestTreeTableAssist.addGroupMain(dto)}"
+                                        oncomplete="PF('#{iceTestGroupMGR.getEditDialogWidgetVar('new')}').show();"
+                                        icon="ui-icon-document"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestSuiteDTO(dto)}"
+                                        value="Merge Suites"
+                                        actionListener="#{iceTestTreeTableAssist.rowSelectSuiteByDTO(dto)}"
+                                        oncomplete="PF('mergeCdVar').show();"
+                                        update=":#{p:component('cdFormId')}"
+                                        icon="ui-icon-transfer-e-w"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestSuiteDTO(dto)}"
+                                        value="Copy Suite"
+                                        actionListener="#{iceTestTreeTableAssist.rowSelectSuiteByDTO(dto)}"
+                                        oncomplete="PF('copyCdVar').show();"
+                                        update=":#{p:component('cdFormId')}"
+                                        icon="ui-icon-shuffle"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestSuiteDTO(dto)}"
+                                        value="Export Suite"
+                                        ajax="false"
+                                        icon="ui-icon-extlink">
+                                <p:fileDownload value="#{iceTestSuiteMGR.exportTest(dto)}"
+                                                contentDisposition="attachment" />
+                            </p:menuitem>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestSuiteDTO(dto)}"
+                                        value="Convert Suite to Offsets"
+                                        actionListener="#{iceTestSuiteMGR.convertSuiteToOffsets(dto)}"
+                                        update=":#{p:component('cdFormId')}"
+                                        icon="ui-icon-calendar"/>
+
+                            <!-- GROUP MENUS -->
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestGroupDTO(dto)}"
+                                        value="Edit Group"
+                                        actionListener="#{iceTestTreeTableAssist.onNodeSelectIceTestGroupDTO(dto)}"
+                                        icon="ui-icon-pencil"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestGroupDTO(dto)}"
+                                        value="Delete Group"
+                                        actionListener="#{iceTestGroupMGR.setParentDTO(dto)}"
+                                        oncomplete="document.getElementById('iceTestSuiteSearchResultsForm:deleteIceTestGroup').click();"
+                                        icon="ui-icon-trash"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestGroupDTO(dto)}"
+                                        value="Add Test"
+                                        actionListener="#{iceTestTreeTableAssist.addTestMain(dto)}"
+                                        oncomplete="PF('#{iceTestMGR.getEditDialogWidgetVar('new')}').show();"
+                                        icon="ui-icon-document"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestGroupDTO(dto)}"
+                                        value="Merge Groups"
+                                        actionListener="#{iceTestTreeTableAssist.onMergeGroup(dto)}"
+                                        oncomplete="PF('mergeCdGroupVar').show();"
+                                        update=":#{p:component('cdGroupFormId')}"
+                                        icon="ui-icon-transfer-e-w"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestGroupDTO(dto)}"
+                                        value="Copy Group"
+                                        actionListener="#{iceTestTreeTableAssist.onCopyGroup(dto)}"
+                                        oncomplete="PF('copyCdGroupVar').show();"
+                                        update=":#{p:component('cdGroupFormId')}"
+                                        icon="ui-icon-shuffle"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestGroupDTO(dto)}"
+                                        value="Export Group"
+                                        ajax="false"
+                                        icon="ui-icon-extlink">
+                                <p:fileDownload value="#{iceTestSuiteMGR.exportTest(dto)}"
+                                                contentDisposition="attachment" />
+                            </p:menuitem>
+
+                            <!-- TEST MENUS -->
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestDTO(dto)}"
+                                        value="Edit Test"
+                                        actionListener="#{iceTestTreeTableAssist.onNodeSelectIceTestDTO(dto)}"
+                                        icon="ui-icon-pencil"/>
+                            <!--
+                                        actionListener="#{iceTestMGR.onDeleteSelectMain(dto)}"
+                                        oncomplete="PF('#{iceTestMGR.deleteDialogWidgetVar}').show();"
+                            -->
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestDTO(dto)}"
+                                        value="Delete Test"
+                                        actionListener="#{iceTestMGR.setParentDTO(dto)}"
+                                        oncomplete="document.getElementById('iceTestSuiteSearchResultsForm:deleteIceTest').click();"
+                                        icon="ui-icon-trash"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestDTO(dto)}"
+                                        value="View Summary"
+                                        update=":#{p:component('summaryData')}"
+                                        actionListener="#{iceTestMGR.onRowSummarySelect(dto)}"
+                                        oncomplete="PF('iceTestSummaryDialogVar').hide();PF('iceTestSummaryDialogVar').show();"
+                                        icon="ui-icon-search"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestDTO(dto)}"
+                                        value="Copy Test"
+                                        actionListener="#{iceTestTreeTableAssist.onCopyTest(dto)}"
+                                        oncomplete="PF('copyCdTestVar').show();"
+                                        update=":#{p:component('cdTestFormId')}"
+                                        icon="ui-icon-shuffle"/>
+                            <p:menuitem rendered="#{iceTestTreeTableAssist.isIceTestDTO(dto)}"
+                                        value="Export Test"
+                                        ajax="false"
+                                        icon="ui-icon-extlink">
+                                <p:fileDownload value="#{iceTestSuiteMGR.exportTest(dto)}"
+                                                contentDisposition="attachment" />
+                            </p:menuitem>
+                        </b:cogMenu>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </p:column>
+            <p:summaryRow>
+                <p:column colspan="5">
+                    No data.
+                </p:column>
+            </p:summaryRow>
+            <f:facet name="footer" >
+                <h:panelGroup layout="block"
+                              style="width:200px;" />
+            </f:facet>
+        </p:treeTable>
+
+        <p:remoteCommand name="#{iceTestSuiteMGR.name}ApplyChanges"
+                         actionListener="#{dialogService.showApplyDialog(iceTestSuiteMGR)}" 
+                         process="@this" />
+        <p:remoteCommand name="#{iceTestGroupMGR.name}ApplyChanges"
+                         actionListener="#{dialogService.showApplyDialog(iceTestGroupMGR)}" 
+                         process="@this" />
+        <p:remoteCommand name="#{iceTestMGR.name}ApplyChanges"
+                         actionListener="#{dialogService.showApplyDialog(iceTestMGR)}" 
+                         process="@this" />
+
+        <p:commandLink id="deleteIceTestSuite"
+                       type="button"
+                       style="display: none;"
+                       actionListener="#{dialogService.showDeleteDialog(iceTestSuiteMGR.parentDTO, iceTestSuiteMGR)}"
+                       process="@this">
+            <p:ajax event="dialogReturn" listener="#{dialogService.onDeleteDialogReturn}"/>                                   
+        </p:commandLink>
+
+        <p:commandLink id="deleteIceTestGroup"
+                       type="button"
+                       style="display: none;"
+                       actionListener="#{dialogService.showDeleteDialog(iceTestGroupMGR.parentDTO, iceTestGroupMGR)}"
+                       process="@this">
+            <p:ajax event="dialogReturn" listener="#{dialogService.onDeleteDialogReturn}"/>                                   
+        </p:commandLink>
+
+        <p:commandLink id="deleteIceTest"
+                       type="button"
+                       style="display: none;"
+                       actionListener="#{dialogService.showDeleteDialog(iceTestMGR.parentDTO, iceTestMGR)}"
+                       process="@this" >
+            <p:ajax event="dialogReturn" listener="#{dialogService.onDeleteDialogReturn}"/>                                   
+        </p:commandLink>
+
+    </h:form>
+</ui:composition>

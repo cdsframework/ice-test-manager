@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <h:outputText value="Manage Concepts" styleClass="module-title"/>
+    <p:separator />
+
+    <b:searchForm id="#{openCdsConceptMGR.searchFormId}"
+                  manager="#{openCdsConceptMGR}"
+                  searchOption="PartialText"
+                  queryClass="ByGeneralProperties">
+        <h:panelGrid columns="2"
+                     cellpadding="0"
+                     cellspacing="0"
+                     style="float:right;margin-top:-25px;margin-bottom:10px;">
+            <w:dialogButton icon="ui-icon ui-icon-extlink"
+                            update=":#{p:component('exportPanel')}"
+                            oncomplete="PF('exportPanelVar').show()"
+                            value="Export Concept Data" />
+
+            <w:dialogButton icon="ui-icon ui-icon-extlink"
+                            update=":#{p:component('importPanel')}"
+                            oncomplete="PF('importPanelVar').show()"
+                            value="Import Concept Data" />
+        </h:panelGrid>
+
+        <fs:selectOneMenu id="codeSystem"
+                          labelWidth="175px"
+                          width="450px"
+                          value="#{openCdsConceptMGR.searchCriteriaDTO.queryMap['code_system_id']}"
+                          selectItemsValue="#{cdsCodeSystemDTOList.selectItems}"
+                          selectItemLabel="#{item.name} - #{item.oid}"
+                          selectItemValue="#{item.codeSystemId}" />
+
+        <fs:selectOneMenu id="determinationMethod"
+                          labelWidth="175px"
+                          width="450px"
+                          value="#{openCdsConceptMGR.searchCriteriaDTO.queryMap['cdm_id']}"
+                          selectItemsValue="#{conceptDeterminationMethodDTOList.selectItems}"
+                          selectItemLabel="#{item.code}"
+                          selectItemValue="#{item.codeId}" />
+
+        <fs:selectOneMenu id="version"
+                          label="Knowledge Module Version"
+                          width="450px"
+                          labelWidth="175px"
+                          value="#{openCdsConceptMGR.searchCriteriaDTO.queryMap['version_id']}"
+                          selectItemsValue="#{cdsBusinessScopeDTOList.allCdsVersionDTOs}"
+                          selectItemLabel="#{item.label}"
+                          selectItemValue="#{item.versionId}" />
+
+        <fs:inputText id="textSearch"
+                      labelWidth="175px"
+                      maxlength="256"
+                      size="80"
+                      value="#{openCdsConceptMGR.searchCriteriaDTO.queryMap['text']}" />
+
+    </b:searchForm>
+</ui:composition>

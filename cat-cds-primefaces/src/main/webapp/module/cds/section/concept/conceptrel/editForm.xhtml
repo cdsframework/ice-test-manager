@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <style>
+        .ui-selectonemenu-panel .ui-selectonemenu-list-item {
+            max-width:350px;
+        }
+    </style>
+
+    <b:editForm id="#{openCdsConceptRelMGR.editFormId}"
+                width="800"
+                height="300"
+                showNew="false"
+                header="Code/Code System/Value Set Mappings"
+                showTabViewNavigator="false"
+                manager="#{openCdsConceptRelMGR}">
+        
+        <p:tab id="#{openCdsConceptRelMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="conceptRelSection" 
+                          styleClass="tab-content">
+
+                <w:selectOneMenu id="conceptDeterminationMethodDTO"
+                                 label="Concept Determination Method"
+                                 labelWidth="200px"
+                                 required="true"
+                                 selectStyle="width:500px;"
+                                 value="#{openCdsConceptRelMGR.parentDTO.conceptDeterminationMethodDTO}"
+                                 converter="#{conceptDeterminationMethodConverter}"
+                                 selectItemsValue="#{conceptDeterminationMethodDTOList.selectItems}"
+                                 selectItemLabel="#{item.label}"
+                                 selectItemValue="#{item}"
+                                 processOnChange="true" 
+                                 onChangeUpdate="#{p:component('conceptRelSection')}" />                                  
+                
+                <w:selectOneMenu id="mappingType"
+                                 labelWidth="200px"
+                                 required="true"
+                                 value="#{openCdsConceptRelMGR.parentDTO.mappingType}"
+                                 selectItemsValue="#{conceptMappingTypeList.selectItems}"
+                                 selectItemLabel="#{item.label}"
+                                 selectItemValue="#{item}" 
+                                 processOnChange="true" 
+                                 onChangeUpdate="#{p:component('conceptRelSection')}" />
+                
+                <h:panelGroup id="cdsCodeSystemPanelGroup"
+                              rendered="#{not empty openCdsConceptRelMGR.parentDTO.conceptDeterminationMethodDTO
+                                          and openCdsConceptRelMGR.parentDTO.mappingType == 'CODE_SYSTEM'}"
+                              layout="block">
+                    <w:popupSearchLink label="Code System"
+                                       labelWidth="200px"
+                                       value="#{openCdsConceptRelMGR.parentDTO.cdsCodeSystemDTO.label}"
+                                       dto="#{openCdsConceptRelMGR.parentDTO}"
+                                       manager="#{openCdsConceptRelMGR}"
+                                       fieldName="cdsCodeSystemDTO"
+                                       htmlPath="/module/cds/section/codesystem/popup/codeSystemSearch"
+                                       searchTitle="Code System Search" 
+                                       popupSearchUpdate=":#{p:component('cdsCodeSystemPanelGroup')}"> 
+                    </w:popupSearchLink>
+                </h:panelGroup>                        
+                <h:panelGroup id="valueSetPanelGroup"
+                              rendered="#{not empty openCdsConceptRelMGR.parentDTO.conceptDeterminationMethodDTO
+                                          and openCdsConceptRelMGR.parentDTO.mappingType == 'VALUE_SET'}" 
+                              layout="block" >
+                    <w:popupSearchLink label="Value Set"
+                                       labelWidth="200px"
+                                       value="#{openCdsConceptRelMGR.parentDTO.valueSetDTO.label}"
+                                       dto="#{openCdsConceptRelMGR.parentDTO}"                                           
+                                       manager="#{openCdsConceptRelMGR}"
+                                       fieldName="valueSetDTO"
+                                       htmlPath="/module/cds/section/valueset/popup/valueSetSearch"
+                                       searchTitle="Value Set Search" 
+                                       popupSearchUpdate=":#{p:component('valueSetPanelGroup')}"> 
+                    </w:popupSearchLink>
+                </h:panelGroup>
+                <h:panelGroup id="cdsCodePanelGroup"
+                              rendered="#{not empty openCdsConceptRelMGR.parentDTO.conceptDeterminationMethodDTO
+                                          and openCdsConceptRelMGR.parentDTO.mappingType == 'CODE'}" 
+                              layout="block">
+                        <w:popupSearchLink label="Code"
+                                           labelWidth="200px"
+                                           value="#{openCdsConceptRelMGR.parentDTO.cdsCodeDTO.label}"
+                                           manager="#{openCdsConceptRelMGR}"
+                                           dto="#{openCdsConceptRelMGR.parentDTO}"                                           
+                                           htmlPath="/module/cds/section/code/popup/codeSearch"
+                                           searchTitle="Code Search" 
+                                           fieldName="cdsCodeDTO"
+                                           popupSearchUpdate=":#{p:component('cdsCodePanelGroup')} :#{p:component('cdsCodeSystemPanelGroup')}"> 
+                        </w:popupSearchLink>
+                </h:panelGroup>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

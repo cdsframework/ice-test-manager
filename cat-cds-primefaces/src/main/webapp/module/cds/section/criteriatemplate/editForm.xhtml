@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <b:editForm id="#{criteriaDataTemplateRelMGR.editFormId}"
+                width="900"
+                height="600"
+                showTabViewNavigator="false"
+                manager="#{criteriaDataTemplateRelMGR}">
+
+        <p:tab title=" "
+               id="#{criteriaDataTemplateRelMGR.getTabIdByIndex(0)}"> 
+
+            <fs:outputText id="relId"
+                           rendered="#{not criteriaDataTemplateRelMGR.parentDTO.isNew()}"
+                           label="ID"
+                           value="#{criteriaDataTemplateRelMGR.parentDTO.relId}" />
+
+            <h:panelGroup layout="block"
+                          styleClass="tab-content"
+                          id="templateContainer">
+                <fs:selectOneMenu id="dataTemplate"
+                                  panelGridStyleClass=""
+                                  width="320px"
+                                  onChangeActionListener="#{criteriaDataTemplateRelMGR.updateChildNodes()}"
+                                  processOnChange="true"
+                                  onChangeProcess="#{p:component('dataTemplate')}"
+                                  converter="#{dataTemplateConverter}"
+                                  value="#{criteriaDataTemplateRelMGR.parentDTO.dataTemplateDTO}"
+                                  selectItemsValue="#{dataTemplateDTOList.selectItems}"
+                                  selectItemLabel="#{item.name}"
+                                  selectItemValue="#{item}" />
+                <fs:inputText id="label"
+                              size="70"
+                              value="#{criteriaDataTemplateRelMGR.parentDTO.label}" />
+            </h:panelGroup>
+            <h:panelGroup layout="block"
+                          styleClass="tab-content"
+                          id="dataContainer">
+                <b:dtoInlineDataTable manager="#{criteriaDataTemplateRelMGR}"
+                                      childClass="org.cdsframework.dto.CriteriaDataTemplateRelNodeDTO"
+                                      showAdd="false"
+                                      header="Available Criteria Template Nodes">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{child.relId}" />
+                    </p:column>
+                    <p:column headerText="Node">
+                        <h:outputText value="#{child.dataTemplateNodeRelDTO.dataModelClassNodeDTO.name}" />
+                    </p:column>
+                    <p:column headerText="Node Type">
+                        <h:outputText value="#{child.dataTemplateNodeRelDTO.dataModelClassNodeDTO.nodeType}" />
+                    </p:column>
+                    <p:column headerText="Class">
+                        <h:outputText value="#{child.dataTemplateNodeRelDTO.dataModelClassNodeDTO.dataModelClassDTO.name}" />
+                    </p:column>
+                    <p:column headerText="Class Type">
+                        <h:outputText value="#{child.dataTemplateNodeRelDTO.dataModelClassNodeDTO.dataModelClassDTO.classType}" />
+                    </p:column>
+                </b:dtoInlineDataTable>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

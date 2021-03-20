@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ejb-jar xmlns = "http://java.sun.com/xml/ns/javaee"
+         version = "3.1"
+         xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation = "http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+    <description>MTS ICE EJBs</description>
+    <display-name>mts</display-name>
+    <enterprise-beans>
+        <session>
+            <ejb-name>IcePlugin</ejb-name>
+
+            <env-entry>
+                <env-entry-name>ICE_DATE_LEGACY_MODE</env-entry-name>
+                <env-entry-type>java.lang.Boolean</env-entry-type>
+                <env-entry-value>false</env-entry-value>
+            </env-entry>
+
+            <!-- test mgmt -->
+            <env-entry>
+                <env-entry-name>TEST_MGR_TEST_SUBMISSION_Q_SIZE</env-entry-name>
+                <env-entry-type>java.lang.Integer</env-entry-type>
+                <env-entry-value>6</env-entry-value>
+            </env-entry>
+
+            <!-- default business scope version info -->
+            <env-entry>
+                <env-entry-name>ICE_DEFAULT_BUSINESS_ID</env-entry-name>
+                <env-entry-type>java.lang.String</env-entry-type>
+                <env-entry-value>ICE</env-entry-value>
+            </env-entry>
+            <env-entry>
+                <env-entry-name>ICE_DEFAULT_SCOPING_ENTITY_ID</env-entry-name>
+                <env-entry-type>java.lang.String</env-entry-type>
+                <env-entry-value>org.nyc.cir</env-entry-value>
+            </env-entry>
+            <env-entry>
+                <env-entry-name>ICE_DEFAULT_VERSION</env-entry-name>
+                <env-entry-type>java.lang.String</env-entry-type>
+                <env-entry-value>1.0.0</env-entry-value>
+            </env-entry>
+            <env-entry>
+                <env-entry-name>ICE_DEFAULT_CONCEPT_DETERMINATION_METHOD</env-entry-name>
+                <env-entry-type>java.lang.String</env-entry-type>
+                <env-entry-value>C36</env-entry-value>
+            </env-entry>
+
+            <!-- db resources -->
+            <env-entry>
+                <env-entry-name>DB_RESOURCES</env-entry-name>
+                <env-entry-type>java.lang.String</env-entry-type>
+                <env-entry-value>ICE|jdbc/cds,ICE_MTS|jdbc/mts</env-entry-value>
+            </env-entry>
+        </session>
+    </enterprise-beans>
+</ejb-jar>

@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT ICE plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <b:editForm id="#{iceSeriesMGR.editFormId}"
+                width="950"
+                height="650"
+                manager="#{iceSeriesMGR}">
+        <p:tab title="#{iceSeriesMGR.baseHeader} Details"
+               id="#{iceSeriesMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="iceSeriesDetail" 
+                          styleClass="tab-content">
+                <fs:outputText id="seriesId"
+                               rendered="#{not iceSeriesMGR.parentDTO.new}"
+                               label="ID"
+                               labelWidth="175px"
+                               value="#{iceSeriesMGR.parentDTO.seriesId}" />
+
+                <fs:inputText id="name"
+                              size="90"
+                              labelWidth="175px"
+                              processOnChange="true"
+                              onChangeUpdate="@none"
+                              value="#{iceSeriesMGR.parentDTO.name}" />
+
+                <fs:inputText id="code"
+                              size="90"
+                              labelWidth="175px"
+                              processOnChange="true"
+                              onChangeUpdate="@none"
+                              value="#{iceSeriesMGR.parentDTO.code}" />
+
+                <h:panelGroup id="vaccineGroupPG">
+                    <w:popupSearchLink id="vaccineGroup"
+                                       showReset="false"
+                                       dto="#{iceSeriesMGR.parentDTO}"
+                                       value="#{iceSeriesMGR.parentDTO.iceVaccineGroupDTO.vaccineGroupName} (#{iceSeriesMGR.parentDTO.iceVaccineGroupDTO.vaccineGroupCode})"
+                                       manager="#{iceSeriesMGR}"
+                                       queryParms="#{[iceSeriesMGR.parentDTO.seriesId]}"
+                                       htmlPath="/module/ice/section/vaccinegroup/popup/groupSeriesSearch"
+                                       searchTitle="Group Search" 
+                                       fieldName="iceVaccineGroupDTO"
+                                       popupSearchUpdate="#{p:component('vaccineGroupPG')}" />
+                </h:panelGroup>
+
+                <fs:inputTextarea id="notes"
+                                  labelWidth="175px"
+                                  processOnChange="true"
+                                  rows="4"
+                                  cols="90"
+                                  value="#{iceSeriesMGR.parentDTO.notes}"/>
+
+                <b:dtoInlineDataTable manager="#{iceSeriesMGR}"
+                                      childClass="org.cdsframework.dto.IceSeriesVersionRelDTO$BySeriesId"
+                                      paginator="false"
+                                      header="Knowledge Module Version List">
+                    <p:column headerText="Knowledge Module Version">
+                        <w:popupSearchLink id="version"
+                                           showLabel="false"
+                                           showReset="false"
+                                           showSearch="#{child.new}"
+                                           dto="#{child}"
+                                           value="#{child.cdsVersionDTO.label}"
+                                           manager="#{iceSeriesMGR}"
+                                           htmlPath="/module/cds/section/businessversion/popup/versionSearch"
+                                           searchTitle="Version Search" 
+                                           fieldName="cdsVersionDTO"
+                                           popupSearchUpdate="#{p:component('org_cdsframework_dto_IceSeriesVersionRelDTO_BySeriesId')}" /> 
+                    </p:column>
+
+                </b:dtoInlineDataTable>
+
+                <h:panelGroup id="doses"
+                              layout="block">
+                    <b:dtoDataTable manager="#{iceSeriesDoseMGR}"
+                                    paginator="false"
+                                    showDelete="true"
+                                    showAdd="#{not empty iceSeriesMGR.parentDTO.iceVaccineGroupDTO}"
+                                    header="Dose List">
+                        <p:column sortBy="#{dto.doseNumber}">
+                            <f:facet name="header">
+                                Dose<br />Number
+                            </f:facet>
+                            <h:outputText value="#{dto.doseNumber}" />
+                        </p:column>
+                        <p:column headerText="Abs Min Age">
+                            <f:facet name="header">
+                                Abs<br />Min Age
+                            </f:facet>
+                            <h:outputText value="#{dto.absMinAge}" />
+                        </p:column>
+                        <p:column headerText="Min Age">
+                            <h:outputText value="#{dto.minAge}" />
+                        </p:column>
+                        <p:column headerText="Max Age">
+                            <h:outputText value="#{dto.maxAge}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Earliest<br />Rec Age
+                            </f:facet>
+                            <h:outputText value="#{dto.earliestRecommendedAge}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Latest<br />Rec Age
+                            </f:facet>
+                            <h:outputText value="#{dto.latestRecommendedAge}" />
+                        </p:column>
+                        <p:column headerText="Allowed Vaccines">
+                            <h:outputText escape="false" value="#{dto.allowedVaccines}" />
+                        </p:column>
+                        <p:column headerText="Preferred Vaccines">
+                            <h:outputText escape="false" value="#{dto.preferredVaccines}" />
+                        </p:column>
+                    </b:dtoDataTable>
+                </h:panelGroup>
+                <b:dtoDataTable manager="#{iceSeriesDoseIntervalMGR}"
+                                paginator="false"
+                                header="Dose Interval List">
+                    <p:column headerText="From Dose #">
+                        <h:outputText value="#{dto.fromDoseNumber}" />
+                    </p:column>
+                    <p:column headerText="To Dose #">
+                        <h:outputText value="#{dto.toDoseNumber}" />
+                    </p:column>
+                    <p:column headerText="Abs Min Interval">
+                        <h:outputText value="#{dto.absMinInterval}" />
+                    </p:column>
+                    <p:column headerText="Min Interval">
+                        <h:outputText value="#{dto.minInterval}" />
+                    </p:column>
+                    <p:column headerText="Earliest Rec Interval">
+                        <h:outputText value="#{dto.earliestRecommendedInterval}" />
+                    </p:column>
+                    <p:column headerText="Latest Rec Interval">
+                        <h:outputText value="#{dto.latestRecommendedInterval}" />
+                    </p:column>
+                </b:dtoDataTable>
+
+                <b:dtoInlineDataTable  manager="#{iceSeriesMGR}"
+                                       childClass="org.cdsframework.dto.IceSeriesSeasonRelDTO$BySeriesId"
+                                       paginator="false"
+                                       header="Season List">
+                    <p:column headerText="Season">
+                        <w:popupSearchLink showReset="false"
+                                           showLabel="false"
+                                           dto="#{child}"
+                                           value="#{child.iceSeasonDTO.name} (#{child.iceSeasonDTO.code})"
+                                           manager="#{iceSeriesMGR}"
+                                           queryParms="#{[iceSeriesMGR.parentDTO.seriesId]}"
+                                           htmlPath="/module/ice/section/season/popup/seasonSeriesSearch"
+                                           searchTitle="Season Search" 
+                                           fieldName="iceSeasonDTO"
+                                           popupSearchUpdate="#{p:component('org_cdsframework_dto_IceSeriesSeasonRelDTO_BySeriesId')}" />
+
+                    </p:column>
+                </b:dtoInlineDataTable>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

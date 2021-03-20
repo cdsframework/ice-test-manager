@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT ICE plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <style type="text/css">
+        .trdt .ui-datatable-data .ui-expanded-row-content td {
+            margin:0;
+            padding:0;
+        }
+        .trdt .ui-datatable-data .ui-expanded-row-content td table td {
+            padding:4px;
+        }
+        .trdt .ui-datatable-data .ui-expanded-row-content .ui-datatable {
+            margin:0;
+        }
+        .jqplot-xaxis, .jqplot-yaxis {
+            display:none;
+        }
+    </style>
+
+    <h:outputText value="Suite Test Results for: #{manager.parentDTO.name}"
+                  style="font-weight:bold" />
+    <br />
+    <br />
+
+    <h:outputText value="Test Run Progress:" />
+
+    <br />
+    <br />
+
+    <p:progressBar id="testProgressBar"
+                   widgetVar="progressBarVar"
+                   ajax="true"
+                   interval="3000"
+                   style="color:#FFCC00;"
+                   styleClass="animated"
+                   value="#{iceTestResultAssist.progress}"
+                   labelTemplate="{value}%">
+        <p:ajax event="complete"
+                listener="#{iceTestResultAssist.onComplete}"
+                update="testResults"/>
+    </p:progressBar>
+
+    <h:panelGrid id="testResults">
+     <!-- <p:treeTable id="treeTable"
+                     binding="#{iceTestResultAssist.treeTable}"
+                     value="#{iceTestResultAssist.treeTableRoot}"
+                     var="test"
+                     selection="#{iceTestResultAssist.foo}"
+                     selectionMode="single"
+                     rendered="#{iceTestResultAssist.complete}">
+            <f:facet name="header">
+                <h:panelGroup>Expand rows to see detailed information</h:panelGroup>
+            </f:facet>
+            <p:column headerText="ID"
+                      sortBy="#{test.iceTestDTO.testId}">
+                <h:outputText value="#{utilityMGR.formatUuid(test.iceTestDTO.testId)}" />
+            </p:column>
+            <p:column headerText="Name"
+                      sortBy="#{test.iceTestDTO.name.toLowerCase()}">
+                <p:commandLink actionListener="#{iceTestMGR.onRowSelectTestMain(test)}"
+                               oncomplete="PF('#{iceTestMGR.editDialogWidgetVar}').show()">
+                    <h:outputText value="#{test.iceTestDTO.name}" />
+                </p:commandLink>
+            </p:column>
+            <p:column headerText="Duration (ms)" style="text-align:center;">
+                <h:outputText value="#{test.duration}"
+                              rendered="#{not test.iceTestDTO.isIgnore() and not test.iceTestGroupDTO.isIgnore()}">
+                    <f:convertNumber type="number" maxFractionDigits="2" pattern="#,###.##" />
+                </h:outputText>
+                <h:outputText value="skipped"
+                              rendered="#{test.iceTestDTO.isIgnore() or test.iceTestGroupDTO.isIgnore()}" />
+            </p:column>
+        </p:treeTable> -->
+      <p:dataTable value="#{iceTestResultAssist.dataTableMGR}"
+                     style="width:865px;"
+                     styleClass="trdt"
+                     var="test"
+                     rendered="#{iceTestResultAssist.complete}">
+            <f:facet name="header">
+                <h:panelGroup>Expand rows to see detailed information</h:panelGroup>
+            </f:facet>
+            <p:column style="width:16px">
+                <p:rowToggler />
+            </p:column>
+            <p:column headerText="ID"
+                      style="width:85px;"
+                      sortBy="#{test.iceTestDTO.testId}">
+                <h:outputText value="#{utilityMGR.formatUuid(test.iceTestDTO.testId)}" />
+            </p:column>
+            <p:column headerText="Name"
+                      sortBy="#{test.iceTestDTO.name.toLowerCase()}"
+                      style="word-break:break-word;">
+                <p:commandLink actionListener="#{iceTestMGR.onRowSelectTestMain(test)}"
+                               oncomplete="PF('#{iceTestMGR.editDialogWidgetVar}').show()">
+                    <h:outputText value="#{test.iceTestDTO.name}" />
+                </p:commandLink>
+            </p:column>
+            <p:column headerText="Duration (ms)"
+                      style="text-align:center;width:70px;">
+                <h:outputText value="#{test.duration}"
+                              rendered="#{not test.iceTestDTO.isIgnore() and not test.iceTestGroupDTO.isIgnore()}">
+                    <f:convertNumber type="number" maxFractionDigits="2" pattern="#,###.##" />
+                </h:outputText>
+                <h:outputText value="skipped"
+                              rendered="#{test.iceTestDTO.isIgnore() or test.iceTestGroupDTO.isIgnore()}" />
+            </p:column>
+            <p:column headerText="Eval. Passed?"
+                      style="text-align:center;width:70px;">
+                <w:booleanImage value="#{test.isEvaluationPassed()}"
+                                rendered="#{not test.iceTestDTO.isIgnore() and not test.iceTestGroupDTO.isIgnore()}"
+                                falseTitle="Failed"
+                                trueTitle="Passed" />
+            </p:column>
+            <p:column headerText="Rec. Passed?"
+                      style="text-align:center;width:70px;">
+                <w:booleanImage value="#{test.isRecommendationPassed()}"
+                                rendered="#{not test.iceTestDTO.isIgnore() and not test.iceTestGroupDTO.isIgnore()}"
+                                falseTitle="Failed"
+                                trueTitle="Passed" />
+            </p:column>
+            <p:column headerText="Passed?"
+                      sortBy="#{test.iceTestDTO.isIgnore() ? 1 : test.isPassed() ? 2 : 0 } #{test.iceTestDTO.name.toLowerCase()}"
+                      style="text-align:center;width:70px;">
+                <w:booleanImage value="#{test.isPassed()}"
+                                rendered="#{not test.iceTestDTO.isIgnore() and not test.iceTestGroupDTO.isIgnore()}"
+                                falseTitle="Failed"
+                                trueTitle="Passed" />
+            </p:column>
+            <p:rowExpansion>
+                <p:dataTable value="#{test.differenceLog}"
+                             emptyMessage="No differences found."
+                             var="line">
+                    <p:column headerText="Differences">
+                        <h:outputText value="#{line}"
+                                      escape="false" />
+                    </p:column>
+                </p:dataTable>
+            </p:rowExpansion>
+        </p:dataTable>
+        <h:panelGrid rendered="#{iceTestResultAssist.complete}">
+            <p:chart
+                type="bar"
+                id="stacked"
+                model="#{iceTestResultAssist.barChartModel}"
+                rendered="#{iceTestResultAssist.complete and not iceTestResultAssist.started}"
+                style="height:65px;"
+                />
+
+            <fs:outputText label="Total Tests Passed"
+                           value="#{iceTestResultAssist.totalRun > 0 ? iceTestResultAssist.totalPassed : 'no results found'}
+                           #{iceTestResultAssist.totalRun > 0 ? 'of' : ''}
+                           #{iceTestResultAssist.totalRun > 0 ? iceTestResultAssist.totalRun : ''}" />
+
+            <fs:outputText label="Total Tests Failed"
+                           value="#{iceTestResultAssist.totalRun > 0 ? iceTestResultAssist.totalFailed : 'no results found'}
+                           #{iceTestResultAssist.totalRun > 0 ? 'of' : ''}
+                           #{iceTestResultAssist.totalRun > 0 ? iceTestResultAssist.totalRun : ''}" />
+
+            <fs:outputText label="Total Tests Skipped"
+                           value="#{(iceTestResultAssist.totalRun > 0 or iceTestResultAssist.totalSkipped > 0) ? iceTestResultAssist.totalSkipped : 'no results found'}" />
+
+            <fs:outputNumberText label="Total Duration (ms)"
+                                 value="#{iceTestResultAssist.totalDuration > 0 ? iceTestResultAssist.totalDuration : 'no results found'}" />
+            <fs:outputNumberText label="Avg Duration (ms)"
+                                 value="#{iceTestResultAssist.totalRun > 0 ? iceTestResultAssist.totalDuration/iceTestResultAssist.totalRun : 'no results found'}" />
+
+            <fs:outputNumberText label="Parallel run factor"
+                                 value="#{iceTestResultAssist.multiplexingFactor}" />
+        </h:panelGrid>
+    </h:panelGrid>
+</ui:composition>

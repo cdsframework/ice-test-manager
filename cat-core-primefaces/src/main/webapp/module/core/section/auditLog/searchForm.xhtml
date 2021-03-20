@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT Core plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base" >
+
+    <b:searchForm id="#{auditLogMGR.searchFormId}"
+                  header="Audit Log Search" 
+                  searchOption="Asterisk"
+                  manager="#{auditLogMGR}"
+                  queryClass="ByGeneralProperties" >
+        <h:panelGrid columns="6">
+            <h:outputLabel for="transactionId"
+                           value="Transaction Id: "
+                           styleClass="label-right" />
+            <p:inputText id="transactionId"
+                         label="Transaction Id"
+                         tabindex="1"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['transactionId']}" />
+            <h:outputLabel for="auditId"
+                           value="Audit Id: "
+                           styleClass="label-right" />
+            <p:inputText id="auditId"
+                         label="Audit Id"
+                         tabindex="2"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['auditId']}" />
+            <h:outputLabel for="transactionType"
+                           value="Transaction Type: "
+                           styleClass="label-right" />
+            <p:inputText id="transactionType"
+                         label="Transaction Type"
+                         tabindex="4"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['transactionType']}" />
+            <h:outputLabel for="status"
+                           value="Status: "
+                           styleClass="label-right" />
+            <p:inputText id="status"
+                         label="Status"
+                         tabindex="5"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['status']}" />
+            <h:outputLabel for="className"
+                           value="Class Name: "
+                           styleClass="label-right" />
+            <p:inputText id="className"
+                         label="Class Name"
+                         tabindex="6"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['className']}" />
+            <h:outputLabel for="propertyName"
+                           value="Property Name: "
+                           styleClass="label-right" />
+            <p:inputText id="propertyName"
+                         label="Property Name"
+                         tabindex="7"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['propertyName']}" />
+            <h:outputLabel for="appName"
+                           value="App Name: "
+                           styleClass="label-right" />
+            <p:inputText id="appName"
+                         label="App Name"
+                         tabindex="8"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['appName']}" />
+            <h:outputLabel for="oldValue"
+                           value="Old Value: "
+                           styleClass="label-right" />
+            <p:inputText id="oldValue"
+                         label="Old Value"
+                         tabindex="9"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['oldValue']}" />
+            <h:outputLabel for="newValue"
+                           value="New Value: "
+                           styleClass="label-right" />
+            <p:inputText id="newValue"
+                         label="New Value"
+                         tabindex="10"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['newValue']}" />
+            <h:outputLabel for="lastModId"
+                           value="Last Mod Id: "
+                           styleClass="label-right" />
+            <p:inputText id="lastModId"
+                         label="Last Mod Id"
+                         tabindex="11"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['lastModId']}" />
+            <h:outputLabel for="createId"
+                           value="Create Id: "
+                           styleClass="label-right" />
+            <p:inputText id="createId"
+                         label="Create Id"
+                         tabindex="12"
+                         value="#{auditLogMGR.searchCriteriaDTO.queryMap['createId']}" />
+            <h:outputLabel value="" />
+            <h:outputLabel value="" />
+            <h:outputLabel for="startCreateDatetime"
+                           value="Start Create Date: "
+                           styleClass="label-right" />
+            <p:calendar id="startCreateDatetime"
+                        tabindex="13"
+                        label="Start Create Date"
+                        value="#{auditLogMGR.searchCriteriaDTO.queryMap['startCreateDatetime']}"
+                        mode="popup"
+                        showOn="button"
+                        pattern="MM/dd/yyyy"
+                        maxlength="10"
+                        title="Leave blank for no lower bound."
+                        converter="#{dateConverter}" />
+            <h:outputLabel for="stopCreateDatetime"
+                           value="End Create Date: "
+                           styleClass="label-right" />
+            <p:calendar id="stopCreateDatetime"
+                        label="End Create Date"
+                        value="#{auditLogMGR.searchCriteriaDTO.queryMap['stopCreateDatetime']}"
+                        mode="popup"
+                        showOn="button"
+                        pattern="MM/dd/yyyy"
+                        tabindex="14"
+                        maxlength="10"
+                        title="Leave blank for no upper bound."
+                        converter="#{dateConverter}" />
+        </h:panelGrid>
+    </b:searchForm>
+</ui:composition>

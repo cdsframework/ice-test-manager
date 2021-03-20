@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT Core plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+      xmlns:h="http://java.sun.com/jsf/html" >
+-->
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base" >
+                    
+    <p:dialog widgetVar="#{auditTransactionMGR.popupDialogWidgetVar}"
+              header="#{auditTransactionMGR.baseHeader} History"
+              dynamic="true"
+              modal="true"
+              closable="false"
+              resizable="false">
+
+        <h:form id="#{auditTransactionMGR.name}SearchResultsForm" >
+            <p:scrollPanel style="width: 1200px; height: 600px; margin-bottom: 40px; margin-left: 5px; margin-right: 5px;"
+                           mode="native">          
+                <p:treeTable value="#{auditTransactionMGR.treeTableRoot}"
+                             var="auditNode" 
+                             id="#{auditTransactionMGR.treeTableId}">
+
+                    <p:ajax event="expand" listener="#{auditTransactionMGR.onNodeExpand}" />                  
+                    <p:ajax event="collapse" listener="#{auditTransactionMGR.onNodeCollapse}" />  
+                    <p:ajax event="select" listener="#{auditTransactionMGR.onNodeSelect}"  />  
+                    <p:ajax event="unselect" listener="#{auditTransactionMGR.onNodeUnselect}" />  
+
+                    <f:facet name="header">
+                        Audit Entries (# of Results: #{auditTransactionMGR.rowCount})
+                    </f:facet> 
+                    <p:column headerText="Audit Date">
+                        <p:selectBooleanCheckbox rendered="#{auditNode.undoable}"
+                                                 value="#{auditNode.selected}" 
+                                                 style="padding-left: 2px; padding-right: 2px">
+                            <p:ajax event="change"
+                                    process="@this"
+                                    listener="#{auditTransactionMGR.onNodeCheck(auditNode)}" />
+                        </p:selectBooleanCheckbox>
+                        <h:outputText value="#{auditNode.auditLevel == 'Audit' ? utilityMGR.getDateAsPresentOrPast(auditNode.auditTransactionDTO.createDatetime) : 
+                                              (auditNode.auditLevel == 'ClassName' ? utilityMGR.getClassName(auditNode.auditLogDTO.className) : 
+                                              (auditNode.auditLevel == 'PropertyName' ? utilityMGR.getPropertyName(auditNode.auditLogDTO.propertyName) : '-'))}" />
+                    </p:column>
+                    <p:column headerText="Create Id">
+                        <h:outputText value="#{auditNode.auditTransactionDTO.createId}" />
+                    </p:column>
+                    <p:column headerText="Type">
+                        <h:outputText value="#{auditNode.auditLevel == 'Audit' ? auditNode.auditTransactionDTO.transactionType : 
+                                              (auditNode.auditLevel == 'PropertyName' ? auditNode.auditLogDTO.transactionType : '-')}" />
+                    </p:column>
+                    <p:column headerText="Old Value">
+                        <h:outputText value="#{auditNode.auditLevel == 'PropertyName' ? auditNode.auditLogDTO.oldValue : '-'}" />
+                    </p:column>
+                    <p:column headerText="New Value">
+                        <h:outputText value="#{auditNode.auditLevel == 'PropertyName' ? auditNode.auditLogDTO.newValue : '-'}" />
+                    </p:column>
+                    <p:column headerText="Create Date">
+                        <h:outputText value="#{auditNode.auditLevel == 'PropertyName' ? 
+                                               utilityMGR.getDateAsPresentOrPast(auditNode.auditLogDTO.createDatetime) : '-'}" />
+                    </p:column>
+                    <p:column headerText="Id">
+                        <h:outputText value="#{auditNode.auditLevel == 'Audit' ? auditNode.auditTransactionDTO.transactionId : 
+                                              (auditNode.auditLevel == 'ClassName' ? auditNode.auditLogDTO.auditId : 
+                                              (auditNode.auditLevel == 'PropertyName' ? auditNode.auditLogDTO.auditLogId : '-'))}" />
+                    </p:column>
+
+                </p:treeTable>
+            </p:scrollPanel>
+            <h:panelGroup layout="block"
+                          styleClass="height100">
+                <h:panelGroup layout="block"
+                              style="position:absolute;bottom:0;width:98%">
+                    <h:panelGroup layout="block"
+                                  style="width:100%;position:absolute;">
+                        <h:panelGroup id="pageNavigation"
+                                      layout="block"
+                                      style="float:left;margin:0 auto;display:table;">
+                            <p:commandButton id="first"
+                                             title="First"
+                                             disabled="#{auditTransactionMGR.currentPage == 1}"
+                                             actionListener="#{auditTransactionMGR.firstPage}"
+                                             style="margin-bottom:6px;"
+                                             icon="ui-icon-seek-first" />
+                            <p:commandButton id="prev"
+                                             title="Previous"
+                                             disabled="#{auditTransactionMGR.currentPage == 1}"
+                                             actionListener="#{auditTransactionMGR.previousPage}"
+                                             style="margin-bottom:6px;margin-left:5px;"
+                                             icon="ui-icon-seek-prev" />
+                            <p:outputLabel id="pageInfo"
+                                           value="#{auditTransactionMGR.pagePosition}" />
+                                             
+                            <p:commandButton id="next"
+                                             title="Next"
+                                             disabled="#{auditTransactionMGR.currentPage == auditTransactionMGR.pageCount}"
+                                             actionListener="#{auditTransactionMGR.nextPage}"
+                                             style="margin-bottom:6px;margin-left:5px;"
+                                             icon="ui-icon-seek-next" />
+                            <p:commandButton id="last"
+                                             title="Last"
+                                             disabled="#{auditTransactionMGR.currentPage == auditTransactionMGR.pageCount}"
+                                             actionListener="#{auditTransactionMGR.lastPage}"
+                                             style="margin-bottom:6px;margin-left:5px;"
+                                             icon="ui-icon-seek-end" />
+                        </h:panelGroup>            
+                    </h:panelGroup>
+                    <h:panelGroup layout="block"
+                                  style="float:right;margin-bottom:6px;margin-right:4px;">
+                        <!-- Do not render undo until its finished -->
+                        <p:commandButton icon="ui-icon-seek-check"
+                                         rendered="false"
+                                         disabled="#{not auditTransactionMGR.transactionUndoable}"
+                                         actionListener="#{auditTransactionMGR.undoMain}" 
+                                         oncomplete="PF('#{auditTransactionMGR.popupDialogWidgetVar}').hide();"
+                                         value="Undo"
+                                         process="@this"
+                                         styleClass="cat-editor-button">
+                        </p:commandButton>
+
+                        <p:commandButton icon="ui-icon ui-icon-close"
+                                         oncomplete="PF('#{auditTransactionMGR.popupDialogWidgetVar}').hide();"
+                                         value="Cancel"
+                                         process="@this"
+                                         styleClass="cat-editor-button">
+                        </p:commandButton>
+                        
+                        <!--
+                        <w:dialogButton icon="ui-icon ui-icon-check"
+                                        rendered="false"
+                                        disabled="#{not auditTransactionMGR.transactionUndoable}"
+                                        actionListener="#{auditTransactionMGR.undoMain}"
+                                        oncomplete="PF('#{auditTransactionMGR.popupDialogWidgetVar}').hide();"
+                                        value="Undo">
+                        </w:dialogButton>
+                        <w:dialogButton icon="ui-icon ui-icon-close"
+                                         oncomplete="PF('#{auditTransactionMGR.popupDialogWidgetVar}').hide();"
+                                         value="Cancel">
+                        </w:dialogButton>
+                        -->
+                        
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>    
+    </p:dialog>
+</ui:composition>    
+
+    <!--
+</html> 
+    -->

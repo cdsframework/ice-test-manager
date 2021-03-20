@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+      xmlns:b="http://java.sun.com/jsf/composite/components/base">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="header" type="java.lang.String" default="#{cc.attrs.manager.baseHeader} Editor"/>
+        <cc:attribute name="manager" type="org.cdsframework.base.BaseTreeMGR" required="true"/>
+        <cc:attribute name="rowStyleClass"
+                      default="#{cc.attrs.manager.isBaseDTO(dto) ? cc.attrs.manager.getDTOState(dto) : null}"
+                      type="java.lang.String"/>
+        <cc:attribute name="showContextMenu" type="java.lang.Boolean" default="false"/>
+        <cc:attribute name="showDelete" type="java.lang.Boolean" default="false"/>
+        <cc:attribute name="showFindAll" type="java.lang.Boolean" default="true"/>
+        <cc:attribute name="showNew" type="java.lang.Boolean" default="true"/>
+        <cc:attribute name="showSortMenu" type="java.lang.Boolean" default="true"/>
+        <cc:attribute name="styleClass" type="java.lang.String" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:contextMenu rendered="#{cc.attrs.showContextMenu}"
+                       model="#{cc.attrs.manager.contextMenuModel}"
+                       for="#{cc.attrs.manager.treeTable.clientId}">
+        </p:contextMenu>
+        <p:treeTable id="#{cc.attrs.manager.treeTableId}"
+                     value="#{cc.attrs.manager.treeTableRoot}"
+                     var="dto"
+                     selection="#{cc.attrs.manager.selectedNode}"
+                     selectionMode="single"
+                     styleClass="#{cc.attrs.styleClass}"
+                     rowStyleClass="#{cc.attrs.rowStyleClass}">
+
+            <p:ajax event="expand"
+                    listener="#{cc.attrs.manager.onNodeExpandMain}" />  
+
+            <p:ajax event="collapse"
+                    listener="#{cc.attrs.manager.onNodeCollapseMain}" />  
+
+            <!--
+                                oncomplete="#{cc.attrs.onRowSelectComplete}; #{cc.attrs.manager.postOpenDialog}();" />  
+            -->
+            <p:ajax event="select"
+                    listener="#{cc.attrs.manager.onNodeSelectMain}"
+                    onstart="return onDataTableAction(#{cc.attrs.manager.saveImmediately},'ROWSELECT','#{cc.attrs.editFormClientId}',#{cc.attrs.manager.name}ApplyChanges);"
+                    oncomplete="#{cc.attrs.onRowSelectComplete};" />  
+
+            <p:ajax event="unselect"
+                    listener="#{cc.attrs.manager.onNodeUnselectMain}" />  
+
+            <f:facet name="header">
+                <h:panelGroup layout="block"
+                              style="min-height:23px;">
+                    <h:panelGroup layout="block"
+                                  style="line-height:23px;float:left;">
+                        <h:outputText value="#{cc.attrs.header} List" />
+                    </h:panelGroup>
+                    <h:panelGroup layout="block"
+                                  style="font-weight:normal;line-height:23px;float:left;margin-left:5px;">
+                        <h:outputText value=" (#&nbsp;of&nbsp;Results:&nbsp;#{cc.attrs.manager.treeTableRoot.childCount})" />
+                    </h:panelGroup>
+                    <p:commandButton value="Show All"
+                                     rendered="#{cc.attrs.showFindAll}"
+                                     actionListener="#{cc.attrs.manager.searchByClassName('FindAll')}"
+                                     style="float:right;height:23px;padding:0;margin:-1px -6px 0px 5px;"
+                                     id="FindAll"
+                                     icon="ui-icon ui-icon-search" />
+                    <!--
+                                     oncomplete="resetChangedState('#{cc.attrs.manager.name}SearchResultsForm'); PF('#{cc.attrs.manager.getEditDialogWidgetVar('new')}').show()"
+                    -->
+                    <p:commandButton value="New #{cc.attrs.header}"
+                                     rendered="#{cc.attrs.showNew}"
+                                     actionListener="#{cc.attrs.manager.addMain}"
+                                     style="float:right;height:23px;padding:0;margin:-1px 0px 0px 5px;"
+                                     oncomplete="PF('#{cc.attrs.manager.getEditDialogWidgetVar('new')}').show(); #{cc.attrs.manager.postOpenDialog}()"
+                                     immediate="true"
+                                     icon="ui-icon ui-icon-document" />
+                    <p:selectOneMenu id="sortBy"
+                                     rendered="#{cc.attrs.showSortMenu}"
+                                     style="float:right;margin:-1px 0px 0px 5px;"
+                                     value="#{cc.attrs.manager.sortBy}"
+                                     label="Sort By">
+                        <f:selectItem itemLabel="#{utilityMGR.getNO_OPTION_SELECT_TEXT()}"
+                                      itemValue="#{null}" />
+                        <f:selectItems value="#{cc.attrs.manager.sortSelectItems}"
+                                       var="item"
+                                       itemLabel="#{item[0]}"
+                                       itemValue="#{item[1]}" />
+                        <p:ajax event="change"
+                                listener="#{cc.attrs.manager.onChangeSortOrder}"
+                                process="@this"
+                                update="@form" />
+                    </p:selectOneMenu>
+                    <h:panelGroup layout="block"
+                                  rendered="#{cc.attrs.showSortMenu}"
+                                  style="font-weight:bold;float:right;margin-left:5px;">
+                        <p:outputLabel for="sortBy"
+                                       style="line-height:25px;"
+                                       value="Sort By" />
+                    </h:panelGroup>
+                </h:panelGroup>
+            </f:facet>
+            <cc:insertChildren />
+            <p:column headerText="Delete"
+                      styleClass="datatable-options-col"
+                      rendered="#{cc.attrs.showDelete}">
+                    <p:commandLink type="button"
+                                   rendered="#{cc.attrs.manager.isManagerType(dto)}"
+                                   title="Delete"
+                                   process="@this"
+                                   actionListener="#{dialogService.showDeleteDialog(dto, cc.attrs.manager)}"
+                                   onstart="return onDataTableAction(#{cc.attrs.manager.saveImmediately},'DELETE','#{cc.attrs.editFormClientId}',#{cc.attrs.manager.name}ApplyChanges);"
+                                   style="float:left;margin-left:40%;"
+                                   styleClass="ui-icon ui-icon-trash" >
+                        <p:ajax event="dialogReturn" listener="#{dialogService.onDeleteDialogReturn}"/>                                   
+                    </p:commandLink>
+
+                <!--
+                <p:commandLink type="button"
+                               rendered="#{cc.attrs.manager.isManagerType(dto)}"
+                               title="Delete"
+                               actionListener="#{cc.attrs.manager.onDeleteSelectMain(dto)}"
+                               oncomplete="PF('#{cc.attrs.manager.deleteDialogWidgetVar}').show()"
+                               style="float:left;margin-left:40%;"
+                               styleClass="ui-icon ui-icon-trash" />
+                -->
+            </p:column>
+
+            <p:summaryRow>
+                <p:column colspan="5">
+                    No data.
+                </p:column>
+            </p:summaryRow>
+            <f:facet name="footer" >
+                <h:panelGroup layout="block"
+                              style="width:200px;" />
+            </f:facet>
+        </p:treeTable>
+
+        <p:remoteCommand name="#{cc.attrs.manager.postOpenDialog}"
+                         actionListener="#{cc.attrs.manager.postOpenDialogMain}" />
+
+        <p:remoteCommand name="#{cc.attrs.manager.name}ApplyChanges"
+                         immediate="true"
+                         actionListener="#{dialogService.showApplyDialog(cc.attrs.manager)}" 
+                         process="@this" >
+        </p:remoteCommand>                 
+
+    </cc:implementation>
+</html>

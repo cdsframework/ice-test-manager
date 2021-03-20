@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <b:editForm id="#{dataTemplateNodeRelMGR.editFormId}"
+                width="850"
+                height="500"
+                showTabViewNavigator="false"
+                manager="#{dataTemplateNodeRelMGR}">
+        <!--
+                <p:remoteCommand name="updateNodePath"
+                                 process="@this #{p:component('dataModelClassNodeContainer')}"
+                                 update="#{p:component('nodePathContainer')}" />
+        -->
+        <p:tab title=" "
+               id="#{dataTemplateNodeRelMGR.getTabIdByIndex(0)}"> 
+            <h:panelGroup layout="block"
+                          id="dataModelClassNodeContainer"
+                          styleClass="tab-content">
+                <fs:selectOneMenu id="dataModelClassNodeDTO"
+                                  labelWidth="200"
+                                  value="#{dataTemplateNodeRelMGR.parentDTO.dataModelClassNodeDTO}"
+                                  converter="#{dataModelClassNodePathConverter}"
+                                  selectItemsValue="#{dataModelClassNodeDTOList.nodesByDataModelClass(dataTemplateMGR.getParentDTO().getRootClass())}"
+                                  selectItemLabel="#{item.name}"
+                                  selectItemValue="#{item}" />
+                <!--
+                                <h:panelGroup layout="block"
+                                              id="nodePathContainer">
+                                    <fs:inputText id="nodePath"
+                                                  labelWidth="200"
+                                                  size="60"
+                                                  value="#{dataTemplateNodeRelMGR.parentDTO.nodePath}" />
+                                </h:panelGroup>
+                -->
+                <fs:selectBooleanCheckbox id="mandatory"
+                                          labelWidth="200"
+                                          value="#{dataTemplateNodeRelMGR.parentDTO.mandatory}" />
+
+                <!-- <fs:selectOneMenu id="conformanceType"
+                                   labelWidth="200"
+                                   value="#{dataTemplateNodeRelMGR.parentDTO.conformanceType}"
+                                   selectItemsValue="#{conformanceTypeList.selectItems}"
+                                   selectItemLabel="#{item}"
+                                   selectItemValue="#{item}" /> -->
+
+                <fs:selectBooleanCheckbox id="fixedValue"
+                                          labelWidth="200"
+                                          value="#{dataTemplateNodeRelMGR.parentDTO.fixedValue}" />
+
+                <fs:selectBooleanCheckbox id="adHoc"
+                                          labelWidth="200"
+                                          value="#{dataTemplateNodeRelMGR.parentDTO.adHoc}" />
+
+                <fs:inputTextarea id="constraints"
+                                  labelWidth="200"
+                                  cols="70"
+                                  rows="8"
+                                  value="#{dataTemplateNodeRelMGR.parentDTO.constraints}" />
+
+                <fs:inputTextarea id="comments"
+                                  labelWidth="200"
+                                  cols="70"
+                                  rows="8"
+                                  value="#{dataTemplateNodeRelMGR.parentDTO.comments}" />
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+    
+</ui:composition>

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT Core plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset">
+
+    <p:dialog id="preferenceDialog"
+              widgetVar="preferenceDialogVar"
+              header="#{userPreferenceMGR.userDTO.username.toUpperCase()}'s User Preferences"
+              dynamic="true"
+              modal="true"
+              draggable="true"
+              closable="true"
+              resizable="true"
+              width="900"
+              height="400"
+              styleClass="cat-scroll-editor">
+        <p:ajax event="close"
+                listener="#{userPreferenceMGR.closeMain}" />
+        <h:form id="preferenceDialogForm"
+                enctype="application/x-www-form-urlencoded">
+            <h:panelGroup layout="block"
+                          id="preferenceDialogContents"
+                          styleClass="height100">
+                <h:panelGroup layout="block"
+                              styleClass="fixed-height-scroll">
+                    <p:tabView>
+                        <ui:include src="/module/core/section/userpreference/corePrefsTab.xhtml" />
+                    </p:tabView>
+                </h:panelGroup>
+                <h:panelGroup layout="block"
+                              style="position:absolute;bottom:0;width:100%">
+                    <h:panelGroup layout="block"
+                                  style="float:right;margin-bottom:10px;margin-right:15px;">
+
+                        <w:dialogButton id="save"
+                                        oncomplete="onSave('preferenceDialog', args.saved, PF('preferenceDialogVar'));"
+                                        icon="ui-icon ui-icon-disk"
+                                        actionListener="#{userPreferenceMGR.saveMain}"
+                                        value="Save" />
+
+                        <w:dialogButton id="apply"
+                                        oncomplete="onApply('preferenceDialog', args.saved);"
+                                        icon="ui-icon ui-icon-check"
+                                        actionListener="#{userPreferenceMGR.saveMain}"
+                                        value="Apply" />
+
+                        <w:dialogButton id="cancel"
+                                        oncomplete="onClose('preferenceDialog', PF('userPrefsDiscardDialogVar'), PF('preferenceDialogVar'));"
+                                        icon="ui-icon ui-icon-close"
+                                        process="@none"
+                                        onerror="PF('preferenceDialogVar').hide();"
+                                        immediate="true"
+                                        value="Cancel" />
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+
+    <h:form>
+        <p:confirmDialog message="Are you sure you want to discard your changes?"
+                         id="userPrefsDiscardDialog"
+                         widgetVar="userPrefsDiscardDialogVar"
+                         header="Discard Changes">
+            <h:panelGroup layout="block"
+                          style="float:right;margin-top:10px;">
+                <p:commandButton value="No"
+                                 onclick="PF('userPrefsDiscardDialogVar').hide();"
+                                 type="button" />
+                <p:commandButton value="Yes"
+                                 oncomplete="resetChangedState('preferenceDialog');
+                                 PF('preferenceDialogVar').hide();
+                                 PF('userPrefsDiscardDialogVar').hide();" />
+            </h:panelGroup>
+        </p:confirmDialog>
+    </h:form>
+
+</ui:composition>

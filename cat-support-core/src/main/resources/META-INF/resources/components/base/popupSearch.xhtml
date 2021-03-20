@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    CAT Core support plugin project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:w="http://java.sun.com/jsf/composite/components/widget"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <!-- <cc:attribute name="id" type="java.lang.String" required="true"/> -->
+        <cc:attribute name="widgetVar" type="java.lang.String" default="#{cc.attrs.id}"/>
+        <cc:attribute name="header" type="java.lang.String" default="#{cc.attrs.manager.baseHeader} Search"/>
+        <cc:attribute name="manager" type="org.cdsframework.base.BaseModule" required="true"/>
+        <cc:attribute name="onRowSelectManager" type="org.cdsframework.base.BaseModule" required="true"/>
+        <cc:attribute name="onRowSelectUpdate" type="java.lang.String" required="true"/>
+        <cc:attribute name="searchFormInclude" type="java.lang.String" />
+        <cc:attribute name="searchResultsInclude" type="java.lang.String" required="true"/>
+        <cc:attribute name="styleClass" type="java.lang.String" />
+        <cc:attribute name="width" type="java.lang.String" default="650" />
+        <cc:attribute name="debug" type="java.lang.Boolean" default="false" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:dialog widgetVar="#{cc.attrs.widgetVar}"
+                  header="#{cc.attrs.header}"
+                  dynamic="true"
+                  modal="true"
+                  closable="true"
+                  resizable="false"
+                  width="#{cc.attrs.width}"
+                  style="padding-bottom:20px;"
+                  styleClass="#{cc.attrs.styleClass}">
+            <!-- For debugging -->
+            <w:debugPanel >
+                <br/>
+                <h:outputLabel value="managerName: " />
+                <h:outputText value="#{cc.attrs.manager.name}" /> <br/>
+            </w:debugPanel>
+            <ui:include src="#{cc.attrs.searchFormInclude}" >
+                <ui:param name="manager" value="#{cc.attrs.manager}" />
+            </ui:include>
+
+            <ui:include src="#{cc.attrs.searchResultsInclude}" >
+                <ui:param name="manager" value="#{cc.attrs.manager}" />
+                <ui:param name="onRowSelectManager" value="#{cc.attrs.onRowSelectManager}" />
+                <ui:param name="onRowSelectUpdate" value="#{cc.attrs.onRowSelectUpdate}" />
+                <ui:param name="widgetVar" value="#{cc.attrs.widgetVar}" />
+            </ui:include>
+            <p:ajax event="close"
+                    listener="#{cc.attrs.manager.closePopupMain}" />
+        </p:dialog>
+    </cc:implementation>
+
+</html>

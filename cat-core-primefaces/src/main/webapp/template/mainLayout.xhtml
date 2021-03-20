@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    The CAT Core plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://java.sun.com/jsf/composite/components/base"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <ui:include src="/includes/common.xhtml">
+            <ui:param name="title" value="#{app.applicationTitle}" />              
+        </ui:include>
+        <h:body onload="if (typeof onPageLoadMain !== 'undefined') {
+                    onPageLoadMain();
+                }">
+            <script class="javascript" type="text/javascript">
+                $('body').bind('ajaxError', function (event, xhr) {
+                    var status = "";
+                    if (xhr !== undefined)
+                        status = xhr.status;
+
+                    log("event=" + event);
+                    log("Global ajaxError: " + xhr + ", " + status);
+                    var timeOutUrl = "";
+                    if (xhr !== undefined)
+                        timeOutUrl = xhr.getResponseHeader('SESSION_TIMEOUT_URL');
+                    log("Redirecting to: " + timeOutUrl);
+                    if (timeOutUrl !== "") {
+                        window.location = timeOutUrl;
+                    }
+                });
+            </script>
+            <b:changeListener debug="false" />
+            <p:layout fullPage="true">
+                <p:growl id="#{catApplication.messageDisplayId}"
+                         autoUpdate="true"
+                         widgetVar="#{catApplication.messageDisplayWidgetVar}"
+                         life="12000"
+                         escape="false"
+                         showDetail="true"
+                         showSummary="false"/>
+                <!-- Header area -->
+                <p:layoutUnit position="north" style="border:0px;padding:5px 5px 40px;">
+                    <ui:include src="/includes/header.xhtml"/>
+                </p:layoutUnit>
+
+                <div style="position:absolute;float:left;top:80px;left:5px;width:100%;z-index:1000;">
+                    <h:form id="menuBar">
+                        <p:menubar model="#{catMenu.menuModel}"
+                                   rendered="#{userSession.authenticated}"
+                                   style="padding:0 5px 0 0;margin-right:10px;">
+                        </p:menubar>
+                    </h:form>
+                </div>
+
+                <!-- Footer area -->
+                <p:layoutUnit position="south" style="border:0px;padding:0;">
+                    <ui:include src="/includes/footer.xhtml"/>
+                </p:layoutUnit>
+
+                <!-- Content area -->
+                <p:layoutUnit position="center" style="border:0px;padding:0 5px 0;width:100%;">
+                    <ui:include src="/includes/content.xhtml" />
+                </p:layoutUnit>
+            </p:layout>
+
+            <ui:insert name="dialog">
+            </ui:insert>
+
+            <p:dialog widgetVar="globalStatusDialog"
+                      modal="true"
+                      resizable="false"
+                      closable="false">
+                <h:panelGrid cellpadding="5">
+                    <h:outputText value="Please wait..." />
+                </h:panelGrid>
+            </p:dialog>
+
+            <script type="text/javascript">
+                function onPageLoadMain() {
+                    if (typeof performInitialSearch !== 'undefined') {
+                        performInitialSearch();
+                    }
+                }
+            </script>
+
+            <ui:include src="/module/core/section/userpreference/editForm.xhtml" />
+
+        </h:body>
+    </f:view>
+</html>

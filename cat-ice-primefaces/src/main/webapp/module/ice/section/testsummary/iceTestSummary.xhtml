@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT ICE plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <style>
+        .itscc1 {
+            width:33%;
+        }
+    </style>
+    <p:dialog id="iceTestSummaryDialog"
+              widgetVar="iceTestSummaryDialogVar"
+              header="ICE Test Summary"
+              modal="false"
+              draggable="true"
+              closable="true"
+              resizable="true"
+              width="950"
+              height="600"
+              styleClass="cat-scroll-editor"
+              dynamic="true">
+        <h:form id="iceTestSummaryForm">
+            <h:panelGroup layout="block"
+                          id="iceTestSummaryContents"
+                          styleClass="height100">
+                <h:panelGroup layout="block"
+                              styleClass="fixed-height-scroll iceTestSummary-style-class">
+                    <h:panelGroup id="iceTestSummaryBlocker"
+                                  layout="block">
+                        <p:blockUI block="iceTestSummaryBlocker"
+                                   widgetVar="iceTestSummaryBlockUIPanelGroupVar">
+                            PROCESSING<br />
+                            <br />
+                            <p:graphicImage value="../../../images/ajaxloading.gif"/>
+                        </p:blockUI>
+                        <h:panelGrid id="summaryData"
+                                     style="padding:20px;"
+                                     headerClass="section-header">
+                            <f:facet name="header">
+                                <h:panelGroup>
+                                    <h:outputText value="Test Summary View:"/>
+                                </h:panelGroup>
+                            </f:facet>
+                            <h:panelGrid>
+                                <fs:outputText id="lastRefreshed"
+                                               value="#{utilityMGR.getFormattedDateTime()}" />
+
+                                <fs:outputText id="sumTestId"
+                                               label="Test ID"
+                                               value="#{utilityMGR.formatUuid(iceTestMGR.parentDTO.testId)}" />
+
+                                <fs:outputText id="sumName"
+                                               label="Name"
+                                               value="#{iceTestMGR.parentDTO.name}" />
+
+                                <fs:outputText id="ruleToTest"
+                                               value="#{iceTestMGR.parentDTO.ruleToTest}" />
+
+                                <fs:outputText id="notes"
+                                               value="#{iceTestMGR.parentDTO.notes}" />
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+
+                                <fs:outputBoolean id="sumOffsetBased"
+                                                  label="Offset Based"
+                                                  value="#{iceTestMGR.parentDTO.offsetBased}" />
+
+                                <fs:outputText id="sumExecutionDate"
+                                               rendered="#{not iceTestMGR.parentDTO.offsetBased}"
+                                               label="Test Execution Date"
+                                               value="#{utilityMGR.getFormattedDate(iceTestMGR.parentDTO.executionDate)}" />
+
+                                <fs:outputText id="sumExecutionDateDerived"
+                                               label="Test Execution Date"
+                                               rendered="#{iceTestMGR.parentDTO.offsetBased}"
+                                               value="#{utilityMGR.getFormattedDate(utilityMGR.getCurrentDate())}" />
+
+                                <fs:outputText id="sumPatientDOB"
+                                               rendered="#{not iceTestMGR.parentDTO.offsetBased}"
+                                               label="Patient DOB"
+                                               value="#{utilityMGR.getFormattedDate(iceTestMGR.parentDTO.dob)}" />
+
+                                <fs:outputText id="sumDateOfBirthDerived"
+                                               label="Date of Birth"
+                                               rendered="#{iceTestMGR.parentDTO.offsetBased}"
+                                               value="#{utilityMGR.getFormattedDate(utilityMGR.incrementDateFromString(utilityMGR.getCurrentDate(), iceTestMGR.parentDTO.offset, true))}" />
+
+
+                                <fs:outputText id="sumAgeAtExecutionDate"
+                                               label="Age @ Execution Date"
+                                               value="#{iceTestMGR.getAgeAtExecutionDate(iceTestMGR.parentDTO)}" />
+
+                            </h:panelGrid>
+                            <p:dataTable value="#{iceTestMGR.parentDTO.iceTestEventComponentDTOs}"
+                                         style="width:885px;"
+                                         var="dto">
+                                <f:facet name="header" >
+                                    <h:outputText value="Administered Immunization Components" />
+                                </f:facet>
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{utilityMGR.formatUuid(dto.iceTestEventDTO.eventId)}" />
+                                </p:column>
+                                <p:column headerText="Admin Vaccine Code">
+                                    <h:outputText value="#{iceUtilityMGR.getCodedElementLabel(dto.iceTestEventDTO.iceVaccineDTO)}"
+                                                  escape="false"/>
+                                </p:column>
+                                <p:column headerText="Comp Vaccine Code">
+                                    <h:outputText value="#{iceUtilityMGR.getCodedElementLabel(dto.iceVaccineComponentDTO)}"
+                                                  escape="false"/>
+                                </p:column>
+                                <p:column headerText="Admin Date">
+                                    <h:outputText style="#{utilityMGR.getDateOrderErrorCSS(iceTestEventMGR.getIceTestEventDate(dto), iceTestMGR.getIceTestDob(iceTestMGR.parentDTO))}"
+                                                  value="#{utilityMGR.getFormattedDate(iceTestEventMGR.getIceTestEventDate(dto))}" />
+                                </p:column>
+                                <p:column headerText="Age @ Admin Date">
+                                    <h:outputText escape="false"
+                                                  value="#{iceTestEventMGR.getIceTestEventAgeAtAdmin(dto, true)}" />
+                                </p:column>
+                                <p:column headerText="Evaluation">
+                                    <h:outputText value="#{dto.evaluationValue.code}" />
+                                </p:column>
+                                <p:column headerText="Reason(s)">
+                                    <h:outputText value="#{dto.componentInterpretations}" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable value="#{iceTestMGR.parentDTO.shotIntervalGridData}"
+                                         style="width:885px;"
+                                         var="item">
+                                <f:facet name="header" >
+                                    <h:outputText value="Shot Component Intervals" />
+                                </f:facet>
+                                <p:column headerText="Interval Between...">
+                                    <h:outputText value="#{item[0]}"
+                                                  escape="false" />
+                                </p:column>
+                                <p:column headerText="Interval...">
+                                    <h:outputText value="#{item[1]}"
+                                                  escape="false" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable value="#{iceTestImmunityMGR.dataTableMGR.dtoList}"
+                                         style="width:885px;"
+                                         var="dto">
+                                <f:facet name="header" >
+                                    <h:outputText value="Proof of Immunity/Documented Disease" />
+                                </f:facet>
+                                <p:column headerText="Antigen">
+                                    <h:outputText value="#{dto.immunityFocus.displayName}" />
+                                </p:column>
+                                <p:column headerText="Immunity Date">
+                                    <h:outputText style="#{utilityMGR.getDateOrderErrorCSS(iceTestImmunityMGR.getImmunityDate(dto), iceTestMGR.getIceTestDob(iceTestMGR.parentDTO))}"
+                                                  value="#{utilityMGR.getFormattedDate(iceTestImmunityMGR.getImmunityDate(dto))}" />
+                                </p:column>
+                                <p:column headerText="Age @ Imm Date">
+                                    <h:outputText escape="false"
+                                                  value="#{iceTestImmunityMGR.getAgeAtImmunityDate(dto, true)}" />
+                                </p:column>
+                                <p:column headerText="Immunity Reason">
+                                    <h:outputText value="#{dto.immunityValue.displayName}" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:dataTable value="#{iceTestProposalMGR.dataTableMGR.dtoList}"
+                                         style="width:885px;"
+                                         var="dto">
+                                <f:facet name="header" >
+                                    <h:outputText value="Recommendations" />
+                                </f:facet>
+                                <p:column headerText="Recommended Vaccine/Group">
+                                    <h:outputText value="#{iceTestProposalMGR.getSubstanceRecommendationTableHTML(dto)}" />
+                                </p:column>
+                                <p:column headerText="Date Due">
+                                    <h:outputText value="#{utilityMGR.getFormattedDate(iceTestProposalMGR.getIceTestProposalDate(dto))}" />
+                                </p:column>
+                                <p:column headerText="Age @ Rec Date">
+                                    <h:outputText escape="false"
+                                                  value="#{iceTestProposalMGR.getIceTestProposalAgeAtDate(dto, 'RECOMMENDED', true)}" />
+                                </p:column>
+                                <p:column headerText="Recommendation">
+                                    <h:outputText value="#{dto.recommendationValue.displayName}" />
+                                </p:column>
+                                <p:column headerText="Reason(s)">
+                                    <h:outputText value="#{dto.reasons}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </h:panelGroup>
+                <h:panelGrid columns="3"
+                             columnClasses="itscc1,itscc1,itscc1"
+                             style="position:absolute;bottom:0;width:100%">
+                    <h:panelGroup layout="block"
+                                  style="float:left;margin-bottom:10px;margin-left:15px;">
+                        <h:panelGroup />
+                    </h:panelGroup>
+                    <h:panelGroup layout="block"
+                                  style="width:100%;">
+                        <!--
+                        <h:panelGroup layout="block"
+                                      style="margin:0 auto;display:table;">
+
+                            <p:commandButton id="first"
+                                             title="First"
+                                             disabled="#{facesContext.validationFailed or not iceTestMGR.gotoPreviousRecordEnabled}"
+                                             update=":#{p:component('summaryData')}"
+                                             process="@none"
+                                             style="margin-bottom:6px;"
+                                             oncomplete="iceTestSummaryGotoRecordRemote([{name:'recordPosition', value:'first'}]);"
+                                             icon="ui-icon-seek-first" />
+
+                            <p:commandButton id="prev"
+                                             title="Previous"
+                                             disabled="#{facesContext.validationFailed or not iceTestMGR.gotoPreviousRecordEnabled}"
+                                             update=":#{p:component('summaryData')}"
+                                             process="@none"
+                                             style="margin-bottom:6px;margin-left:5px;"
+                                             oncomplete="iceTestSummaryGotoRecordRemote([{name:'recordPosition', value:'previous'}]);"
+                                             icon="ui-icon-seek-prev" />
+
+                            <p:commandButton id="next"
+                                             title="Next"
+                                             disabled="#{facesContext.validationFailed  or not iceTestMGR.gotoNextRecordEnabled}"
+                                             update=":#{p:component('summaryData')}"
+                                             process="@none"
+                                             style="margin-bottom:6px;margin-left:5px;"
+                                             oncomplete="iceTestSummaryGotoRecordRemote([{name:'recordPosition', value:'next'}]);"
+                                             icon="ui-icon-seek-next" />
+
+                            <p:commandButton id="last"
+                                             title="Last"
+                                             disabled="#{facesContext.validationFailed  or not iceTestMGR.gotoNextRecordEnabled}"
+                                             update=":#{p:component('summaryData')}"
+                                             process="@none"
+                                             style="margin-bottom:6px;margin-left:5px;"
+                                             oncomplete="iceTestSummaryGotoRecordRemote([{name:'recordPosition', value:'last'}]);"
+                                             icon="ui-icon-seek-end" />
+
+                        </h:panelGroup> -->
+                    </h:panelGroup>
+                    <h:panelGroup layout="block"
+                                  style="float:right;margin-bottom:6px;margin-right:15px;">
+
+                        <w:dialogButton id="refresh"
+                                        icon="ui-icon ui-icon-refresh"
+                                        process="@this"
+                                        update=":#{p:component('summaryData')}"
+                                        value="Refresh" />
+                        <w:dialogButton id="close"
+                                        icon="ui-icon ui-icon-close"
+                                        oncomplete="PF('iceTestSummaryDialogVar').hide();"
+                                        onerror="PF('iceTestSummaryDialogVar').hide();"
+                                        immediate="true"
+                                        value="Close" />
+
+                    </h:panelGroup>
+                </h:panelGrid>
+            </h:panelGroup>
+            <p:remoteCommand name="iceTestSummaryGotoRecordRemote"
+                             immediate="true"
+                             actionListener="#{iceTestMGR.onGotoRecordMain}"
+                             process="@this"
+                             update=":#{p:component('summaryData')}">
+                <input id="recordPosition" name="recordPosition" type="hidden"/>
+            </p:remoteCommand>
+        </h:form>
+    </p:dialog>
+</ui:composition>

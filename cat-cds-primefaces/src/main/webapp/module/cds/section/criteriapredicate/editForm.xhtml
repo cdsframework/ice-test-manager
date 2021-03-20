@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget"                
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <b:editForm id="#{criteriaPredicateMGR.editFormId}"
+                width="900"
+                height="600"
+                showTabViewNavigator="false"
+                manager="#{criteriaPredicateMGR}">
+
+        <p:tab title=" "
+               id="#{criteriaPredicateMGR.getTabIdByIndex(0)}"> 
+            <h:panelGroup id="criteriaPredicate" styleClass="tab-content">
+
+                <fs:outputText id="predicateId"
+                               label="ID"
+                               rendered="#{not criteriaPredicateMGR.parentDTO.new}"
+                               value="#{criteriaPredicateMGR.parentDTO.predicateId}" />
+
+                <fs:outputText id="parentPredicateId"
+                               rendered="#{not criteriaPredicateMGR.parentDTO.new}"
+                               value="#{criteriaPredicateMGR.parentDTO.parentPredicateId}" />
+
+                <fs:inputTextarea id="description"
+                                  verticalAlignLabelTop="true"
+                                  value="#{criteriaPredicateMGR.parentDTO.description}"
+                                  rows="6"
+                                  cols="80"/>
+                <fs:selectOneMenu id="predicateType"
+                                  value="#{criteriaPredicateMGR.parentDTO.predicateType}"
+                                  selectItemsValue="#{criteriaPredicateTypeList.selectItems}"
+                                  selectItemLabel="#{item.name()}"
+                                  processOnChange="true" 
+                                  onChangeUpdate=":#{p:component('predicateCriteriaPanelGroup')} :#{p:component('predicatePartPanelGroup')}"
+                                  selectItemValue="#{item}" />
+                <fs:selectOneMenu id="conjunction"
+                                  value="#{criteriaPredicateMGR.parentDTO.predicateConjunction}"
+                                  selectItemsValue="#{predicateConjunctionList.selectItems}"
+                                  selectItemLabel="#{item.name()}"
+                                  selectItemValue="#{item}" />
+
+                <h:panelGroup id="predicateCriteriaPanelGroup"
+                              layout="block">
+                    <w:popupSearchLink showLabel="true"
+                                       rendered="#{criteriaPredicateMGR.parentDTO.predicateType == 'Criteria'}"
+                                       label="Criteria"
+                                       value="#{criteriaPredicateMGR.parentDTO.predicateCriteriaDTO.name}"
+                                       manager="#{criteriaPredicateMGR}"
+                                       dto="#{criteriaPredicateMGR.parentDTO}"
+                                       htmlPath="/module/cds/section/criteria/popup/criteriaSearch"
+                                       searchTitle="Criteria Search" 
+                                       fieldName="predicateCriteriaDTO"
+                                       popupSearchUpdate=":#{p:component('predicateCriteriaPanelGroup')}"> 
+                    </w:popupSearchLink>
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <h:panelGroup id="predicatePartPanelGroup" >
+                <b:dtoDataTable manager="#{criteriaPredicatePartMGR}"
+                                rendered="#{not (criteriaPredicateMGR.parentDTO.predicateType == 'Criteria')}"
+                                showAdd="#{not criteriaPredicateMGR.parentDTO.new}">
+                    <p:column>
+                        <h:outputText value="#{criteriaPredicatePartMGR.getCriteriaPredicatePartDTOLabel(dto)}" />
+                    </p:column>
+                    <p:column width="60">
+                        <p:commandLink type="button"
+                                       title="Promote"
+                                       actionListener="#{criteriaPredicatePartMGR.onNodePromote(dto)}"
+                                       style="float:left;margin-left:10px;"
+                                       styleClass="ui-icon ui-icon-arrowthick-1-n" />
+                        <p:commandLink type="button"
+                                       title="Demote"
+                                       actionListener="#{criteriaPredicatePartMGR.onNodeDemote(dto)}"
+                                       style="float:left;margin-left:10px;"
+                                       styleClass="ui-icon ui-icon-arrowthick-1-s" />
+                    </p:column>
+                </b:dtoDataTable>
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

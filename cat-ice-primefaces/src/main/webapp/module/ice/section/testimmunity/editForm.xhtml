@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT ICE plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base"
+                xmlns:fs="http://java.sun.com/jsf/composite/components/fieldset"
+                xmlns:w="http://java.sun.com/jsf/composite/components/widget">
+
+    <b:editForm id="#{iceTestImmunityMGR.editFormId}"
+                width="950"
+                height="600"
+                showNew="false"
+                showNavigation="true"
+                extraButtonIncludeFile="/module/ice/section/testimmunity/extraButtons.xhtml"
+                manager="#{iceTestImmunityMGR}">
+        <p:tab title="#{iceTestImmunityMGR.baseHeader} Details"
+               id="#{iceTestImmunityMGR.getTabIdByIndex(0)}">
+            <h:panelGroup id="testImmunityDetail" 
+                          styleClass="tab-content">
+
+                <h:panelGroup id="immunityFocus">
+                    <w:popupSearchLink id="diseaseImmunityFocus"
+                                       showReset="false"
+                                       dto="#{iceTestImmunityMGR.parentDTO}"
+                                       value="#{iceTestImmunityMGR.parentDTO.immunityFocus.label}"
+                                       manager="#{iceTestImmunityMGR}"
+                                       htmlPath="/module/ice/section/testimmunity/popup/cdsCodeByTestIdOidDiseaseSearch"
+                                       queryParms="#{[iceTestMGR.parentDTO.testId, '2.16.840.1.113883.3.795.12.100.20']}"
+                                       searchTitle="Antigen Search" 
+                                       fieldName="antigen"
+                                       popupSearchUpdate="#{p:component('immunityFocus')}" /> 
+
+                </h:panelGroup>
+
+                <h:panelGroup id="immunityValue">
+
+                    <w:popupSearchLink id="immunityReason"
+                                       labelWidth="150px"
+                                       showReset="false"
+                                       dto="#{iceTestImmunityMGR.parentDTO}"
+                                       value="#{iceTestImmunityMGR.parentDTO.immunityValue.label}"
+                                       manager="#{iceTestImmunityMGR}"
+                                       htmlPath="/module/cds/section/listitem/popup/listItemSearch"
+                                       queryParms="#{['ICE_IMM_IMMUNITY_REASON', null]}"
+                                       searchTitle="Reason Search" 
+                                       fieldName="immunityValue"
+                                       popupSearchUpdate="#{p:component('immunityValue')}" /> 
+                </h:panelGroup>
+
+                <fs:inputText id="order"
+                              size="2"
+                              value="#{iceTestImmunityMGR.parentDTO.recordOrder}" />
+
+                <p:separator />
+
+                <p:panel id="immunityDatePG"
+                         header="Immunity Date"
+                         rendered="#{not empty iceTestImmunityMGR.parentDTO}">
+
+                    <h:panelGrid id="immunityDateGrid"
+                                 columns="6"
+                                 cellpadding="0"
+                                 cellspacing="0">
+
+                        <fs:selectBooleanCheckbox id="offsetBased"
+                                                  panelColumnClasses="offset-grid-col1,"
+                                                  panelGridStyleClass=""
+                                                  processOnChange="true"
+                                                  onChangeProcess="#{p:component('immunityDatePG')}"
+                                                  onChangeUpdate="#{p:component('immunityDatePG')}"
+                                                  value="#{iceTestImmunityMGR.parentDTO.offsetBased}" />
+
+                        <fs:calendar id="immunityDate"
+                                     panelColumnClasses="offset-grid-col2,"
+                                     panelGridStyleClass="offset-grid-table2"
+                                     label="Date"
+                                     rendered="#{not iceTestImmunityMGR.parentDTO.offsetBased}"
+                                     processOnChange="true"
+                                     size="12"
+                                     onChangeProcess="#{p:component('immunityDatePG')}"
+                                     onChangeUpdate="#{p:component('immunityDatePG')}"
+                                     value="#{iceTestImmunityMGR.parentDTO.observationEventTime}" />
+
+                        <fs:outputText id="immunityDateDerived"
+                                       panelColumnClasses="offset-grid-col2a,"
+                                       panelGridStyleClass=""
+                                       label="Date"
+                                       rendered="#{iceTestImmunityMGR.parentDTO.offsetBased}"
+                                       value="#{utilityMGR.getFormattedDate(iceTestImmunityMGR.getImmunityDate(iceTestImmunityMGR.parentDTO))}" />
+
+                        <fs:inputText id="offset"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      rendered="#{iceTestImmunityMGR.parentDTO.offsetBased}"
+                                      processOnChange="true"
+                                      onChangeProcess="#{p:component('immunityDatePG')}"
+                                      onChangeUpdate="#{p:component('immunityDatePG')}"
+                                      value="#{iceTestImmunityMGR.parentDTO.offset}"
+                                      size="12" />
+
+                        <fs:inputText id="setImmDateAtAge"
+                                      labelWidth="120px"
+                                      panelColumnClasses="offset-grid-col3,"
+                                      panelGridStyleClass=""
+                                      panelGridStyle="float:left;"
+                                      title="i.e. 12y 2m 7w 3d"
+                                      size="12"
+                                      label="Set Date @ Age"
+                                      rendered="#{not iceTestImmunityMGR.parentDTO.offsetBased}"
+                                      value="#{iceTestImmunityMGR.immDateAtAge}" />
+
+                        <w:dialogButton process="#{p:component('immunityDatePG')}"
+                                        actionListener="#{iceTestImmunityMGR.calcImmDateAtAge}"
+                                        value="Set"
+                                        icon="ui-icon-gear"
+                                        rendered="#{not iceTestImmunityMGR.parentDTO.offsetBased}"
+                                        update="#{p:component('immunityDatePG')}" />
+
+                        <fs:outputText id="ageAtImmunityDate"
+                                       label="Age @ Date"
+                                       panelColumnClasses="offset-grid-col5,"
+                                       panelGridStyleClass=""
+                                       value="#{iceTestImmunityMGR.getAgeAtImmunityDate(iceTestImmunityMGR.parentDTO, false)}" />
+
+                    </h:panelGrid>
+                </p:panel>
+
+            </h:panelGroup>
+        </p:tab>
+    </b:editForm>
+</ui:composition>

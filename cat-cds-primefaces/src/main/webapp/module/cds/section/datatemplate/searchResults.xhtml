@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    The CAT CDS plugin webapp project.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://java.sun.com/jsf/composite/components/base" >
+
+    <h:form id="#{dataTemplateMGR.name}SearchResultsForm">
+        <b:dtoDataTable manager="#{dataTemplateMGR}"
+                        showFindAll="true"
+                        header="#{dataTemplateMGR.baseHeader} Search Results">
+            <p:column sortBy="#{dto.oid}" headerText="OID" width="215">
+                <h:outputText value="#{dto.oid}"/>
+            </p:column>
+            <p:column sortBy="#{dto.code}" headerText="Code">
+                <h:outputText value="#{dto.code}"/>
+            </p:column>
+            <p:column sortBy="#{dto.name}" headerText="Name" width="90">
+                <h:outputText value="#{dto.name}"/>
+            </p:column>
+            <p:column sortBy="#{dto.dataModelDTO != null ? utilityMGR.concat(dto.dataModelDTO.name, ' - ', dto.dataModelDTO.version) : ''}"
+                      headerText="Data Model" width="75">
+                <h:outputText value="#{dto.dataModelDTO != null ? utilityMGR.concat(dto.dataModelDTO.name, ' - ', dto.dataModelDTO.version) : ''}"/>
+            </p:column>
+            <p:column sortBy="#{dto.rootClass != null ? dto.rootClass.name : null}" headerText="rootClass" width="100">
+                <h:outputText value="#{dto.rootClass != null ? dto.rootClass.name : null}"/>
+            </p:column>
+            <p:column sortBy="#{dto.status != null ? dto.status.displayName : null}" headerText="status" width="55">
+                <h:outputText value="#{dto.status != null ? dto.status.displayName : null}"/>
+            </p:column>
+         <!--  <p:column sortBy="#{dto.lastModDatetime}" headerText="Last Updated" width="110">
+                <h:outputText value="#{utilityMGR.getFormattedDateTime(dto.lastModDatetime)}" />
+            </p:column> -->
+        </b:dtoDataTable>
+        <p:remoteCommand action="#{dataTemplateMGR.performInitialSearch}"
+                         name="performInitialSearch"
+                         oncomplete="findFocus();" />
+    </h:form>
+</ui:composition>
