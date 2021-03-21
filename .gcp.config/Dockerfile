@@ -16,6 +16,7 @@ USER root
 
 RUN apt -qq update && \
     apt -qq -y dist-upgrade && \
+    apt -qq -y install postgresql-client && \
     curl -s -L -o ${PAYARA_PATH}/glassfish/lib/postgresql-${POSTGRESQL_JDBC_VERSION}.jar https://jdbc.postgresql.org/download/postgresql-${POSTGRESQL_JDBC_VERSION}.jar && \
     chown -R payara:payara ${PAYARA_PATH}/init-payara.sh ${PAYARA_PATH}/glassfish/lib/postgresql-${POSTGRESQL_JDBC_VERSION}.jar && \
     chown payara: /data && \
