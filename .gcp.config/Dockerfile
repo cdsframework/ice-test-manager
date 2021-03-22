@@ -12,8 +12,8 @@ EXPOSE 8080/tcp
 COPY .gcp.config/init-payara.sh ${PAYARA_PATH}/
 COPY .gcp.config/data /data
 COPY .gcp.config/favicon.ico /data/
-COPY .gcp.config/cdsframework/ /data/
-COPY iceweb/ /data/
+COPY .gcp.config/cdsframework /data/
+COPY iceweb /data/
 
 USER root
 
