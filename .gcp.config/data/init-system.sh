@@ -148,6 +148,7 @@ mv $DEPLOY_DIR/cat.war $DEPLOY_DIR/$CAT_CONTEXT.war
 cp /data/cat.properties ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/config/
 cp /data/ejb-core.properties ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/config/
 cp /data/logging.properties ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/config/
+cp -f /data/index.html ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/docroot
 cp -rf /data/iceweb ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/docroot
 cp -f /data/favicon.ico ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/docroot
 cp -f /data/favicon.ico ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/docroot/iceweb
