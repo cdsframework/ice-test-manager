@@ -149,9 +149,10 @@ cp /data/cat.properties ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/config
 cp /data/ejb-core.properties ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/config/
 cp /data/logging.properties ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/config/
 cp -rf /data/iceweb ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/docroot
-cp -rf /data/favicon.ico ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/docroot
-cp -rf /data/favicon.ico ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/docroot/iceweb
+cp -f /data/favicon.ico ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/docroot
+cp -f /data/favicon.ico ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/docroot/iceweb
 cp -rf /data/cdsframework ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/docroot
+cp -f /data/default-web.xml ${PAYARA_PATH}/glassfish/domains/${PAYARA_DOMAIN}/config
 
 echo "POSTBOOT_COMMANDS is set to: ${POSTBOOT_COMMANDS}"
 echo "PAYARA_DOMAIN is set to: ${PAYARA_DOMAIN}"
