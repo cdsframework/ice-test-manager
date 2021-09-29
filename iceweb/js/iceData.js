@@ -83,6 +83,7 @@ var cvxData = {
     '140': {'displayName': 'influenza, injectable, preservative-free', 'group': ['800'] },
     '141': {'displayName': 'influenza, injectable', 'group': ['800'] },
     '144': {'displayName': 'influenza, intradermal, preservative-free', 'group': ['800'] },
+    '146': {'displayName': 'DTaP-IPV-Hib-Hep B', 'group': ['200', '400', '300', '100'] },
     '147': {'displayName': 'meningococcal MCV4 NOS', 'group': ['830'] },
     '148': {'displayName': 'meningococcal C/Y-HIB PRP', 'group': ['300', '830'] },
     '149': {'displayName': 'influenza, live, intranasal, quadrivalent', 'group': ['800'] },
@@ -110,11 +111,30 @@ var cvxData = {
     '187': {'displayName': 'Zoster vaccine recombinant', 'group': ['620'] },
     '188': {'displayName': 'Zoster vaccine, unspecified formulation', 'group': ['620'] },
     '189': {'displayName': 'Hep B, adjuvanted', 'group': ['100'] },
-    '207': {'displayName': 'Moderna COVID-19', 'group': ['850'] },
-    '208': {'displayName': 'Pfizer COVID-19', 'group': ['850'] },
-    '210': {'displayName': 'AstraZeneca COVID-19', 'group': ['850'] },
-    '212': {'displayName': 'Janssen COVID-19', 'group': ['850'] },
-    '213': {'displayName': 'SARS-COV-2 NOS COVID-19', 'group': ['850'] }
+    '194': {'displayName': 'influenza, Southern Hemisphere (NOS)', 'group': ['800'] },
+    '197': {'displayName': 'influenza, high dose, quadrivalent', 'group': ['800'] },
+    '200': {'displayName': 'Influenza, Southern Hemisphere, pediatric, preservative free', 'group': ['800'] },
+    '201': {'displayName': 'Influenza, Southern Hemisphere, preservative free', 'group': ['800'] },
+    '202': {'displayName': 'Influenza, Southern Hemisphere, quadrivalent, with preservative', 'group': ['800'] },
+    '203': {'displayName': 'meningococcal MenACWY-TT', 'group': ['830'] },
+    '205': {'displayName': 'Influenza, seasonal vaccine, quadrivalent, adjuvanted', 'group': ['800'] },
+    '207': {'displayName': 'COVID-19, mRNA LNP-S, PF, Moderna', 'group': ['850'] },
+    '208': {'displayName': 'COVID-19, mRNA LNP-S, PF, Pfizer', 'group': ['850'] },
+    '210': {'displayName': 'COVID-19, vector-nr, AstraZeneca', 'group': ['850'] },
+    '212': {'displayName': 'COVID-19, vector-nr, Janssen', 'group': ['850'] },
+    '213': {'displayName': 'COVID-19 (NOS)', 'group': ['850'] },
+    '500': {'displayName': 'COVID-19 Non-US, Product Unknown', 'group': ['850'] },
+    '501': {'displayName': 'COVID-19 IV Non-US (QAZCOVID-IN)', 'group': ['850'] },
+    '502': {'displayName': 'COVID-19 IV Non-US (COVAXIN)', 'group': ['850'] },
+    '503': {'displayName': 'COVID-19 LAV Non-US (COVIVAC)', 'group': ['850'] },
+    '504': {'displayName': 'COVID-19 VVnr Non-US (Sputnik Light)', 'group': ['850'] },
+    '505': {'displayName': 'COVID-19 VVnr Non-US (Sputnik V)', 'group': ['850'] },
+    '506': {'displayName': 'COVID-19 VVnr Non-US Vaccine (CanSino Biological Inc./Beijing Institute of Biotechnology)', 'group': ['850'] },
+    '507': {'displayName': 'COVID-19 PS Non-US (Anhui Zhifei Longcom Biopharm + Inst of Micro, Chinese Acad of Sciences)', 'group': ['850'] },
+    '508': {'displayName': 'COVID-19 PS Non-US (Jiangsu Province Centers for Disease Control and Prevention)', 'group': ['850'] },
+    '509': {'displayName': 'COVID-19 PS Non-US (EpiVacCorona)', 'group': ['850'] },
+    '510': {'displayName': 'COVID-19 IV Non-US (BIBP, Sinopharm)', 'group': ['850'] },
+    '511': {'displayName': 'COVID-19 IV Non-US (CoronaVac, Sinovac)', 'group': ['850'] }
 };
 
 function getCvxData() {
@@ -137,6 +157,7 @@ function getCvxData() {
 
 var icd9DiseaseData = {
     '045.9': {'displayName': 'Acute Poliomyelitis', 'group': '400', 'conceptCode': 'DISEASE_DOCUMENTED', 'interpretation': 'IS_IMMUNE'},
+    '079.89': {'displayName': 'Coronavirus', 'group': '850', 'conceptCode': 'DISEASE_DOCUMENTED', 'interpretation': 'IS_IMMUNE'},
     '032.9': {'displayName': 'Diphtheria', 'group': '200', 'conceptCode': 'DISEASE_DOCUMENTED', 'interpretation': 'IS_IMMUNE'},
     '488.1': {'displayName': 'H1N1 Influenza', 'group': '890', 'conceptCode': 'DISEASE_DOCUMENTED', 'interpretation': 'IS_IMMUNE'},
     '070.1': {'displayName': 'Hepatitis A', 'group': '810', 'conceptCode': 'DISEASE_DOCUMENTED', 'interpretation': 'IS_IMMUNE'},
@@ -173,21 +194,21 @@ function getDiseaseData() {
 }
 
 var vaccineGroups = {
-    '100': {'displayName' : 'HepB'},
+    '850': {'displayName' : 'COVID-19'},
     '200': {'displayName' : 'DTP'},
+    '810': {'displayName' : 'Hep A'},
+    '100': {'displayName' : 'Hep B'},
     '300': {'displayName' : 'Hib'},
-    '400': {'displayName' : 'Polio'},
-    '500': {'displayName' : 'MMR'},
-    '600': {'displayName' : 'Varicella'},
-    '620': {'displayName' : 'Zoster'},
-    '750': {'displayName' : 'Pneumococcal'},
+    '840': {'displayName' : 'Human Papillomavirus'},
     '800': {'displayName' : 'Influenza'},
-    '810': {'displayName' : 'HepA'},
-    '820': {'displayName' : 'Rotavirus'},
     '830': {'displayName' : 'Meningococcal ACWY'},
     '835': {'displayName' : 'Meningococcal B'},
-    '840': {'displayName' : 'Human Papillomavirus'},
-    '850': {'displayName' : 'COVID-19'},
+    '500': {'displayName' : 'MMR'},
+    '750': {'displayName' : 'Pneumococcal'},
+    '400': {'displayName' : 'Polio'},
+    '820': {'displayName' : 'Rotavirus'},
+    '600': {'displayName' : 'Varicella'},
+    '620': {'displayName' : 'Zoster'},
     '890': {'displayName' : 'H1N1 Influenza'},
     '999': {'displayName' : 'Other'}
 };
