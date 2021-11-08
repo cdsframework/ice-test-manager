@@ -123,6 +123,7 @@ var cvxData = {
     '210': {'displayName': 'COVID-19, vector-nr, AstraZeneca', 'group': ['850'] },
     '212': {'displayName': 'COVID-19, vector-nr, Janssen', 'group': ['850'] },
     '213': {'displayName': 'COVID-19 (NOS)', 'group': ['850'] },
+    '218': {'displayName': 'COVID-19, mRNA, LNP-S, PF, tris-sucrose, Pfizer', 'group': ['850'] },
     '500': {'displayName': 'COVID-19 Non-US, Product Unknown', 'group': ['850'] },
     '501': {'displayName': 'COVID-19 IV Non-US (QAZCOVID-IN)', 'group': ['850'] },
     '502': {'displayName': 'COVID-19 IV Non-US (COVAXIN)', 'group': ['850'] },
