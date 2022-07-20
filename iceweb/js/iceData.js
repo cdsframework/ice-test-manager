@@ -123,7 +123,15 @@ var cvxData = {
     '210': {'displayName': 'COVID-19, vector-nr, AstraZeneca', 'group': ['850'] },
     '212': {'displayName': 'COVID-19, vector-nr, Janssen', 'group': ['850'] },
     '213': {'displayName': 'COVID-19 (NOS)', 'group': ['850'] },
-    '218': {'displayName': 'COVID-19, mRNA, LNP-S, PF, tris-sucrose, Pfizer', 'group': ['850'] },
+    '215': {'displayName': 'Pneumococcal Conjugate PCV15', 'group': ['750'] },
+    '216': {'displayName': 'Pneumococcal Conjugate PCV16', 'group': ['750'] },
+    '217': {'displayName': 'COVID-19, mRNA, LNP-S, PF, 30 mcg/0.3 mL dose, tris-sucrose, Pfizer', 'group': ['850'] },
+    '218': {'displayName': 'COVID-19, mRNA, LNP-S, PF, 10 mcg/0.2 mL dose, tris-sucrose, Pfizer', 'group': ['850'] },
+    '219': {'displayName': 'COVID-19, mRNA, LNP-S, PF, 3 mcg/0.2 mL, tris-sucrose, Pfizer', 'group': ['850'] },
+    '220': {'displayName': 'Hep B recombinant, 3-antigen, Al(OH)3', 'group': ['100'] },
+    '221': {'displayName': 'COVID-19, mRNA, LNP-S, PF, 50 mcg/0.5 mL dose, Moderna', 'group': ['850'] },
+    '227': {'displayName': 'COVID-19, mRNA, LNP-S, PF, pediatric 50 mcg/0.5 mL dose, Moderna', 'group': ['850'] },
+    '228': {'displayName': 'COVID-19, mRNA, LNP-S, PF, pediatric 25 mcg/0.25 mL dose, Moderna', 'group': ['850'] },
     '500': {'displayName': 'COVID-19 Non-US, Product Unknown', 'group': ['850'] },
     '501': {'displayName': 'COVID-19 IV Non-US (QAZCOVID-IN)', 'group': ['850'] },
     '502': {'displayName': 'COVID-19 IV Non-US (COVAXIN)', 'group': ['850'] },
@@ -135,7 +143,8 @@ var cvxData = {
     '508': {'displayName': 'COVID-19 PS Non-US (Jiangsu Province Centers for Disease Control and Prevention)', 'group': ['850'] },
     '509': {'displayName': 'COVID-19 PS Non-US (EpiVacCorona)', 'group': ['850'] },
     '510': {'displayName': 'COVID-19 IV Non-US (BIBP, Sinopharm)', 'group': ['850'] },
-    '511': {'displayName': 'COVID-19 IV Non-US (CoronaVac, Sinovac)', 'group': ['850'] }
+    '511': {'displayName': 'COVID-19 IV Non-US (CoronaVac, Sinovac)', 'group': ['850'] },
+    '512': {'displayName': 'COVID-19 VLP Non-US Vaccine (Medicago, Covifenz)', 'group': ['850'] }    
 };
 
 function getCvxData() {
