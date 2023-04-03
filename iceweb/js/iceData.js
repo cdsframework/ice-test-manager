@@ -136,8 +136,10 @@ var cvxData = {
     '227': {'displayName': 'COVID-19, mRNA, LNP-S, PF, pediatric 50 mcg/0.5 mL dose, Moderna', 'group': ['850'] },
     '228': {'displayName': 'COVID-19, mRNA, LNP-S, PF, pediatric 25 mcg/0.25 mL dose, Moderna', 'group': ['850'] },
     '229': {'displayName': 'COVID-19, mRNA, LNP-S, bivalent booster, PF, 50 mcg/0.5 mL or 25mcg/0.25 mL dose, Moderna', 'group': ['850'] },
+    '230': {'displayName': 'COVID-19, mRNA, LNP-S, bivalent booster, PF, 10 mcg/0.2 mL, Moderna', 'group': ['850'] },
     '300': {'displayName': 'COVID-19, mRNA, LNP-S, bivalent booster, PF, 30 mcg/0.3 mL dose, Pfizer', 'group': ['850'] },
     '301': {'displayName': 'COVID-19, mRNA, LNP-S, bivalent booster, PF, 10 mcg/0.2 mL dose, Pfizer', 'group': ['850'] },
+    '302': {'displayName': 'COVID-19, mRNA, LNP-S, bivalent, PF, 3 mcg/0.2 mL dose, Pfizer', 'group': ['850'] },
     '500': {'displayName': 'COVID-19 Non-US, Product Unknown', 'group': ['850'] },
     '501': {'displayName': 'COVID-19 IV Non-US (QAZCOVID-IN)', 'group': ['850'] },
     '502': {'displayName': 'COVID-19 IV Non-US (COVAXIN)', 'group': ['850'] },
@@ -150,7 +152,16 @@ var cvxData = {
     '509': {'displayName': 'COVID-19 PS Non-US (EpiVacCorona)', 'group': ['850'] },
     '510': {'displayName': 'COVID-19 IV Non-US (BIBP, Sinopharm)', 'group': ['850'] },
     '511': {'displayName': 'COVID-19 IV Non-US (CoronaVac, Sinovac)', 'group': ['850'] },
-    '512': {'displayName': 'COVID-19 VLP Non-US Vaccine (Medicago, Covifenz)', 'group': ['850'] }    
+    '512': {'displayName': 'COVID-19 VLP Non-US Vaccine (Medicago, Covifenz)', 'group': ['850'] },
+    '513': {'displayName': 'COVID-19 PS Non-US Vaccine (Anhui Zhifei Longcom, Zifivax)', 'group': ['850'] },
+    '514': {'displayName': 'COVID-19 DNA Non-US Vaccine (Zydus Cadila, ZyCoV-D)', 'group': ['850'] },
+    '515': {'displayName': 'COVID-19 PS Non-US Vaccine (Medigen, MVC-COV1901)', 'group': ['850'] },
+    '516': {'displayName': 'COVID-19 Inactivated Non-US Vaccine (Minhai Biotechnology Co, KCONVAC)', 'group': ['850'] },
+    '517': {'displayName': 'COVID-19 PS Non-US Vaccine (Biological E Limited, Corbevax)', 'group': ['850'] },
+    '518': {'displayName': 'COVID-19 Inactivated, Non-US Vaccine (VLA2001, Valneva)', 'group': ['850'] },
+    '519': {'displayName': 'COVID-19 mRNA, bivalent, original/Omicron BA.1, Non-US Vaccine (Spikevax Bivalent), Moderna', 'group': ['850'] },
+    '520': {'displayName': 'COVID-19 mRNA, bivalent, original/Omicron BA.1, Non-US Vaccine Product, Pfizer-BioNTech', 'group': ['850'] },
+    '521': {'displayName': 'COVID-19 SP, protein-based, adjuvanted (VidPrevtyn Beta), Sanofi-GSK', 'group': ['850'] }
 };
 
 function getCvxData() {
