@@ -127,7 +127,7 @@ var cvxData = {
     '212': {'displayName': 'COVID-19, vector-nr, Janssen', 'group': ['850'] },
     '213': {'displayName': 'COVID-19 (NOS)', 'group': ['850'] },
     '215': {'displayName': 'Pneumococcal Conjugate PCV15', 'group': ['750'] },
-    '216': {'displayName': 'Pneumococcal Conjugate PCV16', 'group': ['750'] },
+    '216': {'displayName': 'Pneumococcal Conjugate PCV20', 'group': ['750'] },
     '217': {'displayName': 'COVID-19, mRNA, LNP-S, PF, 30 mcg/0.3 mL dose, tris-sucrose, Pfizer', 'group': ['850'] },
     '218': {'displayName': 'COVID-19, mRNA, LNP-S, PF, 10 mcg/0.2 mL dose, tris-sucrose, Pfizer', 'group': ['850'] },
     '219': {'displayName': 'COVID-19, mRNA, LNP-S, PF, 3 mcg/0.2 mL, tris-sucrose, Pfizer', 'group': ['850'] },
