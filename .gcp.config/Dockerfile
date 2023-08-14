@@ -19,7 +19,8 @@ USER root
 RUN sed -i 's/stretch/buster/g' /etc/apt/sources.list
 
 # get buster signing keys
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 112695A0E562B32A 648ACFD622F3D138
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 112695A0E562B32A 648ACFD622F3D138 || \
+    apt-key adv --keyserver pgp.mit.edu --recv-keys 112695A0E562B32A 648ACFD622F3D138
 
 # check buster fingerprints
 RUN apt-key finger 112695A0E562B32A 2>&1 | grep "5E61 B217 265D A980 7A23  C5FF 4DFA B270 CAA9 6DFA" && \
